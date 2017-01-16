@@ -26,6 +26,7 @@
 
 # ----------------------------------------------------------------------------------------- #
 # +---------------------------------------------------------------------------------------+
+# | UseMetrics: true #Lets you disable metrics.                                           |
 # | DisabledCommands: #Allows you set your own disabled commands! :D                      |
 # |   - icanhasbukkit                                                                     |
 # |   - timings                                                                           |
@@ -44,6 +45,7 @@
 # +---------------------------------------------------------------------------------------+
 # ----------------------------------------------------------------------------------------- #
 
+UseMetrics: true
 DisabledCommands:
     - icanhasbukkit
     - timings
@@ -59,3 +61,4 @@ Language:
     Stop: '&cWe''d rather you didn''t try to stop the server. kthx'
     Op: '&6Umm... Yeahh... No. :/'
     Deop: '&cWe''d rather you didn''t try to deop our staff.'
+    Bukkit: '&cUmm... no thanks.'

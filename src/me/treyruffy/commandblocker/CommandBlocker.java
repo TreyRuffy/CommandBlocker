@@ -19,11 +19,11 @@ public class CommandBlocker extends JavaPlugin implements Listener{
 	    getServer().getPluginManager().registerEvents(this, this);
 	    getConfig().options().copyDefaults(true);
 	    saveConfig();
-	    try {
-	        Metrics metrics = new Metrics(this);
-	        metrics.start();
-	    } catch (IOException e) {
-	        // Failed to submit the stats :-(
+	    if (getConfig().getBoolean("UseMetrics")){
+	    	try {
+	    		Metrics metrics = new Metrics(this);
+	    		metrics.start();
+	    	} catch (IOException e) {}
 	    }
 	}
 	
@@ -39,7 +39,7 @@ public class CommandBlocker extends JavaPlugin implements Listener{
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("Language.YourDisabled")));
 				return;
 			}
-			
+	
 		} else if (msg.split(" ")[0].equalsIgnoreCase("/pl")){
 			if(!(sender.hasPermission("cb.allow.plugins"))){
 				event.setCancelled(true);

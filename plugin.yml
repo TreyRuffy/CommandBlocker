@@ -1,5 +1,5 @@
 main: me.treyruffy.commandblocker.CommandBlocker
-version: 3.0.0
+version: 3.0.1
 name: CommandBlocker
 author: TreyRuffy
 description: Disables commands!
@@ -26,7 +26,7 @@ permissions:
   cb.allow.plugins:
     default: op
   cb.allow.help:
-    default: op
+    default: true
   cb.allow.m.help:
     default: op
   cb.allow.version:

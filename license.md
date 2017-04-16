@@ -1,5 +1,5 @@
 	Command Blocker
-	Copyright (C) 2016  TreyRuffy
+	Copyright (C) 2016-2017  TreyRuffy
 
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007

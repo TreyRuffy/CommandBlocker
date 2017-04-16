@@ -1,6 +1,5 @@
 package me.treyruffy.commandblocker;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -11,20 +10,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import me.treyruffy.commandblocker.Metrics;
-
 public class CommandBlocker extends JavaPlugin implements Listener{
-	
+
 	public void onEnable(){
 	    getServer().getPluginManager().registerEvents(this, this);
 	    getConfig().options().copyDefaults(true);
 	    saveConfig();
-	    if (getConfig().getBoolean("UseMetrics")){
-	    	try {
-	    		Metrics metrics = new Metrics(this);
-	    		metrics.start();
-	    	} catch (IOException e) {}
-	    }
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -39,7 +30,6 @@ public class CommandBlocker extends JavaPlugin implements Listener{
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("Language.YourDisabled")));
 				return;
 			}
-	
 		} else if (msg.split(" ")[0].equalsIgnoreCase("/pl")){
 			if(!(sender.hasPermission("cb.allow.plugins"))){
 				event.setCancelled(true);
@@ -138,13 +128,6 @@ public class CommandBlocker extends JavaPlugin implements Listener{
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("Language.Version")));
 				return;
 			}
-		} else if (msg.split(" ")[0].equalsIgnoreCase("/ver")){
-			if(!(sender.hasPermission("cb.allow.version"))){
-				event.setCancelled(true);
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("Language.Version")));
-				return;
-			}	
-
 		} else if (msg.split(" ")[0].equalsIgnoreCase("/minecraft:me")){
 			if(!(sender.hasPermission("cb.allow.m.me"))){
 				event.setCancelled(true);

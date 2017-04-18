@@ -1,9 +1,9 @@
 main: me.treyruffy.commandblocker.CommandBlocker
-version: 5.0
-name: CommandBlocker
+version: ${project.version}
+name: ${project.name}
 author: TreyRuffy
-description: Allows you to block commands!
-website: https://www.spigotmc.org/resources/5280/
+description: ${project.description}
+website: ${project.url}
 prefix: Command Blocker
 commands:
   cb:

@@ -1,0 +1,87 @@
+# Allows you set your own disabled commands! :D
+# Placeholders are %colon% -> : and %player% -> player's name
+## If you have two of the same command, the one nearest to the top will be used! ##
+DisabledCommands:
+    Plugins:
+        Message: 'Plugins (0): &aNone... Sorry about that.'
+        Permission: cb.allow.plugins
+    Pl:
+        Message: 'Plugins (0): &aNone... Sorry about that.'
+        Permission: cb.allow.plugins
+    Bukkit%colon%plugins:
+        Message: 'Plugins (0): &aNone... Sorry about that.'
+        Permission: cb.allow.plugins
+    Bukkit%colon%pl:
+        Message: 'Plugins (0): &aNone... Sorry about that.'
+        Permission: cb.allow.plugins
+    Help:
+        Message: '&cSorry, I can''t help you with this. :/'
+        Permission: cb.allow.help
+    ?:
+        Message: '&cSorry, I can''t help you with this. :/'
+        Permission: cb.allow.help
+    Bukkit%colon%help:
+        Message: '&cSorry, I can''t help you with this. :/'
+        Permission: cb.allow.help
+    Bukkit%colon%?:
+        Message: '&cSorry, I can''t help you with this. :/'
+        Permission: cb.allow.help
+    Minecraft%colon%?:
+        Message: '&cSorry, I can''t help you with this. :/'
+        Permission: cb.allow.help
+    Minecraft%colon%help:
+        Message: '&cSorry, I can''t help you with this. :/'
+        Permission: cb.allow.help
+    Version:
+        Message: '&6The Minecraft version you are on!'
+        Permission: cb.allow.version
+    Ver:
+        Message: '&6The Minecraft version you are on!'
+        Permission: cb.allow.version
+    Bukkit%colon%ver:
+        Message: '&6The Minecraft version you are on!'
+        Permission: cb.allow.version
+    Bukkit%colon%version:
+        Message: '&6The Minecraft version you are on!'
+        Permission: cb.allow.version
+    About:
+        Message: '&6The Minecraft version you are on!'
+        Permission: cb.allow.version
+    Bukkit%colon%about:
+        Message: '&6The Minecraft version you are on!'
+        Permission: cb.allow.version
+    Me:
+        Message: '&7Vampires cannot see /me messages. :/'
+        Permission: cb.allow.me
+    Minecraft%colon%me:
+        Message: '&7Vampires cannot see /me messages. :/'
+        Permission: cb.allow.me
+    Reload:
+        Message: '&6Were you really expecting that to work?!'
+        Permission: cb.allow.reload
+    Rl:
+        Message: '&6Were you really expecting that to work?!'
+        Permission: cb.allow.reload
+    Bukkit%colon%rl:
+        Message: '&6Were you really expecting that to work?!'
+        Permission: cb.allow.reload
+    Bukkit%colon%reload:
+        Message: '&6Were you really expecting that to work?!'
+        Permission: cb.allow.reload
+    Restart:
+        Message: '&aI do not even know what you were expecting with this...'
+        Permission: cb.allow.restart
+    Stop:
+        Message: '&cWe''d rather you didn''t try to stop the server. kthx'
+    Op:
+        Message: '&6Umm... Yeahh... No.'
+        Permission: cb.allow.op
+    Minecraft%colon%op:
+        Message: '&6Umm... Yeahh... No.'
+        Permission: cb.allow.op
+    Deop:
+        Message: '&cWe''d rather you didn''t try to deop our staff.'
+        Permission: cb.allow.deop
+    Minecraft%colon%deop:
+        Message: '&cWe''d rather you didn''t try to deop our staff.'
+        Permission: cb.allow.deop

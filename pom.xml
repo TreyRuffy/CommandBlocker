@@ -7,7 +7,7 @@
   
   <groupId>me.treyruffy.commandblocker</groupId>
   <artifactId>CommandBlocker</artifactId>
-  <version>4.0</version>
+  <version>5.0</version>
   <name>CommandBlocker</name>
   <description>Allows you to block commands!</description>
   <url>https://www.spigotmc.org/resources/5280/</url>
@@ -28,7 +28,7 @@
   	<sourceDirectory>src</sourceDirectory>
     <resources>
       <resource>
-        <directory>src</directory>
+        <directory>src/resources</directory>
         <filtering>true</filtering>
         <includes>
           <include>*.yml</include>
@@ -40,8 +40,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.5.1</version>
         <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
+          <source>1.7</source>
+          <target>1.7</target>
         </configuration>
       </plugin>
     </plugins>

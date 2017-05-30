@@ -1,5 +1,10 @@
 # Allows you set your own disabled commands! :D
 # Placeholders are %colon% -> : and %player% -> player's name
+# Make a command only disabled in some worlds by doing:
+#DisabledCommands:
+#    Plugins:
+#        Worlds:
+#        - world
 ## If you have two of the same command, the one nearest to the top will be used! ##
 DisabledCommands:
     Plugins:

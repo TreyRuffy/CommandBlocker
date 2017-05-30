@@ -21,7 +21,7 @@ public class Commands implements CommandExecutor, TabCompleter{
 	}
 	
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args){
-		if (label.equalsIgnoreCase("cb")||label.equalsIgnoreCase("commandblocker")){
+		if ((label.equalsIgnoreCase("cb")||label.equalsIgnoreCase("commandblocker")) && (sender.hasPermission("cb.add")||sender.hasPermission("cb.reload")||sender.hasPermission("cb.remove"))){
 			if (args.length == 0){
 				sender.sendMessage(ChatColor.GOLD + "-===[" + ChatColor.BOLD + " Command Blocker " + ChatColor.GOLD + "]===-");
 				sender.sendMessage(ChatColor.RED + "You have not supplied enough arguments.");
@@ -70,12 +70,17 @@ public class Commands implements CommandExecutor, TabCompleter{
 						return false;
 					}
 				} else {
-					sender.sendMessage(ChatColor.GOLD + "-===[" + ChatColor.BOLD + " Command Blocker " + ChatColor.GOLD + "]===-");
-					sender.sendMessage(ChatColor.RED + "You have not supplied a valid argument.");
-					sender.sendMessage(ChatColor.RED + "Valid arguments are: add, remove, reload.");
-					sender.sendMessage(ChatColor.BLUE + "Made by TreyRuffy!");
-					sender.sendMessage(ChatColor.GOLD + "-==============-");
-					return false;
+					if (sender.hasPermission("cb.add") || sender.hasPermission("cb.remove") || sender.hasPermission("cb.reload")){
+						sender.sendMessage(ChatColor.GOLD + "-===[" + ChatColor.BOLD + " Command Blocker " + ChatColor.GOLD + "]===-");
+						sender.sendMessage(ChatColor.RED + "You have not supplied a valid argument.");
+						sender.sendMessage(ChatColor.RED + "Valid arguments are: add, remove, reload.");
+						sender.sendMessage(ChatColor.BLUE + "Made by TreyRuffy!");
+						sender.sendMessage(ChatColor.GOLD + "-==============-");
+						return false;
+					} else {
+						sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ConfigManager.getConfig().getString("Messages.NoPermission")));
+						return false;
+					}
 				}
 			} else if (args.length == 2){
 				if (args[0].equalsIgnoreCase("add")){
@@ -145,7 +150,7 @@ public class Commands implements CommandExecutor, TabCompleter{
 							ConfigManager.getDisabled().set("DisabledCommands." + args[1], "");
 							ConfigManager.getDisabled().set("DisabledCommands." + args[1] + ".Permission", args[2]);
 							sender.sendMessage(ChatColor.GOLD + "-==============-");
-							sender.sendMessage(ChatColor.GREEN + "Added /" + args[1] + "to disabled.yml!");
+							sender.sendMessage(ChatColor.GREEN + "Added /" + args[1] + " to disabled.yml!");
 							sender.sendMessage(ChatColor.GREEN + "The permission is:");
 							sender.sendMessage(ChatColor.GOLD + args[2]);
 							sender.sendMessage(ChatColor.GREEN + "With the message being:");
@@ -177,7 +182,7 @@ public class Commands implements CommandExecutor, TabCompleter{
 							msg = msg + args[i] + " ";
 						}
 						ConfigManager.getDisabled().set("DisabledCommands." + args[1] + ".Message", msg);
-						sender.sendMessage(ChatColor.GREEN + "Added /" + args[1] + "to disabled.yml!");
+						sender.sendMessage(ChatColor.GREEN + "Added /" + args[1] + " to disabled.yml!");
 						sender.sendMessage(ChatColor.GREEN + "The permission is:");
 						sender.sendMessage(ChatColor.GOLD + args[2]);
 						sender.sendMessage(ChatColor.GREEN + "With the message being:");

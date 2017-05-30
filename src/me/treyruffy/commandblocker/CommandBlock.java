@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 public class CommandBlock implements Listener{
+	
 	@SuppressWarnings("unused")
 	private final CommandBlocker plugin;
 	
@@ -25,24 +26,52 @@ public class CommandBlock implements Listener{
 			String permission = command.replace("%colon%", "").replace(" ", "");
 			if (args[0].equalsIgnoreCase("/" + commands)){
 				if (ConfigManager.getDisabled().getString("DisabledCommands." + command + ".Permission") == null){
-					if (!(sender.hasPermission(ConfigManager.getConfig().getString("Default.Permission").replace("%command%", permission)))){
-						event.setCancelled(true);
-						if (ConfigManager.getDisabled().getString("DisabledCommands." + command + ".Message") == null){
-							sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ConfigManager.getConfig().getString("Default.Message")));
-						} else {
-							sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ConfigManager.getDisabled().getString("DisabledCommands." + command + ".Message")));
+					if (ConfigManager.getDisabled().getStringList("DisabledCommands." + command + ".Worlds").size() == 0){
+						if (!(sender.hasPermission(ConfigManager.getConfig().getString("Default.Permission").replace("%command%", permission)))){
+							event.setCancelled(true);
+							if (ConfigManager.getDisabled().getString("DisabledCommands." + command + ".Message") == null){
+								sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ConfigManager.getConfig().getString("Default.Message")));
+							} else {
+								sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ConfigManager.getDisabled().getString("DisabledCommands." + command + ".Message")));
+							}
+							return;
 						}
-						return;
+					} else {
+						if (ConfigManager.getDisabled().getStringList("DisabledCommands." + command + ".Worlds").contains(sender.getWorld().getName())){
+							if (!(sender.hasPermission(ConfigManager.getConfig().getString("Default.Permission").replace("%command%", permission)))){
+								event.setCancelled(true);
+								if (ConfigManager.getDisabled().getString("DisabledCommands." + command + ".Message") == null){
+									sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ConfigManager.getConfig().getString("Default.Message")));
+								} else {
+									sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ConfigManager.getDisabled().getString("DisabledCommands." + command + ".Message")));
+								}
+								return;
+							}
+						}
 					}
 				} else {
-					if(!(sender.hasPermission(ConfigManager.getDisabled().getString("DisabledCommands." + command + ".Permission")))){
-						event.setCancelled(true);
-						if (ConfigManager.getDisabled().getString("DisabledCommands." + command + ".Message") == null){
-							sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ConfigManager.getConfig().getString("Default.Message")));
-						} else {
-							sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ConfigManager.getDisabled().getString("DisabledCommands." + command + ".Message")));
+					if (ConfigManager.getDisabled().getStringList("DisabledCommands." + command + ".Worlds").size() == 0){
+						if(!(sender.hasPermission(ConfigManager.getDisabled().getString("DisabledCommands." + command + ".Permission")))){
+							event.setCancelled(true);
+							if (ConfigManager.getDisabled().getString("DisabledCommands." + command + ".Message") == null){
+								sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ConfigManager.getConfig().getString("Default.Message")));
+							} else {
+								sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ConfigManager.getDisabled().getString("DisabledCommands." + command + ".Message")));
+							}
+							return;
 						}
-						return;
+					} else {
+						if (ConfigManager.getDisabled().getStringList("DisabledCommands." + command + ".Worlds").contains(sender.getWorld().getName())){
+							if(!(sender.hasPermission(ConfigManager.getDisabled().getString("DisabledCommands." + command + ".Permission")))){
+								event.setCancelled(true);
+								if (ConfigManager.getDisabled().getString("DisabledCommands." + command + ".Message") == null){
+									sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ConfigManager.getConfig().getString("Default.Message")));
+								} else {
+									sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ConfigManager.getDisabled().getString("DisabledCommands." + command + ".Message")));
+								}
+								return;
+							}
+						}
 					}
 				}
 			}

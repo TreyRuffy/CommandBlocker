@@ -24,6 +24,10 @@ Default:
     # This is the default permission. Placeholders are %command% -> Command sent.
     ## %command% does not include any colons ##
     Permission: cb.allow.%command%
+    
 Messages:
     # This message will be sent to players without permission to do /cb
     NoPermission: '&cYou do not have the required permissions to execute this command.'
+    
+# Allows you to disable tab complete!
+DisableTabComplete: true

@@ -1,5 +1,6 @@
 package me.treyruffy.commandblocker;
 
+import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -10,8 +11,11 @@ public class CommandBlocker extends JavaPlugin implements Listener {
 	    getServer().getPluginManager().registerEvents(this, this);
 	    loadConfigManager();
 	    new CommandBlock(this);
-	    this.getCommand("cb").setExecutor(new Commands(this));
-	    this.getCommand("commandblocker").setExecutor(new Commands(this));
+	    this.getCommand("cb").setExecutor(new Commands());
+	    this.getCommand("commandblocker").setExecutor(new Commands());
+	    if (Bukkit.getPluginManager().getPlugin("ProtocolLib") != null){
+	    	Packets.protocol(this);
+	    }
 	}
 	
 	public void loadConfigManager(){
@@ -19,4 +23,5 @@ public class CommandBlocker extends JavaPlugin implements Listener {
 		ConfigManager.reloadConfig();
 		ConfigManager.reloadDisabled();
 	}
+	
 }

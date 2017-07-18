@@ -7,7 +7,7 @@
   
   <groupId>me.treyruffy.commandblocker</groupId>
   <artifactId>CommandBlocker</artifactId>
-  <version>5.1</version>
+  <version>5.2</version>
   <name>CommandBlocker</name>
   <description>Allows you to block commands!</description>
   <url>https://www.spigotmc.org/resources/5280/</url>
@@ -55,9 +55,18 @@
       <version>1.11.2-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>com.comphenix.protocol</groupId>
+      <artifactId>ProtocolLib-API</artifactId>
+      <version>4.3.0</version>
+    </dependency>
   </dependencies>
   
   <repositories>
+    <repository>
+      <id>dmulloy2-repo</id>
+      <url>http://repo.dmulloy2.net/nexus/repository/public/</url>
+    </repository>
     <repository>
       <id>bukkit-repo</id>
       <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>

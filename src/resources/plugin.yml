@@ -22,3 +22,5 @@ permissions:
         default: op
       cb.bypasstab:
         default: op
+      cb.updates:
+        default: op

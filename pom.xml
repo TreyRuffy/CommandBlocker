@@ -7,7 +7,7 @@
   
   <groupId>me.treyruffy.commandblocker</groupId>
   <artifactId>CommandBlocker</artifactId>
-  <version>5.2</version>
+  <version>5.3</version>
   <name>CommandBlocker</name>
   <description>Allows you to block commands!</description>
   <url>https://www.spigotmc.org/resources/5280/</url>
@@ -59,6 +59,11 @@
       <groupId>com.comphenix.protocol</groupId>
       <artifactId>ProtocolLib-API</artifactId>
       <version>4.3.0</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+       <version>2.5</version>
     </dependency>
   </dependencies>
   

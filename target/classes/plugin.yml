@@ -1,27 +1,26 @@
 main: me.treyruffy.commandblocker.CommandBlocker
-version: 5.1
+version: 5.3
 name: CommandBlocker
 author: TreyRuffy
 description: Allows you to block commands!
 website: https://www.spigotmc.org/resources/5280/
+softdepend: [ProtocolLib]
 prefix: Command Blocker
 commands:
   cb:
     description: Allows you to change Command Blocker commands.
-    default: op
-  commandblocker:
-    description: Allows you to change Command Blocker commands.
-    default: op
+    aliases: [commandblocker, commandblock]
 permissions:
   cb.*:
-    default: op
+    default: false
     children:
-      cb.reload: true
-      cb.add: true
-      cb.remove: true
-  cb.reload:
-    default: op
-  cb.add:
-    default: op
-  cb.remove:
-    default: op
+      cb.reload:
+        default: op
+      cb.add:
+        default: op
+      cb.remove:
+        default: op
+      cb.bypasstab:
+        default: op
+      cb.updates:
+        default: op

@@ -21,6 +21,7 @@
 Default:
     # This is the default message to show.
     Message: '&cSorry, the owner has disabled that command.'
+    
     # This is the default permission. Placeholders are %command% -> Command sent.
     ## %command% does not include any colons ##
     Permission: cb.allow.%command%
@@ -31,3 +32,10 @@ Messages:
     
 # Allows you to disable tab complete!
 DisableTabComplete: true
+
+Updates:
+    # This will allow checking for updates
+    Check: true
+    
+    # This will tell people with cb.updates to get an update notification
+    TellPlayers: true

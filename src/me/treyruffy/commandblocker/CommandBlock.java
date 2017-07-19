@@ -9,14 +9,6 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 public class CommandBlock implements Listener{
 	
-	@SuppressWarnings("unused")
-	private final CommandBlocker plugin;
-	
-	public CommandBlock(CommandBlocker plugin){
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-		this.plugin = plugin;
-	}
-	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onCommand(PlayerCommandPreprocessEvent event){
 		Player sender = event.getPlayer();

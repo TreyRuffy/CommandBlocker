@@ -5,6 +5,12 @@
 #    Plugins:
 #        Worlds:
 #        - world
+#
+# Make a command allowed to tab complete by doing:
+#DisabledCommands:
+#   Plugins:
+#       NoTabComplete: false
+#
 ## If you have two of the same command, the one nearest to the top will be used! ##
 DisabledCommands:
     Plugins:
@@ -43,6 +49,9 @@ DisabledCommands:
     Ver:
         Message: '&6The Minecraft version you are on!'
         Permission: cb.allow.version
+    Icanhasbukkit:
+        Message: '&6The Minecraft version you are on!'
+        Permission: cb.allow.version
     Bukkit%colon%ver:
         Message: '&6The Minecraft version you are on!'
         Permission: cb.allow.version
@@ -78,6 +87,7 @@ DisabledCommands:
         Permission: cb.allow.restart
     Stop:
         Message: '&cWe''d rather you didn''t try to stop the server. kthx'
+        Permission: cb.allow.stop
     Op:
         Message: '&6Umm... Yeahh... No.'
         Permission: cb.allow.op

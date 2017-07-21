@@ -47,17 +47,20 @@ public class Updates implements Listener {
 			if (ConfigManager.getConfig().getBoolean("Updates.TellPlayers")){
 				final Player p = e.getPlayer();
 				if (p.hasPermission("cb.updates")){
-					Bukkit.getScheduler().scheduleSyncDelayedTask(CommandBlocker.getPlugin(CommandBlocker.class), new Runnable() {
-						@Override
-						public void run() {
-							p.sendMessage(ChatColor.AQUA + "+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=+");
-							p.sendMessage(ChatColor.GREEN + "There is a new update for");
-							p.sendMessage(ChatColor.GREEN + "Command Blocker");
-							p.sendMessage(ChatColor.RED + "Download at:");
-							p.sendMessage(ChatColor.LIGHT_PURPLE + "https://www.spigotmc.org/resources/5280/");
-							p.sendMessage(ChatColor.AQUA + "+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=+");
-						}
-					}, 4);
+					Object[] updates = UpdateChecker.getLastUpdate();
+					if (updates.length == 2){
+						Bukkit.getScheduler().scheduleSyncDelayedTask(CommandBlocker.getPlugin(CommandBlocker.class), new Runnable() {
+							@Override
+							public void run() {
+								p.sendMessage(ChatColor.AQUA + "+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=+");
+								p.sendMessage(ChatColor.GREEN + "There is a new update for");
+								p.sendMessage(ChatColor.GREEN + "Command Blocker");
+								p.sendMessage(ChatColor.RED + "Download at:");
+								p.sendMessage(ChatColor.LIGHT_PURPLE + "https://www.spigotmc.org/resources/5280/");
+								p.sendMessage(ChatColor.AQUA + "+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=+");
+							}
+						}, 4);
+					}
 				}
 			}
 		}

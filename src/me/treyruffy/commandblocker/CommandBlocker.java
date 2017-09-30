@@ -20,7 +20,10 @@ public class CommandBlocker extends JavaPlugin implements Listener {
 	    if (Bukkit.getPluginManager().getPlugin("ProtocolLib") != null){
 	    	Packets.protocol(this);
 	    }
-	    Updates.updateCheck();
+	    String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
+		if (!(version.equals("v1_7_R1")||version.equals("v1_7_R2")||version.equals("v1_7_R3")||version.equals("v1_7_R4"))){
+			Updates.updateCheck();
+		}
 	}
 	
 	public void loadConfigManager(){

@@ -1,5 +1,5 @@
 main: me.treyruffy.commandblocker.CommandBlocker
-version: 5.3
+version: 5.5
 name: CommandBlocker
 author: TreyRuffy
 description: Allows you to block commands!

@@ -21,6 +21,9 @@ public class ConfigManager {
 	public static FileConfiguration MainDisabled;
 	public static File MainDisabledFile;
 	
+	public static FileConfiguration OpDisabled;
+	public static File OpDisabledFile;
+	
 	public void setup(){
 		if(!plugin.getDataFolder().exists()){
 			plugin.getDataFolder().mkdir();
@@ -28,6 +31,7 @@ public class ConfigManager {
 		
 		MainConfigFile = new File(plugin.getDataFolder(), "config.yml");
 		MainDisabledFile = new File(plugin.getDataFolder(), "disabled.yml");
+		OpDisabledFile = new File(plugin.getDataFolder(), "opblock.yml");
 		
 		if(!MainConfigFile.exists()){
 			try{
@@ -43,9 +47,17 @@ public class ConfigManager {
 				Bukkit.getServer().getLogger().log(Level.SEVERE, "Could not save " + MainDisabledFile + ".", e);
 			}
 		}
+		if (!OpDisabledFile.exists()){
+			try{
+				OpDisabledFile.createNewFile();
+			}catch(IOException e){
+				Bukkit.getServer().getLogger().log(Level.SEVERE, "Could not save " + OpDisabledFile + ".", e);
+			}
+		}
 		
 		MainConfig = YamlConfiguration.loadConfiguration(MainConfigFile);
 		MainDisabled = YamlConfiguration.loadConfiguration(MainDisabledFile);
+		OpDisabled = YamlConfiguration.loadConfiguration(OpDisabledFile);
 	}
 	
 	public static FileConfiguration getConfig(){
@@ -59,6 +71,12 @@ public class ConfigManager {
 			reloadDisabled();
 		}
 		return MainDisabled; 
+	}
+	public static FileConfiguration getOpDisabled(){
+		if (OpDisabled == null){
+			reloadOpDisabled();
+		}
+		return OpDisabled;
 	}
 	
 	public static void saveConfig(){
@@ -79,6 +97,16 @@ public class ConfigManager {
 			MainDisabled.save(MainDisabledFile);
 		}catch(IOException e){
 			Bukkit.getServer().getLogger().log(Level.SEVERE, "Could not save " + MainDisabledFile + ".", e);
+		}
+	}
+	public static void saveOpDisabled(){
+		if (OpDisabled == null){
+			throw new NullArgumentException("Cannot save a non-existant file!");
+		}
+		try{
+			OpDisabled.save(OpDisabledFile);
+		}catch(IOException e){
+			Bukkit.getServer().getLogger().log(Level.SEVERE, "Could not save " + OpDisabledFile + ".", e);
 		}
 	}
 	
@@ -102,6 +130,17 @@ public class ConfigManager {
 		InputStream disabledData = plugin.getResource("disabled.yml");
 		if (disabledData != null){
 			MainDisabled.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(disabledData)));
+		}
+	}
+	public static void reloadOpDisabled(){
+		OpDisabledFile = new File(plugin.getDataFolder(), "opblock.yml");
+		if (!OpDisabledFile.exists()){
+			plugin.saveResource("opblock.yml", false);
+		}
+		OpDisabled = YamlConfiguration.loadConfiguration(OpDisabledFile);
+		InputStream opData = plugin.getResource("opblock.yml");
+		if (opData != null){
+			OpDisabled.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(opData)));
 		}
 	}
 }

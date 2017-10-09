@@ -1,5 +1,5 @@
 main: me.treyruffy.commandblocker.CommandBlocker
-version: 5.5
+version: 6.0
 name: CommandBlocker
 author: TreyRuffy
 description: Allows you to block commands!
@@ -24,3 +24,7 @@ permissions:
         default: op
       cb.updates:
         default: op
+      cb.addop:
+        default: false
+      cb.removeop:
+        default: false

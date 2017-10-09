@@ -24,3 +24,7 @@ permissions:
         default: op
       cb.updates:
         default: op
+      cb.addop:
+        default: false
+      cb.removeop:
+        default: false

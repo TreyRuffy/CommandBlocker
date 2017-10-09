@@ -6,6 +6,17 @@
 #        Worlds:
 #        - world
 #
+# Allows you to perform console and player commands!
+# Placeholders are %player% -> player's name, %username% -> player's username,
+#   and %command% -> disabled command
+#DisabledCommands:
+#    Plugins:
+#        PlayerCommands:
+#        - say this allows me to perform player commands!
+#        - say I, %player%, was bad and tried to execute %command%
+#        ConsoleCommands:
+#        - say this allows me to perform console commands!
+#
 # Make a command allowed to tab complete by doing:
 #DisabledCommands:
 #   Plugins:

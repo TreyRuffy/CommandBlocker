@@ -13,6 +13,7 @@ public class CommandBlocker extends JavaPlugin implements Listener {
 	    getServer().getPluginManager().registerEvents(this, this);
 	    getServer().getPluginManager().registerEvents(new Updates(), this);
 	    getServer().getPluginManager().registerEvents(new CommandBlock(), this);
+	    getServer().getPluginManager().registerEvents(new OPBlock(), this);
 	    loadConfigManager();
 	    
 	    this.getCommand("cb").setExecutor(new Commands());
@@ -30,5 +31,6 @@ public class CommandBlocker extends JavaPlugin implements Listener {
 		new ConfigManager();
 		ConfigManager.reloadConfig();
 		ConfigManager.reloadDisabled();
+		ConfigManager.reloadOpDisabled();
 	}
 }

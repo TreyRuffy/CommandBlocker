@@ -6,9 +6,8 @@
 	<modelVersion>4.0.0</modelVersion>
   
 	<groupId>me.treyruffy.commandblocker</groupId>
-	<artifactId>CommandBlocker</artifactId>
-	<version>6.0</version>
-	<name>CommandBlocker</name>
+	<artifactId>TreysCommandBlocker</artifactId>
+	<name>TreysCommandBlocker</name>
 	<description>Allows you to block commands!</description>
 	<url>https://www.spigotmc.org/resources/5280/</url>
 	<packaging>jar</packaging>
@@ -49,23 +48,40 @@
 	</build>
 	
 	<dependencies>
-		<!--Bukkit API-->
+		<!-- Bukkit API -->
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>1.11.2-R0.1-SNAPSHOT</version>
+			<version>1.12.2-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
-		</dependency>
+		</dependency> 
 		<dependency>
 			<groupId>com.comphenix.protocol</groupId>
 			<artifactId>ProtocolLib-API</artifactId>
 			<version>4.3.0</version>
 		</dependency>
 		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.5</version>
+		    <groupId>me.clip</groupId>
+		    <artifactId>placeholderapi</artifactId>
+		    <version>2.8.2</version>
+		    <scope>provided</scope>
 		</dependency>
+		
+		<!-- BungeeCord API -->
+		<dependency>
+		    <groupId>net.md-5</groupId>
+		    <artifactId>bungeecord-api</artifactId>
+		    <version>1.12-SNAPSHOT</version>
+		    <type>jar</type>
+		    <scope>provided</scope>
+		</dependency>
+		<dependency>
+            <groupId>net.md-5</groupId>
+            <artifactId>bungeecord-api</artifactId>
+            <version>1.12-SNAPSHOT</version>
+            <type>javadoc</type>
+            <scope>provided</scope>
+        </dependency>
 	</dependencies>
   
 	<repositories>
@@ -77,6 +93,15 @@
 			<id>bukkit-repo</id>
 			<url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
 		</repository>
+		<repository>
+		    <id>placeholderapi</id>
+		    <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+		</repository>
+		
+		<repository>
+            <id>bungeecord-repo</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
 	</repositories>
   
 	<issueManagement>
@@ -84,4 +109,5 @@
 		<url>https://github.com/TreyRuffy/CommandBlocker/issues</url>
 	</issueManagement>
   
+	<version>1.0.0</version>
 </project>

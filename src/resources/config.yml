@@ -41,3 +41,6 @@ Updates:
     
     # This will tell people with cb.updates to get an update notification
     TellPlayers: true
+    
+# Just don't change this number.
+Version: ${project.version}

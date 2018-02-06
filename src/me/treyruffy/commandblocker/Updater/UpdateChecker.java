@@ -1,36 +1,41 @@
 package me.treyruffy.commandblocker.Updater;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.Scanner;
 
-import org.apache.commons.io.IOUtils;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
-
-import me.treyruffy.commandblocker.CommandBlocker;
+import me.treyruffy.commandblocker.MethodInterface;
+import me.treyruffy.commandblocker.Universal;
 
 public class UpdateChecker {
 
-	final static String VERSION_URL = "https://api.spiget.org/v2/resources/5280/versions?size=" + Integer.MAX_VALUE;
-	final static String DESCRIPTION_URL = "https://api.spiget.org/v2/resources/5280/updates?size=" + Integer.MAX_VALUE;
-
-	public static Object[] getLastUpdate() {
-        try {
-            JSONArray versionsArray = (JSONArray) JSONValue.parseWithException(IOUtils.toString(new URL(String.valueOf(VERSION_URL)), "UTF-8"));
-            String lastVersion = ((JSONObject) versionsArray.get(versionsArray.size() - 1)).get("name").toString();
-
-            if ((Integer.parseInt(lastVersion.replaceAll("\\.","")) > (Integer.parseInt(CommandBlocker.getPlugin(CommandBlocker.class).getDescription().getVersion().replaceAll("\\.",""))))) {
-                JSONArray updatesArray = (JSONArray) JSONValue.parseWithException(IOUtils.toString(new URL(String.valueOf(DESCRIPTION_URL)), "UTF-8"));
-                String updateName = ((JSONObject) updatesArray.get(updatesArray.size() - 1)).get("title").toString();
-   
-                Object[] update = {lastVersion, updateName};
-                return update;
-            }
-        }
-        catch (Exception e) {
-            return new String[0];
-        }
-		return new String[0];
+	public static Boolean getLastUpdate(MethodInterface mi) {
+		final String response = getFromURL("https://api.spigotmc.org/legacy/update.php?resource=5280");
+		Boolean ver = true;
+		if (response == null) {
+			ver = false;
+		} else if (response.equalsIgnoreCase(mi.getVersion())) {
+			ver = false;
+		} else {
+			ver = true;
+		}
+		
+		return ver;
     }
 	
+	
+	public static String getFromURL(String surl) {
+		String response = null;
+		try {
+			URL url = new URL(surl);
+			Scanner s = new Scanner(url.openStream());
+			if (s.hasNext()) {
+				response = s.next();
+				s.close();
+			}
+		} catch (IOException e) {
+			System.out.println("Could not connect to URL: " + surl);
+		}
+		return response;
+	}
 }

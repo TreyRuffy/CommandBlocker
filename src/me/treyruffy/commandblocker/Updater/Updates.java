@@ -1,75 +1,21 @@
 package me.treyruffy.commandblocker.Updater;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
+import me.treyruffy.commandblocker.Universal;
+import me.treyruffy.commandblocker.MethodInterface;
 
-import me.treyruffy.commandblocker.CommandBlocker;
-import me.treyruffy.commandblocker.ConfigManager;
+public class Updates {
 
-public class Updates implements Listener {
-
-	public static void updateCheck(){
-		String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
-		if (!(version.equals("v1_7_R1")||version.equals("v1_7_R2")||version.equals("v1_7_R3")||version.equals("v1_7_R4"))){
-			if (ConfigManager.getConfig().getBoolean("Updates.Check")){
-				UpdateChecker.getLastUpdate();
-				Object[] updates = UpdateChecker.getLastUpdate();
-				if (updates.length == 2){
-					ConsoleCommandSender console = Bukkit.getConsoleSender();
-					console.sendMessage(ChatColor.AQUA + "+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=+");
-					console.sendMessage(ChatColor.GREEN + "There is a new update for");
-					console.sendMessage(ChatColor.GREEN + "Command Blocker");
-					console.sendMessage(ChatColor.RED + "Download at:");
-					console.sendMessage(ChatColor.LIGHT_PURPLE + "https://www.spigotmc.org/resources/5280/");
-					console.sendMessage(ChatColor.AQUA + "+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=+");
-					if (ConfigManager.getConfig().getBoolean("Updates.TellPlayers")){
-						for (Player p : Bukkit.getOnlinePlayers()){
-							if (p.hasPermission("cb.updates")){
-								p.sendMessage(ChatColor.AQUA + "+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=+");
-								p.sendMessage(ChatColor.GREEN + "There is a new update for");
-								p.sendMessage(ChatColor.GREEN + "Command Blocker");
-								p.sendMessage(ChatColor.RED + "Download at:");
-								p.sendMessage(ChatColor.LIGHT_PURPLE + "https://www.spigotmc.org/resources/5280/");
-								p.sendMessage(ChatColor.AQUA + "+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=+");
-							}
-						}
-					}
-				}
-			}
+	public static void updateCheck(MethodInterface mi){
+		Boolean updates = UpdateChecker.getLastUpdate(mi);
+		if (updates){
+			mi.log("&b+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=+");
+			mi.log("&aThere is a new update for");
+			mi.log("&aCommand Blocker");
+			mi.log("&cDownload at:");
+			mi.log("&dhttps://www.spigotmc.org/resources/5280/");
+			mi.log("&b+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=+");
 		}
 	}
 	
-	@EventHandler
-	public void onJoin(PlayerJoinEvent e){
-		String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
-		if (!(version.equals("v1_7_R1")||version.equals("v1_7_R2")||version.equals("v1_7_R3")||version.equals("v1_7_R4"))){
-			if (ConfigManager.getConfig().getBoolean("Updates.Check")){
-				if (ConfigManager.getConfig().getBoolean("Updates.TellPlayers")){
-					final Player p = e.getPlayer();
-					if (p.hasPermission("cb.updates")){
-						Object[] updates = UpdateChecker.getLastUpdate();
-						if (updates.length == 2){
-							Bukkit.getScheduler().scheduleSyncDelayedTask(CommandBlocker.getPlugin(CommandBlocker.class), new Runnable() {
-								@Override
-								public void run() {
-									p.sendMessage(ChatColor.AQUA + "+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=+");
-									p.sendMessage(ChatColor.GREEN + "There is a new update for");
-									p.sendMessage(ChatColor.GREEN + "Command Blocker");
-									p.sendMessage(ChatColor.RED + "Download at:");
-									p.sendMessage(ChatColor.LIGHT_PURPLE + "https://www.spigotmc.org/resources/5280/");
-									p.sendMessage(ChatColor.AQUA + "+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=+");
-								}
-							}, 4);
-						}
-					}
-				}
-			}
-		}
-	}
 	
 }

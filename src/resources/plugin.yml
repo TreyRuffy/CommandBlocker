@@ -1,10 +1,10 @@
-main: me.treyruffy.commandblocker.CommandBlocker
+main: me.treyruffy.commandblocker.Bukkit.BukkitMain
 version: ${project.version}
 name: ${project.name}
 author: TreyRuffy
 description: ${project.description}
 website: ${project.url}
-softdepend: [ProtocolLib]
+softdepend: [ProtocolLib, PlaceholderAPI]
 prefix: Command Blocker
 commands:
   cb:

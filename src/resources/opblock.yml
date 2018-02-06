@@ -21,7 +21,8 @@
 #
 ## If you have two of the same command, the one nearest to the top will be used! ##
 
-DisabledOpCommands: #Please leave this uncommented out
+DisabledOpCommands: []
+#Please leave this uncommented out. If you want to add commands, remove the [].
     #NoBlockedOpCommands:
         #Message: '&cThis is commented out because most people do not want to block OP commands.'
         #PlayerCommands:

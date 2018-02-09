@@ -1,4 +1,4 @@
-package me.treyruffy.commandblocker.Updater;
+package me.treyruffy.commandblocker.updater;
 
 import me.treyruffy.commandblocker.Universal;
 import me.treyruffy.commandblocker.MethodInterface;

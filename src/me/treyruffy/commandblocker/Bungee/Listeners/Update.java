@@ -1,11 +1,10 @@
-package me.treyruffy.commandblocker.Bungee.Listeners;
+package me.treyruffy.commandblocker.Bungee.listeners;
 
 import java.util.concurrent.TimeUnit;
 
 import me.treyruffy.commandblocker.Universal;
-import me.treyruffy.commandblocker.Bungee.BungeeMain;
 import me.treyruffy.commandblocker.Bungee.BungeeConfigManager;
-import me.treyruffy.commandblocker.Updater.UpdateChecker;
+import me.treyruffy.commandblocker.updater.UpdateChecker;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;

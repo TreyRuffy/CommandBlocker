@@ -1,6 +1,6 @@
 package me.treyruffy.commandblocker;
 
-import me.treyruffy.commandblocker.Updater.Updates;
+import me.treyruffy.commandblocker.updater.Updates;
 
 public class Universal {
 

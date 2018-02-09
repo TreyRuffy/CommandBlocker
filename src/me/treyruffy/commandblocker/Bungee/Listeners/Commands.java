@@ -1,4 +1,4 @@
-package me.treyruffy.commandblocker.Bungee.Listeners;
+package me.treyruffy.commandblocker.Bungee.listeners;
 
 import java.util.ArrayList;
 import java.util.List;

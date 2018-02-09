@@ -1,4 +1,4 @@
-package me.treyruffy.commandblocker.Bukkit.Listeners;
+package me.treyruffy.commandblocker.Bukkit.listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -10,8 +10,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import me.treyruffy.commandblocker.MethodInterface;
-import me.treyruffy.commandblocker.Universal;
 import me.treyruffy.commandblocker.Bukkit.BukkitMain;
 import me.treyruffy.commandblocker.Bukkit.ConfigManager;
 

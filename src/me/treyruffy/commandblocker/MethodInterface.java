@@ -7,8 +7,6 @@ public interface MethodInterface {
 
 	Object getPlugin();
 	
-	Object getConfig();
-	
 	String getVersion();
 	
 	File getDataFolder();

@@ -5,11 +5,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.treyruffy.commandblocker.Universal;
-import me.treyruffy.commandblocker.Bukkit.Listeners.BukkitBlock;
-import me.treyruffy.commandblocker.Bukkit.Listeners.Commands;
-import me.treyruffy.commandblocker.Bukkit.Listeners.Packets;
-import me.treyruffy.commandblocker.Bukkit.Listeners.Update;
-import me.treyruffy.commandblocker.Updater.Updates;
+import me.treyruffy.commandblocker.Bukkit.listeners.BukkitBlock;
+import me.treyruffy.commandblocker.Bukkit.listeners.Commands;
+import me.treyruffy.commandblocker.Bukkit.listeners.Packets;
+import me.treyruffy.commandblocker.Bukkit.listeners.Update;
 
 public class BukkitMain extends JavaPlugin implements Listener {
 

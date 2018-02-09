@@ -1,4 +1,4 @@
-package me.treyruffy.commandblocker.Updater;
+package me.treyruffy.commandblocker.updater;
 
 import java.io.IOException;
 import java.net.URL;

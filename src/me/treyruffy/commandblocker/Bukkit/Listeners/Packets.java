@@ -1,4 +1,4 @@
-package me.treyruffy.commandblocker.Bukkit.Listeners;
+package me.treyruffy.commandblocker.Bukkit.listeners;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

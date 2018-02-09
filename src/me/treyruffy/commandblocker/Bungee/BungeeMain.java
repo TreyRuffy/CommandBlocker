@@ -1,12 +1,10 @@
 package me.treyruffy.commandblocker.Bungee;
 
 import me.treyruffy.commandblocker.Universal;
-import me.treyruffy.commandblocker.Bungee.Listeners.BungeeBlock;
-import me.treyruffy.commandblocker.Bungee.Listeners.Commands;
-import me.treyruffy.commandblocker.Bungee.Listeners.TabCompletion;
-import me.treyruffy.commandblocker.Bungee.Listeners.Update;
-import me.treyruffy.commandblocker.Bungee.BungeeConfigManager;
-import net.md_5.bungee.api.ProxyServer;
+import me.treyruffy.commandblocker.Bungee.listeners.BungeeBlock;
+import me.treyruffy.commandblocker.Bungee.listeners.Commands;
+import me.treyruffy.commandblocker.Bungee.listeners.TabCompletion;
+import me.treyruffy.commandblocker.Bungee.listeners.Update;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 

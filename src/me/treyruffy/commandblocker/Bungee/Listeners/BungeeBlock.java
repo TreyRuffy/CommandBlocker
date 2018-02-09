@@ -1,4 +1,4 @@
-package me.treyruffy.commandblocker.Bungee.Listeners;
+package me.treyruffy.commandblocker.Bungee.listeners;
 
 import me.treyruffy.commandblocker.MethodInterface;
 import me.treyruffy.commandblocker.Universal;

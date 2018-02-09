@@ -1,4 +1,4 @@
-package me.treyruffy.commandblocker.Bukkit.Listeners;
+package me.treyruffy.commandblocker.Bukkit.listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import me.treyruffy.commandblocker.Universal;
 import me.treyruffy.commandblocker.Bukkit.BukkitMain;
 import me.treyruffy.commandblocker.Bukkit.ConfigManager;
-import me.treyruffy.commandblocker.Updater.UpdateChecker;
+import me.treyruffy.commandblocker.updater.UpdateChecker;
 
 public class Update implements Listener {
 	

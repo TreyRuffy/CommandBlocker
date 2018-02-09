@@ -1,22 +1,19 @@
-package me.treyruffy.commandblocker.Bukkit.Listeners;
+package me.treyruffy.commandblocker.Bukkit.listeners;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import com.google.common.collect.Lists;
 
 import me.treyruffy.commandblocker.Bukkit.ConfigManager;
-
 
 public class Commands implements CommandExecutor, TabCompleter {
 	

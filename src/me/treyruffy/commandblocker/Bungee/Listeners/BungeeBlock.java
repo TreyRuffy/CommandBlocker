@@ -64,7 +64,9 @@ public class BungeeBlock implements Listener {
 						message = msg;
 					}
 					
-					p.sendMessage(new TextComponent(message));
+					if (message.length() != 0){
+						p.sendMessage(new TextComponent(message));
+					}
 					
 					if (disabled.getStringList("DisabledCommands." + command + ".PlayerCommands").size() > 0) {
 						for (String s : disabled.getStringList("DisabledCommands." + command + ".PlayerCommands")) {

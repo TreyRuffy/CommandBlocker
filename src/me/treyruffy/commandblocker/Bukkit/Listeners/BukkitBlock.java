@@ -65,7 +65,9 @@ public class BukkitBlock implements Listener{
 						message = (BukkitMain.isPapiEnabled() ? PlaceholderAPI.setPlaceholders(p, msg) : msg);
 					}
 					
-					p.sendMessage(message);
+					if (message.length() != 0){
+						p.sendMessage(message);
+					}
 					
 					if (disabled.getStringList("DisabledCommands." + command + ".PlayerCommands").size() > 0) {
 						for (String s : disabled.getStringList("DisabledCommands." + command + ".PlayerCommands")) {

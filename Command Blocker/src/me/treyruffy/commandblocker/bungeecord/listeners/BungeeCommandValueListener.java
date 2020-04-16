@@ -1,4 +1,4 @@
-package me.treyruffy.commandblocker.bungee.listeners;
+package me.treyruffy.commandblocker.bungeecord.listeners;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,8 +10,8 @@ import com.google.gson.JsonObject;
 
 import me.treyruffy.commandblocker.Log;
 import me.treyruffy.commandblocker.Universal;
-import me.treyruffy.commandblocker.bungee.api.BlockedCommands;
-import me.treyruffy.commandblocker.bungee.config.BungeeConfigManager;
+import me.treyruffy.commandblocker.bungeecord.api.BlockedCommands;
+import me.treyruffy.commandblocker.bungeecord.config.BungeeConfigManager;
 import me.treyruffy.commandblocker.json.AddCommand;
 import me.treyruffy.commandblocker.json.RemoveCommand;
 import net.md_5.bungee.api.chat.TextComponent;

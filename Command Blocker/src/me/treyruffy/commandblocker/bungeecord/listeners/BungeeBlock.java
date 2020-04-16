@@ -1,7 +1,7 @@
-package me.treyruffy.commandblocker.bungee.listeners;
+package me.treyruffy.commandblocker.bungeecord.listeners;
 
-import me.treyruffy.commandblocker.bungee.Variables;
-import me.treyruffy.commandblocker.bungee.config.BungeeConfigManager;
+import me.treyruffy.commandblocker.bungeecord.Variables;
+import me.treyruffy.commandblocker.bungeecord.config.BungeeConfigManager;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;

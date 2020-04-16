@@ -1,8 +1,8 @@
-package me.treyruffy.commandblocker.bungee.listeners;
+package me.treyruffy.commandblocker.bungeecord.listeners;
 
 import me.treyruffy.commandblocker.Universal;
-import me.treyruffy.commandblocker.bungee.BungeeMain;
-import me.treyruffy.commandblocker.bungee.config.BungeeConfigManager;
+import me.treyruffy.commandblocker.bungeecord.BungeeMain;
+import me.treyruffy.commandblocker.bungeecord.config.BungeeConfigManager;
 import me.treyruffy.commandblocker.updater.UpdateChecker;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;

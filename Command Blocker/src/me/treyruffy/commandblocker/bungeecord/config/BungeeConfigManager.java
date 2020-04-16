@@ -1,4 +1,4 @@
-package me.treyruffy.commandblocker.bungee.config;
+package me.treyruffy.commandblocker.bungeecord.config;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -9,7 +9,7 @@ import java.util.logging.Level;
 
 import com.google.common.io.ByteStreams;
 
-import me.treyruffy.commandblocker.bungee.BungeeMain;
+import me.treyruffy.commandblocker.bungeecord.BungeeMain;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;

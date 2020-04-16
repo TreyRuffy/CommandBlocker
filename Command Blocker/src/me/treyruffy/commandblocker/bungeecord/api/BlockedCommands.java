@@ -1,10 +1,10 @@
-package me.treyruffy.commandblocker.bungee.api;
+package me.treyruffy.commandblocker.bungeecord.api;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import me.treyruffy.commandblocker.bungee.config.BungeeConfigManager;
+import me.treyruffy.commandblocker.bungeecord.config.BungeeConfigManager;
 import net.md_5.bungee.config.Configuration;
 
 /**

@@ -1,4 +1,4 @@
-package me.treyruffy.commandblocker.bungee;
+package me.treyruffy.commandblocker.bungeecord;
 
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 

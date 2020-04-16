@@ -1,11 +1,11 @@
-package me.treyruffy.commandblocker.bungee.listeners;
+package me.treyruffy.commandblocker.bungeecord.listeners;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import me.treyruffy.commandblocker.bungee.config.BungeeConfigManager;
+import me.treyruffy.commandblocker.bungeecord.config.BungeeConfigManager;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;

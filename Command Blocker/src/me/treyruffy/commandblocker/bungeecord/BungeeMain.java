@@ -1,15 +1,15 @@
-package me.treyruffy.commandblocker.bungee;
+package me.treyruffy.commandblocker.bungeecord;
 
 import java.io.IOException;
 
 import me.treyruffy.commandblocker.CopyConfigs;
 import me.treyruffy.commandblocker.Universal;
-import me.treyruffy.commandblocker.bungee.commands.CommandBlockerCommand;
-import me.treyruffy.commandblocker.bungee.config.BungeeConfigManager;
-import me.treyruffy.commandblocker.bungee.listeners.BungeeBlock;
-import me.treyruffy.commandblocker.bungee.listeners.BungeeCommandValueListener;
-import me.treyruffy.commandblocker.bungee.listeners.TabCompletion;
-import me.treyruffy.commandblocker.bungee.listeners.Update;
+import me.treyruffy.commandblocker.bungeecord.commands.CommandBlockerCommand;
+import me.treyruffy.commandblocker.bungeecord.config.BungeeConfigManager;
+import me.treyruffy.commandblocker.bungeecord.listeners.BungeeBlock;
+import me.treyruffy.commandblocker.bungeecord.listeners.BungeeCommandValueListener;
+import me.treyruffy.commandblocker.bungeecord.listeners.TabCompletion;
+import me.treyruffy.commandblocker.bungeecord.listeners.Update;
 import me.treyruffy.commandblocker.updater.UpdateChecker;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;

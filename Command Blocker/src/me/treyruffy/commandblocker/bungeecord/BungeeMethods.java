@@ -1,11 +1,11 @@
-package me.treyruffy.commandblocker.bungee;
+package me.treyruffy.commandblocker.bungeecord;
 
 import java.io.File;
 
 import org.bstats.bungeecord.Metrics;
 
 import me.treyruffy.commandblocker.MethodInterface;
-import me.treyruffy.commandblocker.bungee.api.BlockedCommands;
+import me.treyruffy.commandblocker.bungeecord.api.BlockedCommands;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;

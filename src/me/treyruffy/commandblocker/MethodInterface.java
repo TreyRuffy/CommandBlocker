@@ -1,7 +1,6 @@
 package me.treyruffy.commandblocker;
 
 import java.io.File;
-import java.util.List;
 
 public interface MethodInterface {
 
@@ -9,12 +8,14 @@ public interface MethodInterface {
 	
 	String getVersion();
 	
+	String getServerType();
+	
 	File getDataFolder();
 	
-	void executeCommand(String cmd);
-	
     void setupMetrics();
-    
+
+	void executeCommand(String cmd);
+
     void sendMessage(Object player, String msg);
 	
     void log(String msg);

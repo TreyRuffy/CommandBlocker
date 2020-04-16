@@ -1,4 +1,4 @@
-main: me.treyruffy.commandblocker.Bungee.BungeeMain
+main: me.treyruffy.commandblocker.bungee.BungeeMain
 name: ${project.name}
 version: ${project.version}
 author: TreyRuffy

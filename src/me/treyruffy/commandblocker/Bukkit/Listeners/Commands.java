@@ -1,8 +1,9 @@
-package me.treyruffy.commandblocker.Bukkit.listeners;
+package me.treyruffy.commandblocker.bukkit.listeners;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import me.treyruffy.commandblocker.bukkit.config.ConfigManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,8 +13,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import com.google.common.collect.Lists;
-
-import me.treyruffy.commandblocker.Bukkit.ConfigManager;
+import org.jetbrains.annotations.NotNull;
 
 public class Commands implements CommandExecutor, TabCompleter {
 	
@@ -24,7 +24,7 @@ public class Commands implements CommandExecutor, TabCompleter {
     }
 	
     @Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
     	if (cmd.getName().equalsIgnoreCase("cb")) {
     		String noPerms = ChatColor.translateAlternateColorCodes('&', ConfigManager.getConfig().getString("Messages.NoPermission"));
     		if (sender.hasPermission("cb.add") || sender.hasPermission("cb.reload") || sender.hasPermission("cb.remove") || sender.hasPermission("cb.addop")
@@ -79,7 +79,7 @@ public class Commands implements CommandExecutor, TabCompleter {
     			if (sender.hasPermission("cb.remove")) {
     				if (args.length == 1) {
     					sendMessage(sender, "removeNoArgs", args);
-    				} else if (args.length >= 2) {
+    				} else {
     					if (disabled.getConfigurationSection("DisabledCommands").getKeys(false).contains(args[1])){
 							disabled.set("DisabledCommands." + args[1] + ".Permission", null);
 							disabled.set("DisabledCommands." + args[1] + ".Message", null);
@@ -108,7 +108,7 @@ public class Commands implements CommandExecutor, TabCompleter {
 							sendMessage(sender, "addedOp", args);
 							ConfigManager.saveOpDisabled();
 						}
-    				} else if (args.length >= 3) {
+    				} else {
     					sendMessage(sender, "newOpWithMessage", args);
 						ConfigManager.saveOpDisabled();
     				}
@@ -122,7 +122,7 @@ public class Commands implements CommandExecutor, TabCompleter {
     			if (sender.hasPermission("cb.removeop") || sender instanceof ConsoleCommandSender) {
     				if (args.length == 1) {
     					sendMessage(sender, "removeOpNoArgs", args);
-    				} else if (args.length >= 2) {
+    				} else {
     					opDisabled.set("DisabledOpCommands." + args[1] + ".Message", null);
     					opDisabled.set("DisabledOpCommands." + args[1], null);
 						sendMessage(sender, "removeOp", args);
@@ -281,18 +281,18 @@ public class Commands implements CommandExecutor, TabCompleter {
 		}
 		// /cb add <command> <perm> <message> -=- Added with a message
 		if (string.equalsIgnoreCase("newWithMessage")){
-			String msg = "";
+			StringBuilder msg = new StringBuilder();
 			sender.sendMessage(ChatColor.BLUE + "-======================-");
 			disabled.set("DisabledCommands." + args[1] + ".Permission", args[2]);
 			for (int i = 3; i < args.length; i++){
-				msg = msg + args[i] + " ";
+				msg.append(args[i]).append(" ");
 			}
-			disabled.set("DisabledCommands." + args[1] + ".Message", msg);
+			disabled.set("DisabledCommands." + args[1] + ".Message", msg.toString());
 			sender.sendMessage(ChatColor.GREEN + "Added /" + args[1] + " to disabled.yml!");
 			sender.sendMessage(ChatColor.GREEN + "The permission is:");
 			sender.sendMessage(ChatColor.GOLD + args[2]);
 			sender.sendMessage(ChatColor.GREEN + "With the message being:");
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg.toString()));
 			sender.sendMessage(ChatColor.BLUE + "-======================-");
 			return;
 		}
@@ -309,7 +309,6 @@ public class Commands implements CommandExecutor, TabCompleter {
 			sender.sendMessage(ChatColor.GREEN + "With the message being:");
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
 			sender.sendMessage(ChatColor.BLUE + "-======================-");
-			return;
 		}
 	}
 

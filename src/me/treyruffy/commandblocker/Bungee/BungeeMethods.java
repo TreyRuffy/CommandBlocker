@@ -1,22 +1,18 @@
-package me.treyruffy.commandblocker.Bungee;
+package me.treyruffy.commandblocker.bungee;
 
 import java.io.File;
 
+import org.bstats.bungeecord.Metrics;
+
 import me.treyruffy.commandblocker.MethodInterface;
+import me.treyruffy.commandblocker.bungee.api.BlockedCommands;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Plugin;
-import net.md_5.bungee.config.Configuration;
 
 public class BungeeMethods implements MethodInterface {
 
-	private final File opDisabledFile = new File(getDataFolder(), "opdisabled.yml");
-	private final File disabledFile = new File(getDataFolder(), "disabled.yml");
-	private final File configFile = new File(getDataFolder(), "config.yml");
-	
-	private Configuration config;
-	
 	@Override
 	public String getVersion() {
 		return ((Plugin) getPlugin()).getDescription().getVersion();
@@ -34,7 +30,9 @@ public class BungeeMethods implements MethodInterface {
 
 	@Override
 	public void setupMetrics() {
-		Metrics metrics = new Metrics((Plugin) getPlugin());
+		int pluginId = 1851;
+		Metrics metrics = new Metrics(ProxyServer.getInstance().getPluginManager().getPlugin("TreysCommandBlocker"), pluginId);
+		metrics.addCustomChart(new Metrics.SimplePie("blockedCommandsCount", () -> BlockedCommands.getBlockedCommands().size() + ""));
 	}
 
 	@Override
@@ -50,6 +48,11 @@ public class BungeeMethods implements MethodInterface {
 	@Override
 	public void log(String msg) {
 		ProxyServer.getInstance().getConsole().sendMessage(TextComponent.fromLegacyText(msg.replaceAll("&", "§")));
+	}
+
+	@Override
+	public String getServerType() {
+		return "BungeeCord";
 	}
 
 }

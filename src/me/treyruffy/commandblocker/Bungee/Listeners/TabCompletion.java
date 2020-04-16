@@ -1,6 +1,6 @@
-package me.treyruffy.commandblocker.Bungee.listeners;
+package me.treyruffy.commandblocker.bungee.listeners;
 
-import me.treyruffy.commandblocker.Bungee.BungeeConfigManager;
+import me.treyruffy.commandblocker.bungee.config.BungeeConfigManager;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.TabCompleteEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -18,33 +18,37 @@ public class TabCompletion implements Listener {
 		ProxiedPlayer p = (ProxiedPlayer) e.getSender();
 		
 		if (BungeeConfigManager.getConfig().getBoolean("DisableTabComplete")) {
-			if (p.hasPermission("cb.bypasstab")){
+			if (p.hasPermission("cb.bypasstab")) {
 				return;
 			}
 			String message = e.getCursor().toLowerCase();
-			for (String cmd : BungeeConfigManager.getDisabled().getSection("DisabledCommands").getKeys()){
+			
+			for (String cmd : BungeeConfigManager.getDisabled().getSection("DisabledCommands").getKeys()) {
 				String cmds = cmd.replace("%colon%", ":").toLowerCase();
-				String permission = cmd.replace("%colon%", "").replace(" ", "");
-				if (BungeeConfigManager.getDisabled().getString("DisabledCommands." + cmd + ".Permission") == null){
-					if (!(p.hasPermission(BungeeConfigManager.getConfig().getString("Default.Permission").replace("%command%", permission)))){
-						if (BungeeConfigManager.getDisabled().getString("DisabledCommands." + cmd + ".NoTabComplete") == null){
-							if (((message.startsWith("/" + cmds)) && (!message.contains("  "))) || ((message.startsWith("/") && (!message.contains(" "))))){
+				String permission = cmd.replace("%colon%", "").replace(":", "").replace(" ", "");
+
+				boolean b = ((message.startsWith("/" + cmds)) && (!message.contains("  "))) || ((message.startsWith(
+						"/") && (!message.contains(" "))));
+				if (BungeeConfigManager.getDisabled().getString("DisabledCommands." + cmd + ".Permission") == null) {
+					if (!(p.hasPermission(BungeeConfigManager.getConfig().getString("Default.Permission").replace("%command%", permission)))) {
+						if (BungeeConfigManager.getDisabled().getString("DisabledCommands." + cmd + ".NoTabComplete") == null) {
+							if (b) {
 								e.setCancelled(true);
 							}
-						} else if (BungeeConfigManager.getDisabled().getBoolean("DisabledCommands." + cmd + ".NoTabComplete")){
-							if (((message.startsWith("/" + cmds)) && (!message.contains("  "))) || ((message.startsWith("/") && (!message.contains(" "))))){
+						} else if (BungeeConfigManager.getDisabled().getBoolean("DisabledCommands." + cmd + ".NoTabComplete")) {
+							if (b) {
 								e.setCancelled(true);
 							}
 						}
 					}
 				} else {
-					if (!(p.hasPermission(BungeeConfigManager.getDisabled().getString("DisabledCommands." + cmd + ".Permission")))){
-						if (BungeeConfigManager.getDisabled().getString("DisabledCommands." + cmd + ".NoTabComplete") == null){
-							if (((message.startsWith("/" + cmds)) && (!message.contains("  "))) || ((message.startsWith("/") && (!message.contains(" "))))){
+					if (!(p.hasPermission(BungeeConfigManager.getDisabled().getString("DisabledCommands." + cmd + ".Permission")))) {
+						if (BungeeConfigManager.getDisabled().getString("DisabledCommands." + cmd + ".NoTabComplete") == null) {
+							if (b) {
 								e.setCancelled(true);
 							}
-						} else if (BungeeConfigManager.getDisabled().getBoolean("DisabledCommands." + cmd + ".NoTabComplete")){
-							if (((message.startsWith("/" + cmds)) && (!message.contains("  "))) || ((message.startsWith("/") && (!message.contains(" "))))){
+						} else if (BungeeConfigManager.getDisabled().getBoolean("DisabledCommands." + cmd + ".NoTabComplete")) {
+							if (b) {
 								e.setCancelled(true);
 							}
 						}

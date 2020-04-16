@@ -1,15 +1,16 @@
-main: me.treyruffy.commandblocker.Bukkit.BukkitMain
+main: me.treyruffy.commandblocker.bukkit.BukkitMain
 version: ${project.version}
 name: ${project.name}
 author: TreyRuffy
+api-version: 1.13
 description: ${project.description}
 website: ${project.url}
-softdepend: [ProtocolLib, PlaceholderAPI]
-prefix: Command Blocker
+softdepend: [ProtocolLib, PlaceholderAPI, TreysCommandBlockerLegacy]
+prefix: Trey's Command Blocker
 commands:
   cb:
     description: Allows you to change Command Blocker commands.
-    aliases: [commandblocker, commandblock]
+    aliases: [commandblocker, commandblock, treyscommandblocker, commandblockerbukkit]
 permissions:
   cb.*:
     default: false
@@ -20,6 +21,8 @@ permissions:
         default: op
       cb.remove:
         default: op
+      cb.edit:
+        default: op
       cb.bypasstab:
         default: op
       cb.updates:
@@ -27,4 +30,6 @@ permissions:
       cb.addop:
         default: false
       cb.removeop:
+        default: false
+      cb.editop:
         default: false

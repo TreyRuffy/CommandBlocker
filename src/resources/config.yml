@@ -17,6 +17,7 @@
 # | cb.reload -> /cb reload                                                      |
 # | cb.addop    -> /cb addop                                                     |
 # | cb.removeop -> /cb removeop                                                  |
+
 # +------------------------------------------------------------------------------+
 # -------------------------------------------------------------------------------- #
 
@@ -34,6 +35,9 @@ Messages:
     
 # Allows you to disable tab complete!
 DisableTabComplete: true
+
+# Allows you to disable op tab complete!
+DisableOpTabComplete: true
 
 Updates:
     # This will allow checking for updates

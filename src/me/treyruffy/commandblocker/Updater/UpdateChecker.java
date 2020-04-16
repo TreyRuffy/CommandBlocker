@@ -1,41 +1,46 @@
 package me.treyruffy.commandblocker.updater;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Scanner;
 
-import me.treyruffy.commandblocker.MethodInterface;
-import me.treyruffy.commandblocker.Universal;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class UpdateChecker {
 
-	public static Boolean getLastUpdate(MethodInterface mi) {
-		final String response = getFromURL("https://api.spigotmc.org/legacy/update.php?resource=5280");
-		Boolean ver = true;
-		if (response == null) {
-			ver = false;
-		} else if (response.equalsIgnoreCase(mi.getVersion())) {
-			ver = false;
-		} else {
-			ver = true;
-		}
+	public static String request(String RESOURCE_ID, String PLUGIN_NAME) {
 		
-		return ver;
-    }
-	
-	
-	public static String getFromURL(String surl) {
-		String response = null;
+		String REQUEST_URL = "https://api.spiget.org/v2/resources/" + RESOURCE_ID + "/versions?size=" + Integer.MAX_VALUE + "&sort=-releaseDate";
 		try {
-			URL url = new URL(surl);
-			Scanner s = new Scanner(url.openStream());
-			if (s.hasNext()) {
-				response = s.next();
-				s.close();
+			URL url = new URL(REQUEST_URL);
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			
+			connection.setRequestMethod("GET");
+            connection.addRequestProperty("User-Agent", PLUGIN_NAME);
+			
+			InputStream inputStream = connection.getInputStream();
+			InputStreamReader reader = new InputStreamReader(inputStream);
+			
+			JsonElement element = new JsonParser().parse(reader);
+
+			if(!element.isJsonArray()) {
+				return "";
 			}
+			
+			reader.close();
+			
+			JsonObject latestVersion = element.getAsJsonArray().get(0).getAsJsonObject();
+			
+			return latestVersion.get("name").getAsString();
 		} catch (IOException e) {
-			System.out.println("Could not connect to URL: " + surl);
+			e.printStackTrace();
+			return "";
 		}
-		return response;
 	}
+
+	
 }

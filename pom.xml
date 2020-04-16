@@ -21,7 +21,7 @@
 		<commandblockerlegacy.version>1.0.0</commandblockerlegacy.version>
 	</properties>
 	
-    <version>1.0.0</version>
+    <version>2.0.0</version>
   
 	<issueManagement>
 		<system>GitHub</system>

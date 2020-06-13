@@ -26,89 +26,91 @@
 ## If you have two of the same command, the one nearest to the top will be used! ##
 DisabledCommands:
     Plugins:
-        Message: 'Plugins (0): &aNone... Sorry about that.'
+        Message: "Plugins (0):"
         Permission: cb.allow.plugins
+        WhitelistedPlayers:
+        - "49059600-26d6-45ac-8b43-86a14f7d96ac"
     Pl:
-        Message: 'Plugins (0): &aNone... Sorry about that.'
+        Message: "Plugins (0):"
         Permission: cb.allow.plugins
     Bukkit:plugins:
-        Message: 'Plugins (0): &aNone... Sorry about that.'
+        Message: "Plugins (0):"
         Permission: cb.allow.plugins
     Bukkit:pl:
-        Message: 'Plugins (0): &aNone... Sorry about that.'
+        Message: "Plugins (0):"
         Permission: cb.allow.plugins
     Help:
-        Message: '&cSorry, I can''t help you with this. :/'
+        Message: "&cNo help can be provided at this time."
         Permission: cb.allow.help
     ?:
-        Message: '&cSorry, I can''t help you with this. :/'
+        Message: "&cNo help can be provided at this time."
         Permission: cb.allow.help
     Bukkit:help:
-        Message: '&cSorry, I can''t help you with this. :/'
+        Message: "&cNo help can be provided at this time."
         Permission: cb.allow.help
     Bukkit:?:
-        Message: '&cSorry, I can''t help you with this. :/'
+        Message: "&cNo help can be provided at this time."
         Permission: cb.allow.help
     Minecraft:?:
-        Message: '&cSorry, I can''t help you with this. :/'
+        Message: "&cNo help can be provided at this time."
         Permission: cb.allow.help
     Minecraft:help:
-        Message: '&cSorry, I can''t help you with this. :/'
+        Message: "&cNo help can be provided at this time."
         Permission: cb.allow.help
     Version:
-        Message: '&6The Minecraft version you are on!'
+        Message: "&cYou are unable to view this at this time."
         Permission: cb.allow.version
     Ver:
-        Message: '&6The Minecraft version you are on!'
+        Message: "&cYou are unable to view this at this time."
         Permission: cb.allow.version
     Icanhasbukkit:
-        Message: '&6The Minecraft version you are on!'
+        Message: "&cYou are unable to view this at this time."
         Permission: cb.allow.version
     Bukkit:ver:
-        Message: '&6The Minecraft version you are on!'
+        Message: "&cYou are unable to view this at this time."
         Permission: cb.allow.version
     Bukkit:version:
-        Message: '&6The Minecraft version you are on!'
+        Message: "&cYou are unable to view this at this time."
         Permission: cb.allow.version
     About:
-        Message: '&6The Minecraft version you are on!'
+        Message: "&cYou are unable to view this at this time."
         Permission: cb.allow.version
     Bukkit:about:
-        Message: '&6The Minecraft version you are on!'
+        Message: "&cYou are unable to view this at this time."
         Permission: cb.allow.version
     Me:
-        Message: '&7Vampires cannot see /me messages. :/'
+        Message: "&cYou are unable to execute this at this time."
         Permission: cb.allow.me
     Minecraft:me:
-        Message: '&7Vampires cannot see /me messages. :/'
+        Message: "&cYou are unable to execute this at this time."
         Permission: cb.allow.me
     Reload:
-        Message: '&6Were you really expecting that to work?!'
+        Message: "&cYou are unable to execute this at this time."
         Permission: cb.allow.reload
     Rl:
-        Message: '&6Were you really expecting that to work?!'
+        Message: "&cYou are unable to execute this at this time."
         Permission: cb.allow.reload
     Bukkit:rl:
-        Message: '&6Were you really expecting that to work?!'
+        Message: "&cYou are unable to execute this at this time."
         Permission: cb.allow.reload
     Bukkit:reload:
-        Message: '&6Were you really expecting that to work?!'
+        Message: "&cYou are unable to execute this at this time."
         Permission: cb.allow.reload
     Restart:
-        Message: '&aI do not even know what you were expecting with this...'
+        Message: "&cYou are unable to execute this at this time."
         Permission: cb.allow.restart
     Stop:
-        Message: '&cWe''d rather you didn''t try to stop the server. kthx'
+        Message: "&cYou are unable to execute this at this time."
         Permission: cb.allow.stop
     Op:
-        Message: '&6Umm... Yeahh... No.'
+        Message: "&cYou are unable to execute this at this time."
         Permission: cb.allow.op
     Minecraft:op:
-        Message: '&6Umm... Yeahh... No.'
+        Message: "&cYou are unable to execute this at this time."
         Permission: cb.allow.op
     Deop:
-        Message: '&cWe''d rather you didn''t try to deop our staff.'
+        Message: "&cYou are unable to execute this at this time."
         Permission: cb.allow.deop
     Minecraft:deop:
-        Message: '&cWe''d rather you didn''t try to deop our staff.'
+        Message: "&cYou are unable to execute this at this time."
         Permission: cb.allow.deop

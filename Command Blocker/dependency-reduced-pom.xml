@@ -3,7 +3,7 @@
   <parent>
     <artifactId>CommandBlockerMain</artifactId>
     <groupId>me.treyruffy.commandblocker</groupId>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>CommandBlocker</artifactId>
@@ -168,10 +168,16 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>me.treyruffy.commandblockerlegacy</groupId>
+      <groupId>me.treyruffy.commandblocker</groupId>
       <artifactId>CommandBlockerLegacy</artifactId>
       <version>1.0.0</version>
       <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>gson</artifactId>
+          <groupId>com.google.code.gson</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.jetbrains</groupId>
@@ -190,12 +196,12 @@
           <groupId>commons-lang</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>gson</artifactId>
-          <groupId>com.google.code.gson</groupId>
-        </exclusion>
-        <exclusion>
           <artifactId>snakeyaml</artifactId>
           <groupId>org.yaml</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>gson</artifactId>
+          <groupId>com.google.code.gson</groupId>
         </exclusion>
         <exclusion>
           <artifactId>guava</artifactId>

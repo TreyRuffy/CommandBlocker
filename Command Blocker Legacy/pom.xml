@@ -9,6 +9,13 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
 
+  <licenses>
+    <license>
+      <name>GPLv3</name>
+      <url>http://www.gnu.org/copyleft/gpl.html</url>
+    </license>
+  </licenses>
+
   <artifactId>CommandBlockerLegacy</artifactId>
 
   <build>

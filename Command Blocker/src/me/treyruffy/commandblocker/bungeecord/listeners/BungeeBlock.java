@@ -47,6 +47,11 @@ public class BungeeBlock implements Listener {
 						}
 					}
 				}
+
+				if (disabled.getStringList("DisabledCommands." + command + ".WhitelistedPlayers").contains(p.getUniqueId().toString())) {
+					return;
+				}
+
 				if (!disabled.getStringList("DisabledCommands." + command + ".Servers").contains("all") || !(disabled.getSection("DisabledCommands").getSection(command).getString("Servers") == null)) {
 					if (!(disabled.getStringList("DisabledCommands." + command + ".Servers").contains(p.getServer().getInfo().getName()))) {
 						return;
@@ -75,8 +80,11 @@ public class BungeeBlock implements Listener {
 						
 						message = Variables.translateVariables(msg, p);
 					}
-					
-					p.sendMessage(new TextComponent(message));
+
+					// MannyLama's patch #9
+					if (message.length() != 0) {
+						p.sendMessage(new TextComponent(message));
+					}
 				}
 				
 				if ((disabled.getStringList("DisabledCommands." + command + ".PlayerCommands").size() > 0) && (!disabled.getStringList("DisabledCommands." + command + ".PlayerCommands").contains("none"))) {

@@ -40,7 +40,7 @@ public class BukkitBlock implements Listener{
 		for (String cmd : disabled.getConfigurationSection("DisabledCommands").getKeys(false)) {
 			String cmds = cmd.replace("%colon%", ":");
 			String[] cmdList = cmds.split(" ");
-			
+
 			if (args[0].equalsIgnoreCase("/" + cmdList[0])) {
 				if (args.length != 1) {
 					int i = 1, j = 0;
@@ -55,9 +55,13 @@ public class BukkitBlock implements Listener{
 						j = 1;
 					}
 				}
+				if (disabled.getStringList("DisabledCommands." + cmd + ".WhitelistedPlayers").contains(p.getUniqueId().toString())) {
+					return false;
+				}
+
 				String permission = cmd.replace(":", "").replace("%colon%", "").replace(" ", "");
 				FileConfiguration config = BukkitMain.oldConfig() ? OldConfigManager.getConfig() : ConfigManager.getConfig();
-				
+
 				if (disabled.getStringList("DisabledCommands." + cmd + ".Worlds").isEmpty()) {
 					List<String> a = new ArrayList<>();
 					a.add("all");
@@ -68,13 +72,13 @@ public class BukkitBlock implements Listener{
 						ConfigManager.saveConfig();
 					}
 				}
-				
+
 				if (!(disabled.getStringList("DisabledCommands." + cmd + ".Worlds").contains("all"))) {
 					if (!disabled.getStringList("DisabledCommands." + cmd + ".Worlds").contains(p.getWorld().getName())) {
 						return false;
 					}
 				}
-				
+
 				if ((disabled.getString("DisabledCommands." + cmd + ".Permission") == null) || (disabled.getString("DisabledCommands." + cmd + ".Permission").equalsIgnoreCase("default"))) {
 					if (p.hasPermission(config.getString("Default.Permission").replace("%command%", permission))) {
 						return false;
@@ -84,28 +88,31 @@ public class BukkitBlock implements Listener{
 						return false;
 					}
 				}
-				
+
 				if (!disabled.getString("DisabledCommands." + cmd + ".Message").replace(" ", "").equalsIgnoreCase("none")) {
 					String message;
 					if ((disabled.getString("DisabledCommands." + cmd + ".Message") == null) || (disabled.getString("DisabledCommands." + cmd + ".Message").equalsIgnoreCase("default"))) {
 						String msg = ChatColor.translateAlternateColorCodes('&', config.getString("Default.Message"));
-						
+
 						message = (BukkitMain.isPapiEnabled() ? PlaceholderAPI.setPlaceholders(p, Variables.translateVariables(msg, p)) : Variables.translateVariables(msg, p));
 					} else {
 						String msg = ChatColor.translateAlternateColorCodes('&', disabled.getString("DisabledCommands." + cmd + ".Message"));
-						
+
 						message = (BukkitMain.isPapiEnabled() ? PlaceholderAPI.setPlaceholders(p, Variables.translateVariables(msg, p)) : Variables.translateVariables(msg, p));
 					}
-					p.sendMessage(message);
+					// MannyLama's patch #9
+					if (message.length() != 0){
+						p.sendMessage(message);
+					}
 				}
-				
-				
+
+
 				if ((disabled.getStringList("DisabledCommands." + cmd + ".PlayerCommands").size() > 0) && (!disabled.getStringList("DisabledCommands." + cmd + ".PlayerCommands").contains("none"))) {
 					for (String s : disabled.getStringList("DisabledCommands." + cmd + ".PlayerCommands")) {
 						p.performCommand(Variables.translateVariables(s, p).replace("%command%", cmds));
 					}
 				}
-				
+
 				if (disabled.getStringList("DisabledCommands." + cmd + ".ConsoleCommands").size() > 0 && (!disabled.getStringList("DisabledCommands." + cmd + ".ConsoleCommands").contains("none"))) {
 					for (String s : disabled.getStringList("DisabledCommands." + cmd + ".ConsoleCommands")) {
 						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Variables.translateVariables(s, p).replace("%command%", cmds));
@@ -141,7 +148,11 @@ public class BukkitBlock implements Listener{
 						j = 1;
 					}
 				}
-			
+
+				if (opDisabled.getStringList("DisabledOpCommands." + cmd + ".WhitelistedPlayers").contains(p.getUniqueId().toString())) {
+					return false;
+				}
+
 				FileConfiguration config = BukkitMain.oldConfig() ? OldConfigManager.getConfig() : ConfigManager.getConfig();
 				
 				if (opDisabled.getStringList("DisabledOpCommands." + cmd + ".Worlds").isEmpty()) {
@@ -172,7 +183,10 @@ public class BukkitBlock implements Listener{
 						
 						message = (BukkitMain.isPapiEnabled() ? PlaceholderAPI.setPlaceholders(p, Variables.translateVariables(msg, p)) : Variables.translateVariables(msg, p));
 					}
-					p.sendMessage(message);
+					// MannyLama's patch #9
+					if (message.length() != 0){
+						p.sendMessage(message);
+					}
 				}
 				
 				

@@ -17,6 +17,7 @@
   </licenses>
 
   <artifactId>CommandBlockerLegacy</artifactId>
+  <name>CommandBlockerLegacy</name>
 
   <build>
     <sourceDirectory>src</sourceDirectory>

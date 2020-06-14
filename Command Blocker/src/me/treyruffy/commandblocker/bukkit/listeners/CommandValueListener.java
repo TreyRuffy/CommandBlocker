@@ -209,7 +209,9 @@ public class CommandValueListener implements Listener {
 				
 				lookingFor.remove(p.getUniqueId().toString());
 				partsHad.remove(p.getUniqueId().toString());
+				return;
 			}
+			e.setCancelled(true);
 		}
 		
 		if (lookingFor.get(p.getUniqueId().toString()).equalsIgnoreCase("remove")) {
@@ -233,6 +235,7 @@ public class CommandValueListener implements Listener {
 				partsHad.put(p.getUniqueId().toString(), object);
 				
 				p.sendMessage("do you want to remove /" + e.getMessage() + " from the block list?");
+				e.setCancelled(true);
 				/*
 				 * Send message to confirm
 				 */
@@ -250,7 +253,7 @@ public class CommandValueListener implements Listener {
 					e.setCancelled(true);
 					return;
 				}
-				
+				e.setCancelled(true);
 				partsHad.put(p.getUniqueId().toString(), object);
 				
 				Gson gson = new Gson();
@@ -274,6 +277,8 @@ public class CommandValueListener implements Listener {
 				partsHad.remove(p.getUniqueId().toString());
 				lookingFor.remove(p.getUniqueId().toString());
 			}
+			e.setCancelled(true);
+			return;
 		}
 		if (lookingFor.get(p.getUniqueId().toString()).equalsIgnoreCase("addop")) {
 			if (!p.hasPermission("cb.addop")) {
@@ -415,6 +420,8 @@ public class CommandValueListener implements Listener {
 				lookingFor.remove(p.getUniqueId().toString());
 				partsHad.remove(p.getUniqueId().toString());
 			}
+			e.setCancelled(true);
+			return;
 		}
 		if (lookingFor.get(p.getUniqueId().toString()).equalsIgnoreCase("removeop")) {
 			if (!p.hasPermission("cb.removeop")) {

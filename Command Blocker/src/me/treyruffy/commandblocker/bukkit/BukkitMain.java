@@ -33,7 +33,7 @@ public class BukkitMain extends JavaPlugin implements Listener {
 	@Override
 	public void onEnable() {
 		if (oldConfig()) {
-			if (!Bukkit.getPluginManager().isPluginEnabled("TreysCommandBlockerLegacy")) {
+			if (!Bukkit.getPluginManager().isPluginEnabled("CommandBlockerLegacy")) {
 				Bukkit.getLogger().log(Level.SEVERE, "Trey's Command Blocker needs Trey's Command Blocker Legacy to run on your server version. Please download at https://www.spigotmc.org/resources/5280/");
 				this.getPluginLoader().disablePlugin(this);
 				return;
@@ -73,7 +73,7 @@ public class BukkitMain extends JavaPlugin implements Listener {
 	}
 
 	private void updateCheck() {
-		String latestUpdate = UpdateChecker.request("5280", "TreysCommandBlocker v" + this.getDescription().getVersion() + " Bukkit");
+		String latestUpdate = UpdateChecker.request("5280", "CommandBlocker v" + this.getDescription().getVersion() + " Bukkit");
 		if (latestUpdate.equalsIgnoreCase("")) {
 			return;
 		}

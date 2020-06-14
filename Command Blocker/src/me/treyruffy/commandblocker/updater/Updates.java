@@ -5,7 +5,8 @@ import me.treyruffy.commandblocker.MethodInterface;
 public class Updates {
 
 	public static void updateCheck(MethodInterface mi) {
-		String latestUpdate = UpdateChecker.request("5280", "TreysCommandBlocker v" + mi.getVersion() + " " + mi.getServerType());
+		String latestUpdate = UpdateChecker.request("5280",
+				"CommandBlocker v" + mi.getVersion() + " " + mi.getServerType());
 		if (latestUpdate.equalsIgnoreCase("")) {
 			return;
 		}

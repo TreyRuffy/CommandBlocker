@@ -5,7 +5,7 @@ author: TreyRuffy
 api-version: 1.13
 description: ${project.description}
 website: ${project.url}
-softdepend: [ProtocolLib, PlaceholderAPI, TreysCommandBlockerLegacy]
+softdepend: [ProtocolLib, PlaceholderAPI, CommandBlockerLegacy]
 prefix: Trey's Command Blocker
 commands:
   cb:

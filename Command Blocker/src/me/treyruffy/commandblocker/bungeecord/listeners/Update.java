@@ -27,16 +27,16 @@ public class Update implements Listener {
 		if (!p.hasPermission("cb.updates")) {
 			return;
 		}
-		String latestUpdate = UpdateChecker.request("5280", "TreysCommandBlocker v" + BungeeMain.get().getProxy().getPluginManager().getPlugin("TreysCommandBlocker").getDescription().getVersion() + " BungeeCord");
+		String latestUpdate = UpdateChecker.request("5280", "CommandBlocker v" + BungeeMain.get().getProxy().getPluginManager().getPlugin("CommandBlocker").getDescription().getVersion() + " BungeeCord");
 		if (latestUpdate.equals("")) {
 			return;
 		}
 		int latestUpdateVersion = Integer.parseInt(latestUpdate.replace(".", ""));
-		int versionOn = Integer.parseInt(BungeeMain.get().getProxy().getPluginManager().getPlugin("TreysCommandBlocker").getDescription().getVersion().replace(".", ""));
+		int versionOn = Integer.parseInt(BungeeMain.get().getDescription().getVersion().replace(".", ""));
 		if (latestUpdateVersion <= versionOn) {
 			return;
 		}
-		ProxyServer.getInstance().getScheduler().runAsync((Plugin) Universal.get().getMethods().getPlugin(), () -> {
+		ProxyServer.getInstance().getScheduler().runAsync(BungeeMain.get(), () -> {
 			p.sendMessage(new TextComponent(ChatColor.AQUA + "+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=+"));
 			p.sendMessage(new TextComponent(ChatColor.GREEN + "There is a new update for"));
 			p.sendMessage(new TextComponent(ChatColor.GREEN + "Command Blocker"));

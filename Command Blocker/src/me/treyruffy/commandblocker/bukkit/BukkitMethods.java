@@ -32,7 +32,7 @@ public class BukkitMethods implements MethodInterface {
 	@Override
 	public void setupMetrics() {
 		int pluginId = 1851;
-		Metrics metrics = new Metrics(Bukkit.getPluginManager().getPlugin("TreysCommandBlocker"), pluginId);
+		Metrics metrics = new Metrics((JavaPlugin) getPlugin(), pluginId);
 		
 		metrics.addCustomChart(new Metrics.SimplePie("blockedCommandsCount", () -> BlockedCommands.getBlockedCommands().size() + ""));
 		

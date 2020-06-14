@@ -22,13 +22,13 @@ public class OldConfigManager {
 	public static File OpDisabledFile;
 	
 	public void setup() {
-		if (!Bukkit.getPluginManager().getPlugin("TreysCommandBlocker").getDataFolder().exists()) {
-			Bukkit.getPluginManager().getPlugin("TreysCommandBlocker").getDataFolder().mkdir();
+		if (!Bukkit.getPluginManager().getPlugin("CommandBlocker").getDataFolder().exists()) {
+			Bukkit.getPluginManager().getPlugin("CommandBlocker").getDataFolder().mkdir();
 		}
 		
-		MainConfigFile = new File(Bukkit.getPluginManager().getPlugin("TreysCommandBlocker").getDataFolder(), "config.yml");
-		MainDisabledFile = new File(Bukkit.getPluginManager().getPlugin("TreysCommandBlocker").getDataFolder(), "disabled.yml");
-		OpDisabledFile = new File(Bukkit.getPluginManager().getPlugin("TreysCommandBlocker").getDataFolder(), "opblock.yml");
+		MainConfigFile = new File(Bukkit.getPluginManager().getPlugin("CommandBlocker").getDataFolder(), "config.yml");
+		MainDisabledFile = new File(Bukkit.getPluginManager().getPlugin("CommandBlocker").getDataFolder(), "disabled.yml");
+		OpDisabledFile = new File(Bukkit.getPluginManager().getPlugin("CommandBlocker").getDataFolder(), "opblock.yml");
 		
 		if (!MainConfigFile.exists()) {
 			try {
@@ -109,12 +109,12 @@ public class OldConfigManager {
 	}
 	
 	public static void reloadConfig() {
-		MainConfigFile = new File(Bukkit.getPluginManager().getPlugin("TreysCommandBlocker").getDataFolder(), "config.yml");
+		MainConfigFile = new File(Bukkit.getPluginManager().getPlugin("CommandBlocker").getDataFolder(), "config.yml");
 		if (!MainConfigFile.exists()) {
-			Bukkit.getPluginManager().getPlugin("TreysCommandBlocker").saveResource("config.yml", false);
+			Bukkit.getPluginManager().getPlugin("CommandBlocker").saveResource("config.yml", false);
 		}
 		MainConfig = YamlConfiguration.loadConfiguration(MainConfigFile);
-		InputStream configData = Bukkit.getPluginManager().getPlugin("TreysCommandBlocker").getResource("config.yml");
+		InputStream configData = Bukkit.getPluginManager().getPlugin("CommandBlocker").getResource("config.yml");
 		if (configData != null) {
 			try {
 				MainConfig.setDefaults(YamlConfiguration.loadConfiguration(configData));
@@ -124,12 +124,12 @@ public class OldConfigManager {
 		}
 	}
 	public static void reloadDisabled() {
-		MainDisabledFile = new File(Bukkit.getPluginManager().getPlugin("TreysCommandBlocker").getDataFolder(), "disabled.yml");
+		MainDisabledFile = new File(Bukkit.getPluginManager().getPlugin("CommandBlocker").getDataFolder(), "disabled.yml");
 		if (!MainDisabledFile.exists()) {
-			Bukkit.getPluginManager().getPlugin("TreysCommandBlocker").saveResource("disabled.yml", false);
+			Bukkit.getPluginManager().getPlugin("CommandBlocker").saveResource("disabled.yml", false);
 		}
 		MainDisabled = YamlConfiguration.loadConfiguration(MainDisabledFile);
-		InputStream disabledData = Bukkit.getPluginManager().getPlugin("TreysCommandBlocker").getResource("disabled.yml");
+		InputStream disabledData = Bukkit.getPluginManager().getPlugin("CommandBlocker").getResource("disabled.yml");
 		if (disabledData != null) {
 			try {
 				MainDisabled.setDefaults(YamlConfiguration.loadConfiguration(disabledData));
@@ -139,12 +139,12 @@ public class OldConfigManager {
 		}
 	}
 	public static void reloadOpDisabled() {
-		OpDisabledFile = new File(Bukkit.getPluginManager().getPlugin("TreysCommandBlocker").getDataFolder(), "opblock.yml");
+		OpDisabledFile = new File(Bukkit.getPluginManager().getPlugin("CommandBlocker").getDataFolder(), "opblock.yml");
 		if (!OpDisabledFile.exists()) {
-			Bukkit.getPluginManager().getPlugin("TreysCommandBlocker").saveResource("opblock.yml", false);
+			Bukkit.getPluginManager().getPlugin("CommandBlocker").saveResource("opblock.yml", false);
 		}
 		OpDisabled = YamlConfiguration.loadConfiguration(OpDisabledFile);
-		InputStream opData = Bukkit.getPluginManager().getPlugin("TreysCommandBlocker").getResource("opblock.yml");
+		InputStream opData = Bukkit.getPluginManager().getPlugin("CommandBlocker").getResource("opblock.yml");
 		if (opData != null) {
 			try {
 				OpDisabled.setDefaults(YamlConfiguration.loadConfiguration(opData));

@@ -12,6 +12,7 @@ import me.treyruffy.commandblocker.bukkit.BukkitMain;
 import me.treyruffy.commandblocker.bukkit.config.ConfigManager;
 import me.treyruffy.commandblocker.updater.UpdateChecker;
 import me.treyruffy.commandblockerlegacy.OldConfigManager;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class Update implements Listener {
 	
@@ -28,18 +29,20 @@ public class Update implements Listener {
 		if (!p.hasPermission("cb.updates")) {
 			return;
 		}
-		
-		String latestUpdate = UpdateChecker.request("5280", "TreysCommandBlocker v" + Bukkit.getPluginManager().getPlugin("TreysCommandBlocker").getDescription().getVersion() + " Bukkit");
+
+		String latestUpdate = UpdateChecker.request("5280",
+				"CommandBlocker v" + BukkitMain.get().getDescription().getVersion() +
+						" Bukkit");
 		if (latestUpdate.equals("")) {
 			return;
 		}
 		int latestUpdateVersion = Integer.parseInt(latestUpdate.replace(".", ""));
-		int versionOn = Integer.parseInt(Bukkit.getPluginManager().getPlugin("TreysCommandBlocker").getDescription().getVersion().replace(".", ""));
+		int versionOn = Integer.parseInt(BukkitMain.get().getDescription().getVersion().replace(".", ""));
 		if (latestUpdateVersion <= versionOn) {
 			return;
 		}
 		
-		Bukkit.getScheduler().runTaskLaterAsynchronously(Bukkit.getPluginManager().getPlugin("TreysCommandBlocker"), () -> {
+		Bukkit.getScheduler().runTaskLaterAsynchronously(BukkitMain.get(), () -> {
 			p.sendMessage(ChatColor.AQUA + "+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=+");
 			p.sendMessage(ChatColor.GREEN + "There is a new update (" + latestUpdate + ") for");
 			p.sendMessage(ChatColor.GREEN + "Trey's Command Blocker");

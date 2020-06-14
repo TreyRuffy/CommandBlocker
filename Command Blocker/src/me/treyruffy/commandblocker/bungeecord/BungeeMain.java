@@ -61,7 +61,7 @@ public class BungeeMain extends Plugin implements Listener {
 	}
 	
 	private void updateCheck() {
-		String latestUpdate = UpdateChecker.request("5280", "TreysCommandBlocker v" + this.getDescription().getVersion() + " BungeeCord");
+		String latestUpdate = UpdateChecker.request("5280", "CommandBlocker v" + this.getDescription().getVersion() + " BungeeCord");
 		if (latestUpdate.equals("")) {
 			return;
 		}

@@ -17,27 +17,31 @@ import net.md_5.bungee.config.YamlConfiguration;
 
 public class BungeeConfigManager {
 
-	private static BungeeMain plugin = BungeeMain.get();
-	
+	private static final BungeeMain plugin = BungeeMain.get();
+
 	public static Configuration MainConfig;
 	public static File MainConfigFile;
-	
+
 	public static Configuration MainDisabled;
 	public static File MainDisabledFile;
-	
+
+	public static Configuration Messages;
+	public static File MessagesFile;
+
 	public void setup() {
 		if (!plugin.getDataFolder().exists()) {
 			plugin.getDataFolder().mkdir();
 		}
-		
+
 		MainConfigFile = new File(plugin.getDataFolder(), "config.yml");
 		MainDisabledFile = new File(plugin.getDataFolder(), "disabled.yml");
-		
+		MessagesFile = new File(plugin.getDataFolder(), "messages.yml");
+
 		if (!MainConfigFile.exists()) {
 			try {
 				MainConfigFile.createNewFile();
-				try (InputStream is = plugin.getResourceAsStream("config.yml");
-						OutputStream os = new FileOutputStream(MainConfigFile)) {
+				try (InputStream is = plugin.getResourceAsStream("config.yml"); OutputStream os =
+						new FileOutputStream(MainConfigFile)) {
 					ByteStreams.copy(is, os);
 				}
 			} catch (IOException e) {
@@ -47,18 +51,30 @@ public class BungeeConfigManager {
 		if (!MainDisabledFile.exists()) {
 			try {
 				MainDisabledFile.createNewFile();
-				try (InputStream is = plugin.getResourceAsStream("disabled.yml");
-						OutputStream os = new FileOutputStream(MainDisabledFile)) {
+				try (InputStream is = plugin.getResourceAsStream("disabled.yml"); OutputStream os =
+						new FileOutputStream(MainDisabledFile)) {
 					ByteStreams.copy(is, os);
 				}
 			} catch (IOException e) {
 				ProxyServer.getInstance().getLogger().log(Level.SEVERE, "Could not save " + MainDisabledFile + ".", e);
 			}
 		}
-		
+		if (!MessagesFile.exists()) {
+			try {
+				MessagesFile.createNewFile();
+				try (InputStream is = plugin.getResourceAsStream("messages.yml"); OutputStream os =
+						new FileOutputStream(MessagesFile)) {
+					ByteStreams.copy(is, os);
+				}
+			} catch (IOException e) {
+				ProxyServer.getInstance().getLogger().log(Level.SEVERE, "Could not save " + MessagesFile + ".", e);
+			}
+		}
+
 		try {
 			MainConfig = ConfigurationProvider.getProvider(YamlConfiguration.class).load(MainConfigFile);
 			MainDisabled = ConfigurationProvider.getProvider(YamlConfiguration.class).load(MainDisabledFile);
+			Messages = ConfigurationProvider.getProvider(YamlConfiguration.class).load(MessagesFile);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -74,6 +90,7 @@ public class BungeeConfigManager {
 		}
 		return MainConfig; 
 	}
+
 	public static Configuration getDisabled() {
 		if (MainDisabled == null) {
 			try {
@@ -82,9 +99,20 @@ public class BungeeConfigManager {
 				e.printStackTrace();
 			}
 		}
-		return MainDisabled; 
+		return MainDisabled;
 	}
-	
+
+	public static Configuration getMessages() {
+		if (Messages == null) {
+			try {
+				reloadMessages();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return Messages;
+	}
+
 	public static void saveConfig() {
 		if (MainConfig == null) {
 			try {
@@ -113,18 +141,33 @@ public class BungeeConfigManager {
 			ProxyServer.getInstance().getLogger().log(Level.SEVERE, "Could not save " + MainDisabledFile + ".", e);
 		}
 	}
-	
+
+	public static void saveMessages() {
+		if (Messages == null) {
+			try {
+				throw new Exception("Cannot save a non-existent file!");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		try {
+			ConfigurationProvider.getProvider(YamlConfiguration.class).save(Messages, MessagesFile);
+		} catch (IOException e) {
+			ProxyServer.getInstance().getLogger().log(Level.SEVERE, "Could not save " + MessagesFile + ".", e);
+		}
+	}
+
 	public static void reloadConfig() throws IOException {
 		if (!plugin.getDataFolder().exists()) {
 			plugin.getDataFolder().mkdir();
 		}
-		
+
 		MainConfigFile = new File(plugin.getDataFolder(), "config.yml");
 		if (!MainConfigFile.exists()) {
-			try{
+			try {
 				MainConfigFile.createNewFile();
-				try (InputStream is = plugin.getResourceAsStream("config.yml");
-						OutputStream os = new FileOutputStream(MainConfigFile)) {
+				try (InputStream is = plugin.getResourceAsStream("config.yml"); OutputStream os =
+						new FileOutputStream(MainConfigFile)) {
 					ByteStreams.copy(is, os);
 				}
 			} catch (IOException e) {
@@ -139,24 +182,22 @@ public class BungeeConfigManager {
 		}
 		InputStream configData = plugin.getResourceAsStream("config.yml");
 		if (configData != null) {
-			try {
-				ConfigurationProvider.getProvider(YamlConfiguration.class).save(MainConfig, new File(plugin.getDataFolder(), "config.yml"));
-			} catch (IOException e) {
-				throw e;
-			}
+			ConfigurationProvider.getProvider(YamlConfiguration.class).save(MainConfig,
+					new File(plugin.getDataFolder(), "config.yml"));
 		}
 	}
+
 	public static void reloadDisabled() throws IOException {
 		if (!plugin.getDataFolder().exists()) {
 			plugin.getDataFolder().mkdir();
 		}
-		
+
 		MainDisabledFile = new File(plugin.getDataFolder(), "disabled.yml");
 		if (!MainDisabledFile.exists()) {
 			try {
 				MainDisabledFile.createNewFile();
-				try (InputStream is = plugin.getResourceAsStream("disabled.yml");
-						OutputStream os = new FileOutputStream(MainDisabledFile)) {
+				try (InputStream is = plugin.getResourceAsStream("disabled.yml"); OutputStream os =
+						new FileOutputStream(MainDisabledFile)) {
 					ByteStreams.copy(is, os);
 				}
 			} catch (IOException e) {
@@ -164,18 +205,37 @@ public class BungeeConfigManager {
 				throw e;
 			}
 		}
-		try {
-			MainDisabled = ConfigurationProvider.getProvider(YamlConfiguration.class).load(MainDisabledFile);
-		} catch (IOException e1) {
-			throw e1;
-		}
+		MainDisabled = ConfigurationProvider.getProvider(YamlConfiguration.class).load(MainDisabledFile);
 		InputStream disabledData = plugin.getResourceAsStream("disabled.yml");
 		if (disabledData != null) {
+			ConfigurationProvider.getProvider(YamlConfiguration.class).save(MainDisabled,
+					new File(plugin.getDataFolder(), "disabled.yml"));
+		}
+	}
+
+	public static void reloadMessages() throws IOException {
+		if (!plugin.getDataFolder().exists()) {
+			plugin.getDataFolder().mkdir();
+		}
+
+		MessagesFile = new File(plugin.getDataFolder(), "messages.yml");
+		if (!MessagesFile.exists()) {
 			try {
-				ConfigurationProvider.getProvider(YamlConfiguration.class).save(MainDisabled, new File(plugin.getDataFolder(), "disabled.yml"));
+				MessagesFile.createNewFile();
+				try (InputStream is = plugin.getResourceAsStream("messages.yml"); OutputStream os =
+						new FileOutputStream(MessagesFile)) {
+					ByteStreams.copy(is, os);
+				}
 			} catch (IOException e) {
+				ProxyServer.getInstance().getLogger().log(Level.SEVERE, "Could not save " + MessagesFile + ".", e);
 				throw e;
 			}
+		}
+		Messages = ConfigurationProvider.getProvider(YamlConfiguration.class).load(MessagesFile);
+		InputStream messagesData = plugin.getResourceAsStream("messages.yml");
+		if (messagesData != null) {
+			ConfigurationProvider.getProvider(YamlConfiguration.class).save(Messages, new File(plugin.getDataFolder(),
+					"messages.yml"));
 		}
 	}
 }

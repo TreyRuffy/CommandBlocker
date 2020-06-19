@@ -1,5 +1,8 @@
 package me.treyruffy.commandblocker.bukkit.commands;
 
+import me.clip.placeholderapi.PlaceholderAPI;
+import me.treyruffy.commandblocker.bukkit.PlaceholderAPITest;
+import me.treyruffy.commandblocker.bukkit.config.Messages;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,7 +12,6 @@ import org.bukkit.entity.Player;
 
 import com.google.gson.JsonObject;
 
-import me.clip.placeholderapi.PlaceholderAPI;
 import me.treyruffy.commandblocker.Log;
 import me.treyruffy.commandblocker.Universal;
 import me.treyruffy.commandblocker.bukkit.BukkitMain;
@@ -28,17 +30,19 @@ public class CommandBlockerCmd implements CommandExecutor {
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("cb")) {
-			
+
 			// Player does not have permission to execute the command
-			if (!(sender.hasPermission("cb.add") || sender.hasPermission("cb.reload") || sender.hasPermission("cb.remove") || sender.hasPermission("cb.addop")
-    				|| sender.hasPermission("cb.removeop")) && (sender instanceof Player)) {
+			if (!(sender.hasPermission("cb.add") || sender.hasPermission("cb.reload") || sender.hasPermission("cb" +
+					".remove") || sender.hasPermission("cb.edit") || sender.hasPermission("cb.editop") || sender.hasPermission("cb.addop") || sender.hasPermission("cb.removeop")) && (sender instanceof Player)) {
 				noPermissions(sender);
 				return true;
 			}
-			
+
 			// No arguments
 			if (args.length == 0) {
-				noArgs(sender);
+				for (String message : Messages.getMessages("Main", "NoArguments")) {
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+				}
 				return true;
 			}
 			
@@ -60,45 +64,60 @@ public class CommandBlockerCmd implements CommandExecutor {
 						/*
 						 * Send message to input a command
 						 */
-						p.sendMessage("add a command to block");
+						for (String message : Messages.getMessages("Main", "AddCommandToBlock")) {
+							p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&'
+									, message)));
+						}
 					} else {
-						sender.sendMessage("args are: /cb add 'command' 'permission' 'message'");
+						for (String message : Messages.getMessages("Main", "AddArguments")) {
+							sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+						}
 					}
 				} else if (args.length == 2) {
 					if (sender instanceof Player) {
 						Player p = (Player) sender;
 						CommandValueListener.lookingFor.put(p.getUniqueId().toString(), "add");
 						CommandValueListener.partsHad.put(p.getUniqueId().toString(), new JsonObject());
-						
+
 						JsonObject object = CommandValueListener.partsHad.get(p.getUniqueId().toString());
 						object.addProperty("command", args[1]);
 						CommandValueListener.partsHad.put(p.getUniqueId().toString(), object);
-						
-						p.sendMessage("add a permission");
+
+						for (String message : Messages.getMessages("Main", "AddPermission")) {
+							p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&'
+									, message)));
+						}
 					} else {
-						sender.sendMessage("args are: /cb add 'command' 'permission' 'message'");
+						for (String message : Messages.getMessages("Main", "AddArguments")) {
+							sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+						}
 					}
 				} else if (args.length == 3) {
 					if (sender instanceof Player) {
 						Player p = (Player) sender;
 						CommandValueListener.lookingFor.put(p.getUniqueId().toString(), "add");
 						CommandValueListener.partsHad.put(p.getUniqueId().toString(), new JsonObject());
-						
+
 						JsonObject object = CommandValueListener.partsHad.get(p.getUniqueId().toString());
 						object.addProperty("command", args[1]);
 						object.addProperty("permission", args[2]);
 						CommandValueListener.partsHad.put(p.getUniqueId().toString(), object);
-						
-						p.sendMessage("add a message");
+
+						for (String message : Messages.getMessages("Main", "AddMessage")) {
+							p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&'
+									, message)));
+						}
 					} else {
-						sender.sendMessage("args are: /cb add 'command' 'permission' 'message'");
+						for (String message : Messages.getMessages("Main", "AddArguments")) {
+							sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+						}
 					}
 				} else {
 					if (sender instanceof Player) {
 						Player p = (Player) sender;
 						CommandValueListener.lookingFor.put(p.getUniqueId().toString(), "add");
 						CommandValueListener.partsHad.put(p.getUniqueId().toString(), new JsonObject());
-						
+
 						JsonObject object = CommandValueListener.partsHad.get(p.getUniqueId().toString());
 						object.addProperty("command", args[1]);
 						object.addProperty("permission", args[2]);
@@ -106,10 +125,13 @@ public class CommandBlockerCmd implements CommandExecutor {
 						for (int i = 4; i < args.length; i++) {
 							msg.append(" ").append(args[i]);
 						}
-						object.addProperty("permission", msg.toString());
+						object.addProperty("message", msg.toString());
 						CommandValueListener.partsHad.put(p.getUniqueId().toString(), object);
-						
-						p.sendMessage("add a message");
+
+						for (String message : Messages.getMessages("Main", "AddWorld")) {
+							p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&'
+									, message)));
+						}
 					} else {
 						String command = args[1].substring(0, 1).toUpperCase() + args[1].substring(1).toLowerCase();
 						StringBuilder msg = new StringBuilder(args[3]);
@@ -117,14 +139,22 @@ public class CommandBlockerCmd implements CommandExecutor {
 							msg.append(" ").append(args[i]);
 						}
 						if (BlockedCommands.addBlockedCommand(command, args[2], msg.toString(), null, null, null)) {
-							sender.sendMessage("Added /" + command + " with the permission " + args[2] + " and message " + ChatColor.translateAlternateColorCodes('&', msg.toString()));
+							for (String message : Messages.getMessages("Main", "AddCommandToConfig")) {
+								sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message.replace("%c",
+										command).replace("%p", args[2]).replace("%m", msg)));
+							}
 							if (sender instanceof ConsoleCommandSender) {
-								Log.addLog(Universal.get().getMethods(), "CONSOLE: Added /" + command + " to disabled.yml with permission " + args[2] + " and message " + msg);
+								Log.addLog(Universal.get().getMethods(),
+										"CONSOLE: Added /" + command + " to disabled" + ".yml with permission " + args[2] + " and message " + msg);
 							} else {
-								Log.addLog(Universal.get().getMethods(), sender.getName() + ": Added /" + command + " to disabled.yml with permission " + args[2] + " and message " + msg);
+								Log.addLog(Universal.get().getMethods(), sender.getName() + ": Added /" + command + " "
+										+ "to disabled.yml with permission " + args[2] + " and message " + msg);
 							}
 						} else {
-							sender.sendMessage("Could not add /" + command + " to the blocked commands");
+							for (String message : Messages.getMessages("Main", "CouldNotAddCommandToConfig")) {
+								sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message.replace("%c",
+										command)));
+							}
 						}
 					}
 				}
@@ -132,37 +162,37 @@ public class CommandBlockerCmd implements CommandExecutor {
 			}	
 			// Reload argument
 			else if (args[0].equalsIgnoreCase("reload")) {
-				
+
 				// Player doesn't have permissions to do /cb reload
 				if (!sender.hasPermission("cb.reload") && (sender instanceof Player)) {
 					noPermissions(sender);
 					return true;
 				}
-				
-				sender.sendMessage(ChatColor.BLUE + "-=====[" + ChatColor.AQUA + ChatColor.BOLD + " Command Blocker " + ChatColor.BLUE + "]=====-");
-				sender.sendMessage(ChatColor.GREEN + "Reloading the Command Blocker yml files...");
+
+				for (String message : Messages.getMessages("Main", "ReloadCommand")) {
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+				}
 				try {
 					if (!BukkitMain.oldConfig()) {
 						ConfigManager.reloadConfig();
 						ConfigManager.reloadDisabled();
 						ConfigManager.reloadOpDisabled();
+						ConfigManager.reloadMessages();
 					} else {
 						OldConfigManager.reloadConfig();
 						OldConfigManager.reloadDisabled();
 						OldConfigManager.reloadOpDisabled();
+						OldConfigManager.reloadMessages();
 					}
-					sender.sendMessage(ChatColor.GREEN + "Reloaded the Command Blocker YAML files successfully!");
-					sender.sendMessage(ChatColor.BLUE + "-======================-");
+					new BukkitMain().fixCommands();
+					for (String message : Messages.getMessages("Main", "ReloadSuccessful")) {
+						sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+					}
 				} catch (Exception e) {
-					sender.sendMessage(ChatColor.RED + "Could not reload the Command Blocker YAML files.");
-					sender.sendMessage(ChatColor.BLUE + "-======================-");
-					
-					/*
-					 * Add stack trace to hovering over the text?
-					 * 
-					 * Or can maybe do "click for more info"
-					 */
-					
+					for (String message : Messages.getMessages("Main", "ReloadFailed")) {
+						sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+					}
+
 					e.printStackTrace();
 				}
 				return true;
@@ -185,9 +215,14 @@ public class CommandBlockerCmd implements CommandExecutor {
 						/*
 						 * Send message to input a command
 						 */
-						p.sendMessage("add a command to unblock");
+						for (String message : Messages.getMessages("Main", "RemoveCommandFromBlocklist")) {
+							p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&'
+									, message)));
+						}
 					} else {
-						sender.sendMessage("args are: /cb remove 'command'");
+						for (String message : Messages.getMessages("Main", "RemoveArguments")) {
+							sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+						}
 					}
 				} else {
 					StringBuilder command = new StringBuilder(args[1]);
@@ -195,14 +230,22 @@ public class CommandBlockerCmd implements CommandExecutor {
 						command.append(" ").append(args[i]);
 					}
 					if (BlockedCommands.removeBlockedCommand(command.toString())) {
-						sender.sendMessage("removed " + command + " from the blocked list");
+						for (String message : Messages.getMessages("Main", "RemovedCommand")) {
+							sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message.replace("%c",
+									command)));
+						}
 						if (sender instanceof ConsoleCommandSender) {
-							Log.addLog(Universal.get().getMethods(), "CONSOLE: Removed /" + command + " from disabled.yml");
+							Log.addLog(Universal.get().getMethods(),
+									"CONSOLE: Removed /" + command + " from disabled" + ".yml");
 						} else {
-							Log.addLog(Universal.get().getMethods(), sender.getName() + ": Removed /" + command + " from disabled.yml");
+							Log.addLog(Universal.get().getMethods(),
+									sender.getName() + ": Removed /" + command + " " + "from disabled.yml");
 						}
 					} else {
-						sender.sendMessage("could not remove " + command + " from the blocked list");
+						for (String message : Messages.getMessages("Main", "UnblockCancelledBecauseNotBlocked")) {
+							sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message.replace("%c",
+									command)));
+						}
 					}
 				}
 				return true;
@@ -225,9 +268,14 @@ public class CommandBlockerCmd implements CommandExecutor {
 						/*
 						 * Send message to input a command
 						 */
-						p.sendMessage("add an op command to block");
+						for (String message : Messages.getMessages("Main", "AddOpAddCommand")) {
+							p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&'
+									, message)));
+						}
 					} else {
-						sender.sendMessage("arguments: /cb addop 'command' 'message'");
+						for (String message : Messages.getMessages("Main", "AddOpArguments")) {
+							sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+						}
 					}
 					
 				} else if (args.length == 2) {
@@ -235,22 +283,35 @@ public class CommandBlockerCmd implements CommandExecutor {
 						Player p = (Player) sender;
 						CommandValueListener.lookingFor.put(p.getUniqueId().toString(), "addop");
 						CommandValueListener.partsHad.put(p.getUniqueId().toString(), new JsonObject());
-						
+
 						JsonObject object = CommandValueListener.partsHad.get(p.getUniqueId().toString());
 						object.addProperty("command", args[1]);
-						p.sendMessage("add a message");
+						for (String message : Messages.getMessages("Main", "AddOpAddMessage")) {
+							p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&'
+									, message)));
+						}
 					} else {
-						sender.sendMessage("arguments: /cb addop 'command' 'message'");
+						for (String message : Messages.getMessages("Main", "AddOpArguments")) {
+							sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+						}
 					}
 				} else {
 					if (sender instanceof Player) {
 						Player p = (Player) sender;
 						CommandValueListener.lookingFor.put(p.getUniqueId().toString(), "addop");
 						CommandValueListener.partsHad.put(p.getUniqueId().toString(), new JsonObject());
-						
+
 						JsonObject object = CommandValueListener.partsHad.get(p.getUniqueId().toString());
 						object.addProperty("command", args[1]);
-						p.sendMessage("add a world");
+						StringBuilder msg = new StringBuilder(args[2]);
+						for (int i = 3; i < args.length; i++) {
+							msg.append(" ").append(args[i]);
+						}
+						object.addProperty("message", msg.toString());
+						for (String message : Messages.getMessages("Main", "AddOpAddWorld")) {
+							p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&'
+									, message)));
+						}
 					} else {
 						String command = args[1].substring(0, 1).toUpperCase() + args[1].substring(1).toLowerCase();
 						StringBuilder msg = new StringBuilder(args[2]);
@@ -258,15 +319,23 @@ public class CommandBlockerCmd implements CommandExecutor {
 							msg.append(" ").append(args[i]);
 						}
 						if (BlockedOpCommands.addBlockedCommand(command, msg.toString(), null, null, null)) {
-							sender.sendMessage("Added /" + command + " with the message " + ChatColor.translateAlternateColorCodes('&', msg.toString()));
-							if (sender instanceof ConsoleCommandSender) {
-								Log.addLog(Universal.get().getMethods(), "CONSOLE: Added /" + command + " to opblock.yml with message " + msg);
-							} else {
-								Log.addLog(Universal.get().getMethods(), sender.getName() + ": Added /" + command + " to opblock.yml with message " + msg);
+							for (String message : Messages.getMessages("Main", "AddOpAddedCommandToConfig")) {
+								sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message.replace("%c",
+										command).replace("%m", msg)));
 							}
-							
+							if (sender instanceof ConsoleCommandSender) {
+								Log.addLog(Universal.get().getMethods(),
+										"CONSOLE: Added /" + command + " to opblock" + ".yml with message " + msg);
+							} else {
+								Log.addLog(Universal.get().getMethods(), sender.getName() + ": Added /" + command + " "
+										+ "to opblock.yml with message " + msg);
+							}
+
 						} else {
-							sender.sendMessage("could not add /" + command + " to the op blocked list");
+							for (String message : Messages.getMessages("Main", "AddOpCouldNotAddCommand")) {
+								sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message.replace("%c",
+										command)));
+							}
 						}
 					}
 				}
@@ -290,9 +359,14 @@ public class CommandBlockerCmd implements CommandExecutor {
 						/*
 						 * Send message to input a command
 						 */
-						p.sendMessage("add an op command to unblock");
+						for (String message : Messages.getMessages("Main", "RemoveOpRemoveCommand")) {
+							p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&'
+									, message)));
+						}
 					} else {
-						sender.sendMessage("arguments: /cb removeop 'command'");
+						for (String message : Messages.getMessages("Main", "RemoveOpArguments")) {
+							sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+						}
 					}
 					
 				} else {
@@ -301,24 +375,35 @@ public class CommandBlockerCmd implements CommandExecutor {
 						command.append(" ").append(args[i]);
 					}
 					if (BlockedOpCommands.removeBlockedCommand(command.toString())) {
-						sender.sendMessage("removed " + command + " from the op blocked list");
+						for (String message : Messages.getMessages("Main", "RemoveOpRemovedCommand")) {
+							sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message.replace("%c",
+									command)));
+						}
 						if (sender instanceof ConsoleCommandSender) {
-							Log.addLog(Universal.get().getMethods(), "CONSOLE: Removed /" + command + " from opblock.yml");
+							Log.addLog(Universal.get().getMethods(),
+									"CONSOLE: Removed /" + command + " from opblock" + ".yml");
 						} else {
-							Log.addLog(Universal.get().getMethods(), sender.getName() + ": Removed /" + command + " from opblock.yml");
+							Log.addLog(Universal.get().getMethods(),
+									sender.getName() + ": Removed /" + command + " " + "from opblock.yml");
 						}
 					} else {
-						sender.sendMessage("could not remove " + command + " from the op blocked list");
+						for (String message : Messages.getMessages("Main", "RemoveOpCouldNotRemove")) {
+							sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message.replace("%c",
+									command)));
+						}
 					}
 				}
 				return true;
 				// EditOp argument
 			} else if (args[0].equalsIgnoreCase("edit")) {
 				if (!(sender instanceof Player)) {
-					sender.sendMessage("need to be player");
+					for (String message : Messages.getMessages("Main", "EditNeedToBePlayer")) {
+						sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+					}
 					return true;
 				}
 				// Player doesn't have permissions to do /cb edit
+				Player p = (Player) sender;
 				if (!sender.hasPermission("cb.edit")) {
 					noPermissions(sender);
 					return true;
@@ -340,7 +425,10 @@ public class CommandBlockerCmd implements CommandExecutor {
 						} else if (ConfigManager.MainDisabled.contains("DisabledCommands." + newArgs.toString().toLowerCase())) {
 							newArgs = new StringBuilder(newArgs.toString().toLowerCase());
 						} else {
-							sender.sendMessage("/" + newArgs + " is not a blocked command.");
+							for (String message : Messages.getMessages("Main", "EditNotBlockedCommand")) {
+								p.sendMessage(PlaceholderAPITest.testforPAPI(p,
+										ChatColor.translateAlternateColorCodes('&', message)).replace("%c", newArgs));
+							}
 							return true;
 						}
 					} else {
@@ -349,23 +437,31 @@ public class CommandBlockerCmd implements CommandExecutor {
 						} else if (OldConfigManager.MainDisabled.contains("DisabledCommands." + newArgs.toString().toLowerCase())) {
 							newArgs = new StringBuilder(newArgs.toString().toLowerCase());
 						} else {
-							sender.sendMessage("/" + newArgs + " is not a blocked command.");
+							for (String message : Messages.getMessages("Main", "EditNotBlockedCommand")) {
+								p.sendMessage(PlaceholderAPITest.testforPAPI(p,
+										ChatColor.translateAlternateColorCodes('&', message)).replace("%c", newArgs));
+							}
 							return true;
 						}
 					}
-					Player p = (Player) sender;
 					/*
 					 * Open gui
 					 */
 					new DisabledGui().openGui(p, newArgs.toString());
 					return true;
 				}
-				sender.sendMessage("need the command to edit.");
+				for (String message : Messages.getMessages("Main", "EditNeedCommandToEdit")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+							message)));
+				}
 			} else if (args[0].equalsIgnoreCase("editop")) {
 				if (!(sender instanceof Player)) {
-					sender.sendMessage("need to be player");
+					for (String message : Messages.getMessages("Main", "EditOpNeedToBePlayer")) {
+						sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+					}
 					return true;
 				}
+				Player p = (Player) sender;
 				// Player doesn't have permissions to do /cb editop
 				if (!sender.hasPermission("cb.editop")) {
 					noPermissions(sender);
@@ -388,7 +484,10 @@ public class CommandBlockerCmd implements CommandExecutor {
 						} else if (ConfigManager.OpDisabled.contains("DisabledOpCommands." + newArgs.toString().toLowerCase())) {
 							newArgs = new StringBuilder(newArgs.toString().toLowerCase());
 						} else {
-							sender.sendMessage("/" + newArgs + " is not a blocked command.");
+							for (String message : Messages.getMessages("Main", "EditOpNotBlockedCommand")) {
+								p.sendMessage(PlaceholderAPITest.testforPAPI(p,
+										ChatColor.translateAlternateColorCodes('&', message)).replace("%c", newArgs));
+							}
 							return true;
 						}
 					} else {
@@ -397,23 +496,30 @@ public class CommandBlockerCmd implements CommandExecutor {
 						} else if (OldConfigManager.OpDisabled.contains("DisabledOpCommands." + newArgs.toString().toLowerCase())) {
 							newArgs = new StringBuilder(newArgs.toString().toLowerCase());
 						} else {
-							sender.sendMessage("/" + newArgs + " is not a blocked command.");
+							for (String message : Messages.getMessages("Main", "EditOpNotBlockedCommand")) {
+								p.sendMessage(PlaceholderAPITest.testforPAPI(p,
+										ChatColor.translateAlternateColorCodes('&', message)).replace("%c", newArgs));
+							}
 							return true;
 						}
 					}
-					Player p = (Player) sender;
 					/*
 					 * Open gui
 					 */
 					new OpDisabledGui().openOpGui(p, newArgs.toString());
 					return true;
 				}
-				sender.sendMessage("need the command to edit.");
+				for (String message : Messages.getMessages("Main", "EditOpNeedCommandToEdit")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+							message)));
+				}
 			}
 			
 			// Sent an argument that isnt one of the listed
 			else {
-				sender.sendMessage("not right arguments");
+				for (String message : Messages.getMessages("Main", "NoArguments")) {
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+				}
 			}
 			return true;
 		}
@@ -429,9 +535,11 @@ public class CommandBlockerCmd implements CommandExecutor {
 				String noPerms = ChatColor.translateAlternateColorCodes('&', papiMsg);
 				sender.sendMessage(noPerms);
 			} else {
-				String papiMsg = BukkitMain.isPapiEnabled() ? PlaceholderAPI.setPlaceholders((Player) sender, 
-						Variables.translateVariables(OldConfigManager.getConfig().getString("Messages.NoPermission"), (Player) sender)) :
-							Variables.translateVariables(OldConfigManager.getConfig().getString("Messages.NoPermission"), (Player) sender);
+				String papiMsg = BukkitMain.isPapiEnabled() ? PlaceholderAPI.setPlaceholders((Player) sender,
+						Variables.translateVariables(OldConfigManager.getConfig().getString("Messages.NoPermission"),
+								(Player) sender)) :
+						Variables.translateVariables(OldConfigManager.getConfig().getString("Messages.NoPermission"),
+								(Player) sender);
 				String noPerms = ChatColor.translateAlternateColorCodes('&', papiMsg);
 				sender.sendMessage(noPerms);
 			}
@@ -448,14 +556,6 @@ public class CommandBlockerCmd implements CommandExecutor {
 			String noPerms = ChatColor.translateAlternateColorCodes('&', msg);
 			sender.sendMessage(noPerms);
 		}
-	}
-	
-	private void noArgs(CommandSender sender) {
-		sender.sendMessage(ChatColor.BLUE + "-=====[" + ChatColor.AQUA + ChatColor.BOLD + " Command Blocker " + ChatColor.BLUE + "]=====-");
-		sender.sendMessage(ChatColor.RED + "You have not supplied enough arguments.");
-		sender.sendMessage(ChatColor.RED + "Valid arguments are: add, remove, reload, addop, removeop, edit, editop.");
-		sender.sendMessage(ChatColor.GREEN + "Made by TreyRuffy!");
-		sender.sendMessage(ChatColor.BLUE + "-======================-");
 	}
 	
 }

@@ -105,14 +105,19 @@ public class Packets {
 					if (!p.isOp()) {
 						return;
 					}
-					
+
 					PacketContainer packet = e.getPacket();
 					String message = packet.getSpecificModifier(String.class).read(0).toLowerCase();
-					FileConfiguration opDisabled = BukkitMain.oldConfig() ? OldConfigManager.getOpDisabled() : ConfigManager.getOpDisabled();
+					FileConfiguration opDisabled = BukkitMain.oldConfig() ? OldConfigManager.getOpDisabled() :
+							ConfigManager.getOpDisabled();
+					if (opDisabled.getStringList("DisabledOpCommands").isEmpty()) {
+						return;
+					}
 					for (String cmd : opDisabled.getConfigurationSection("DisabledOpCommands").getKeys(false)) {
 						String cmds = cmd.toLowerCase();
 
-						boolean b =	((message.startsWith("/" + cmds)) && (!message.contains("  "))) || ((message.startsWith("/") && (!message.contains(" "))));
+						boolean b =
+								((message.startsWith("/" + cmds)) && (!message.contains("  "))) || ((message.startsWith("/") && (!message.contains(" "))));
 						if (opDisabled.getString("DisabledOpCommands." + cmd + ".NoTabComplete") == null) {
 							if (b) {
 								e.setCancelled(true);

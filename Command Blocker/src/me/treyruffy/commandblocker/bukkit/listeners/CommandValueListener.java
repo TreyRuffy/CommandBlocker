@@ -2,7 +2,11 @@ package me.treyruffy.commandblocker.bukkit.listeners;
 
 import java.util.*;
 
+import me.treyruffy.commandblocker.bukkit.PlaceholderAPITest;
+import me.treyruffy.commandblocker.bukkit.api.BlockedOpCommands;
+import me.treyruffy.commandblocker.bukkit.config.Messages;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -46,16 +50,16 @@ public class CommandValueListener implements Listener {
 		if (e.getMessage().equalsIgnoreCase("cancel")) {
 			lookingFor.remove(p.getUniqueId().toString());
 			partsHad.remove(p.getUniqueId().toString());
-			p.sendMessage("cancelled the command blocker steps");
+			for (String message : Messages.getMessages("Main", "Cancelled")) {
+				p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&', message)));
+			}
 			/*
 			 * Send message that the event was cancelled
 			 */
 			e.setCancelled(true);
 			return;
 		}
-		
-		
-		
+
 		if (lookingFor.get(p.getUniqueId().toString()).equalsIgnoreCase("add")) {
 			
 			if (!p.hasPermission("cb.add")) {
@@ -67,7 +71,10 @@ public class CommandValueListener implements Listener {
 				FileConfiguration disabled = BukkitMain.oldConfig() ? OldConfigManager.getDisabled() : ConfigManager.getDisabled();
 				String message = e.getMessage().substring(0, 1).toUpperCase() + e.getMessage().substring(1).toLowerCase();
 				if (disabled.contains("DisabledCommands." + message)) {
-					p.sendMessage("command is already blocked. cancelled.");
+					for (String msg : Messages.getMessages("Main", "CommandAlreadyBlocked")) {
+						p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+								msg.replace("%c", e.getMessage()))));
+					}
 					lookingFor.remove(p.getUniqueId().toString());
 					partsHad.remove(p.getUniqueId().toString());
 					e.setCancelled(true);
@@ -76,58 +83,70 @@ public class CommandValueListener implements Listener {
 				JsonObject object = partsHad.get(p.getUniqueId().toString());
 				object.addProperty("command", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
-				
-				p.sendMessage("add a permission");
+
+				for (String msg : Messages.getMessages("Main", "AddPermission")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&', msg)));
+				}
 				/*
 				 * Send message to add a permission
 				 */
-				
+
 			} else if (!partsHad.get(p.getUniqueId().toString()).has("permission")) {
 				JsonObject object = partsHad.get(p.getUniqueId().toString());
 				object.addProperty("permission", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
-				
-				p.sendMessage("add a message");
+
+				for (String msg : Messages.getMessages("Main", "AddMessage")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&', msg)));
+				}
 				/*
 				 * Send message to add a message
 				 */
-				
+
 			} else if (!partsHad.get(p.getUniqueId().toString()).has("message")) {
 				JsonObject object = partsHad.get(p.getUniqueId().toString());
 				object.addProperty("message", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
-				
-				p.sendMessage("add a world");
+
+				for (String msg : Messages.getMessages("Main", "AddWorld")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&', msg)));
+				}
 				/*
 				 * Send message to add worlds. Allow for all.
 				 */
-				
+
 			} else if (!partsHad.get(p.getUniqueId().toString()).has("worlds")) {
 				JsonObject object = partsHad.get(p.getUniqueId().toString());
 				object.addProperty("worlds", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
-				
-				p.sendMessage("add a player command");
+
+				for (String msg : Messages.getMessages("Main", "AddPlayerCommand")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&', msg)));
+				}
 				/*
 				 * Send message to add player commands. Allow for none.
 				 */
-				
+
 			} else if (!partsHad.get(p.getUniqueId().toString()).has("playercommands")) {
 				JsonObject object = partsHad.get(p.getUniqueId().toString());
 				object.addProperty("playercommands", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
-				
-				p.sendMessage("add a console command");
+
+				for (String msg : Messages.getMessages("Main", "AddConsoleCommand")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&', msg)));
+				}
 				/*
 				 * Send message to add console commands. Allow for none.
 				 */
-				
+
 			} else if (!partsHad.get(p.getUniqueId().toString()).has("consolecommands")) {
 				JsonObject object = partsHad.get(p.getUniqueId().toString());
 				object.addProperty("consolecommands", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
-				
-				p.sendMessage("confirmation: yes or no");
+
+				for (String msg : Messages.getMessages("Main", "AddConfirmation")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&', msg)));
+				}
 				/*
 				 * Send message to confirm if the command is right
 				 */
@@ -138,7 +157,10 @@ public class CommandValueListener implements Listener {
 				} else if (e.getMessage().equalsIgnoreCase("yes")) {
 					object.addProperty("confirmation", true);
 				} else {
-					p.sendMessage("can only be yes or no");
+					for (String msg : Messages.getMessages("Main", "CanOnlyBeYesOrNo")) {
+						p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+								msg)));
+					}
 					e.setCancelled(true);
 					return;
 				}
@@ -151,7 +173,10 @@ public class CommandValueListener implements Listener {
 				if (!addcommand.getConfirmation()) {
 					lookingFor.remove(p.getUniqueId().toString());
 					partsHad.remove(p.getUniqueId().toString());
-					p.sendMessage("cancelled the command blocker steps");
+					for (String msg : Messages.getMessages("Main", "Cancelled")) {
+						p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+								msg)));
+					}
 					e.setCancelled(true);
 					return;
 				}
@@ -169,51 +194,54 @@ public class CommandValueListener implements Listener {
 						pCmds.set(pCmds.indexOf(s), s.substring(1));
 					}
 				}
-				
+
 				List<String> cCmds = new ArrayList<>();
 				for (String s : addcommand.getConsoleCommands().split(",")) {
 					cCmds.add("/" + s);
 				}
-				
+
 				for (String s : cCmds) {
 					if (s.startsWith("/")) {
 						cCmds.set(cCmds.indexOf(s), s.substring(1));
 					}
 				}
-				
-				Log.addLog(Universal.get().getMethods(), p.getName() + ": Added command /" + addcommand.getCommand() + " in disabled.yml with permission " + addcommand.getPermission() 
-					+ " and message " + addcommand.getMessage() + " in worlds: " + addcommand.getWorlds() + ". When executed, it runs " + addcommand.getPlayerCommands() 
-					+ " as the player and " + addcommand.getConsoleCommands() + " as console.");
-				
-				p.sendMessage("Command=" + addcommand.getCommand());
-				p.sendMessage("Permission=" + addcommand.getPermission());
-				p.sendMessage("Message=" + addcommand.getMessage());
-				p.sendMessage("Worlds=" + addcommand.getWorlds());
-				p.sendMessage("PlayerCommands=" + addcommand.getPlayerCommands());
-				p.sendMessage("ConsoleCommands=" + addcommand.getConsoleCommands());
-				p.sendMessage("Confirmation=" + addcommand.getConfirmation());
-				
-				if (BlockedCommands.addBlockedCommand(cmd, addcommand.getPermission(), addcommand.getMessage(), worlds, pCmds, cCmds)) {
-					p.sendMessage("successfully added to the file.");
+
+				if (BlockedCommands.addBlockedCommand(cmd, addcommand.getPermission(), addcommand.getMessage(), worlds
+						, pCmds, cCmds)) {
+					Log.addLog(Universal.get().getMethods(),
+							p.getName() + ": Added command /" + addcommand.getCommand() + " in disabled.yml with " +
+									"permission " + addcommand.getPermission() + " and message " + addcommand.getMessage() + " in worlds: " + addcommand.getWorlds() + ". When executed, it runs " + addcommand.getPlayerCommands() + " as the player and " + addcommand.getConsoleCommands() + " as console.");
+					for (String msg : Messages.getMessages("Main", "AddedCommandOutput")) {
+
+						String msgToReplace = msg.replace("%c", addcommand.getCommand()).replace("%p",
+								addcommand.getPermission()).replace("%m", addcommand.getMessage()).replace("%w",
+								addcommand.getWorlds()).replace("%x", addcommand.getPlayerCommands()).replace("%z",
+								addcommand.getConsoleCommands()).replace("%y",
+								addcommand.getConfirmation().toString());
+						p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+								msgToReplace)));
+					}
 				} else {
-					p.sendMessage("already in the file. edit with /cb edit" + cmd);
+					for (String msg : Messages.getMessages("Main", "CouldNotAddCommandToConfig")) {
+						p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+								msg)));
+					}
 				}
 				/*
 				 * Send message saying if it was completed or not
-				 * 
+				 *
 				 * Add to disabled here
 				 * With partsHad
-				 * 
+				 *
 				 * Deserialize json and put into disabled.yml
 				 */
-				
+
 				lookingFor.remove(p.getUniqueId().toString());
 				partsHad.remove(p.getUniqueId().toString());
-				return;
 			}
 			e.setCancelled(true);
+			return;
 		}
-		
 		if (lookingFor.get(p.getUniqueId().toString()).equalsIgnoreCase("remove")) {
 			if (!p.hasPermission("cb.remove")) {
 				CommandBlockerCmd.noPermissions(p);
@@ -224,7 +252,10 @@ public class CommandValueListener implements Listener {
 				FileConfiguration disabled = BukkitMain.oldConfig() ? OldConfigManager.getDisabled() : ConfigManager.getDisabled();
 				String message = e.getMessage().substring(0, 1).toUpperCase() + e.getMessage().substring(1).toLowerCase();
 				if (!disabled.contains("DisabledCommands." + message)) {
-					p.sendMessage("command is not blocked. cancelled.");
+					for (String msg : Messages.getMessages("Main", "UnblockCancelledBecauseNotBlocked")) {
+						p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+								msg.replace("%c", e.getMessage()))));
+					}
 					lookingFor.remove(p.getUniqueId().toString());
 					partsHad.remove(p.getUniqueId().toString());
 					e.setCancelled(true);
@@ -233,8 +264,11 @@ public class CommandValueListener implements Listener {
 				JsonObject object = partsHad.get(p.getUniqueId().toString());
 				object.addProperty("command", message);
 				partsHad.put(p.getUniqueId().toString(), object);
-				
-				p.sendMessage("do you want to remove /" + e.getMessage() + " from the block list?");
+
+				for (String msg : Messages.getMessages("Main", "RemoveCommandQuestion")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+							msg.replace("%c", e.getMessage()))));
+				}
 				e.setCancelled(true);
 				/*
 				 * Send message to confirm
@@ -249,7 +283,10 @@ public class CommandValueListener implements Listener {
 				} else if (e.getMessage().equalsIgnoreCase("yes")) {
 					object.addProperty("confirmation", true);
 				} else {
-					p.sendMessage("can only be yes or no");
+					for (String msg : Messages.getMessages("Main", "CanOnlyBeYesOrNo")) {
+						p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+								msg)));
+					}
 					e.setCancelled(true);
 					return;
 				}
@@ -258,22 +295,34 @@ public class CommandValueListener implements Listener {
 				
 				Gson gson = new Gson();
 				RemoveCommand removecommand = gson.fromJson(partsHad.get(p.getUniqueId().toString()), RemoveCommand.class);
-				
+
 				if (!removecommand.getConfirmation()) {
 					lookingFor.remove(p.getUniqueId().toString());
 					partsHad.remove(p.getUniqueId().toString());
-					p.sendMessage("cancelled the command blocker steps");
+					for (String msg : Messages.getMessages("Main", "Cancelled")) {
+						p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+								msg)));
+					}
 					e.setCancelled(true);
 					return;
 				}
-				
-				Log.addLog(Universal.get().getMethods(), p.getName() + ": Removed command /" + removecommand.getCommand() + " in disabled.yml");
-				
-				p.sendMessage("Command=" + removecommand.getCommand());
-				p.sendMessage("Confirmation=" + removecommand.getConfirmation());
-				
-				BlockedCommands.removeBlockedCommand(removecommand.getCommand());
-					
+
+				if (BlockedCommands.removeBlockedCommand(removecommand.getCommand())) {
+					Log.addLog(Universal.get().getMethods(),
+							p.getName() + ": Removed command /" + removecommand.getCommand() + " in disabled.yml");
+
+					for (String msg : Messages.getMessages("Main", "RemovedCommandOutput")) {
+						p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+								msg.replace("%c", removecommand.getCommand()).replace("%y",
+										removecommand.getConfirmation().toString()))));
+					}
+				} else {
+					for (String msg : Messages.getMessages("Main", "UnblockCancelledBecauseNotBlocked")) {
+						p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+								msg.replace("%c", e.getMessage()))));
+					}
+				}
+
 				partsHad.remove(p.getUniqueId().toString());
 				lookingFor.remove(p.getUniqueId().toString());
 			}
@@ -290,7 +339,10 @@ public class CommandValueListener implements Listener {
 				FileConfiguration disabled = BukkitMain.oldConfig() ? OldConfigManager.getOpDisabled() : ConfigManager.getOpDisabled();
 				String message = e.getMessage().substring(0, 1).toUpperCase() + e.getMessage().substring(1).toLowerCase();
 				if (disabled.contains("DisabledOpCommands." + message)) {
-					p.sendMessage("command is already blocked. cancelled.");
+					for (String msg : Messages.getMessages("Main", "CommandAlreadyBlocked")) {
+						p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+								msg.replace("%c", e.getMessage()))));
+					}
 					lookingFor.remove(p.getUniqueId().toString());
 					partsHad.remove(p.getUniqueId().toString());
 					e.setCancelled(true);
@@ -299,48 +351,58 @@ public class CommandValueListener implements Listener {
 				JsonObject object = partsHad.get(p.getUniqueId().toString());
 				object.addProperty("command", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
-				
-				p.sendMessage("add a message");
+
+				for (String msg : Messages.getMessages("Main", "AddOpAddMessage")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&', msg)));
+				}
 				/*
 				 * Send message to add a message
 				 */
-				
+
 			} else if (!partsHad.get(p.getUniqueId().toString()).has("message")) {
 				JsonObject object = partsHad.get(p.getUniqueId().toString());
 				object.addProperty("message", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
-				
-				p.sendMessage("add a world");
+
+				for (String msg : Messages.getMessages("Main", "AddOpAddWorld")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&', msg)));
+				}
 				/*
 				 * Send message to add worlds. Allow for all.
 				 */
-				
+
 			} else if (!partsHad.get(p.getUniqueId().toString()).has("worlds")) {
 				JsonObject object = partsHad.get(p.getUniqueId().toString());
 				object.addProperty("worlds", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
-				
-				p.sendMessage("add a player command");
+
+				for (String msg : Messages.getMessages("Main", "AddOpAddPlayerCommand")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&', msg)));
+				}
 				/*
 				 * Send message to add player commands. Allow for none.
 				 */
-				
+
 			} else if (!partsHad.get(p.getUniqueId().toString()).has("playercommands")) {
 				JsonObject object = partsHad.get(p.getUniqueId().toString());
 				object.addProperty("playercommands", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
-				
-				p.sendMessage("add a console command");
+
+				for (String msg : Messages.getMessages("Main", "AddOpAddConsoleCommand")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&', msg)));
+				}
 				/*
 				 * Send message to add console commands. Allow for none.
 				 */
-				
+
 			} else if (!partsHad.get(p.getUniqueId().toString()).has("consolecommands")) {
 				JsonObject object = partsHad.get(p.getUniqueId().toString());
 				object.addProperty("consolecommands", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
-				
-				p.sendMessage("confirmation: yes or no");
+
+				for (String msg : Messages.getMessages("Main", "AddOpConfirmation")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&', msg)));
+				}
 				/*
 				 * Send message to confirm if the command is right
 				 */
@@ -351,7 +413,10 @@ public class CommandValueListener implements Listener {
 				} else if (e.getMessage().equalsIgnoreCase("yes")) {
 					object.addProperty("confirmation", true);
 				} else {
-					p.sendMessage("can only be yes or no");
+					for (String msg : Messages.getMessages("Main", "CanOnlyBeYesOrNo")) {
+						p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+								msg)));
+					}
 					e.setCancelled(true);
 					return;
 				}
@@ -360,60 +425,59 @@ public class CommandValueListener implements Listener {
 				
 				Gson gson = new Gson();
 				AddOpCommand addopcommand = gson.fromJson(partsHad.get(p.getUniqueId().toString()), AddOpCommand.class);
-				
+
 				if (!addopcommand.getConfirmation()) {
 					lookingFor.remove(p.getUniqueId().toString());
 					partsHad.remove(p.getUniqueId().toString());
-					p.sendMessage("cancelled the command blocker steps");
+					for (String msg : Messages.getMessages("Main", "Cancelled")) {
+						p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+								msg)));
+					}
 					e.setCancelled(true);
 					return;
 				}
-				FileConfiguration opDisabled = BukkitMain.oldConfig() ? OldConfigManager.getOpDisabled() : ConfigManager.getOpDisabled();
-				String cmd = addopcommand.getCommand().substring(0, 1).toUpperCase() + addopcommand.getCommand().substring(1).toLowerCase();
-				
-				opDisabled.set("DisabledOpCommands." + cmd + ".Message", addopcommand.getMessage());
-				
+				String cmd =
+						addopcommand.getCommand().substring(0, 1).toUpperCase() + addopcommand.getCommand().substring(1).toLowerCase();
+
 				List<String> worlds = Arrays.asList(addopcommand.getWorlds().split(","));
-				opDisabled.set("DisabledOpCommands." + cmd + ".Worlds", worlds);
-				
+
 				List<String> pCmds = Arrays.asList(addopcommand.getPlayerCommands().split(","));
 				for (String s : pCmds) {
 					if (s.startsWith("/")) {
 						pCmds.set(pCmds.indexOf(s), s.substring(1));
 					}
 				}
-				opDisabled.set("DisabledOpCommands." + cmd + ".PlayerCommands", pCmds);
-				
 				List<String> cCmds = Arrays.asList(addopcommand.getConsoleCommands().split(","));
 				for (String s : cCmds) {
 					if (s.startsWith("/")) {
 						cCmds.set(cCmds.indexOf(s), s.substring(1));
 					}
 				}
-				opDisabled.set("DisabledOpCommands." + cmd + ".ConsoleCommands", cCmds);
-				
-				if (!BukkitMain.oldConfig()) {
-					ConfigManager.saveOpDisabled();
+
+				if (BlockedOpCommands.addBlockedCommand(cmd, addopcommand.getMessage(), worlds, pCmds, cCmds)) {
+					Log.addLog(Universal.get().getMethods(),
+							p.getName() + ": Added command /" + addopcommand.getCommand() + " in opblock.yml with " +
+									"message " + addopcommand.getMessage() + " in worlds: " + addopcommand.getWorlds() + ". When executed, it runs " + addopcommand.getPlayerCommands() + " as the player and " + addopcommand.getConsoleCommands() + " as console.");
+
+					for (String msg : Messages.getMessages("Main", "AddedOpCommandOutput")) {
+						String msgToReplace = msg.replace("%c", addopcommand.getCommand()).replace("%m",
+								addopcommand.getMessage()).replace("%w", addopcommand.getWorlds()).replace("%x",
+								addopcommand.getPlayerCommands()).replace("%z", addopcommand.getConsoleCommands()).replace("%y", addopcommand.getConfirmation().toString());
+						p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+								msgToReplace)));
+					}
 				} else {
-					OldConfigManager.saveOpDisabled();
+					for (String msg : Messages.getMessages("Main", "CouldNotAddCommandToOpConfig")) {
+						p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+								msg.replace("%c", addopcommand.getCommand()))));
+					}
 				}
-				
-				Log.addLog(Universal.get().getMethods(), p.getName() + ": Added command /" + addopcommand.getCommand() + " in opblock.yml with message " + addopcommand.getMessage()
-				+ " in worlds: " + addopcommand.getWorlds() + ". When executed, it runs " + addopcommand.getPlayerCommands() 
-				+ " as the player and " + addopcommand.getConsoleCommands() + " as console.");
-				
-				p.sendMessage("Command=" + addopcommand.getCommand());
-				p.sendMessage("Message=" + addopcommand.getMessage());
-				p.sendMessage("Worlds=" + addopcommand.getWorlds());
-				p.sendMessage("PlayerCommands=" + addopcommand.getPlayerCommands());
-				p.sendMessage("ConsoleCommands=" + addopcommand.getConsoleCommands());
-				p.sendMessage("Confirmation=" + addopcommand.getConfirmation());
 				/*
 				 * Send message saying if it was completed or not
-				 * 
+				 *
 				 * Add to disabled here
 				 * With partsHad
-				 * 
+				 *
 				 * Deserialize json and put into disabled.yml
 				 */
 				
@@ -433,7 +497,10 @@ public class CommandValueListener implements Listener {
 				FileConfiguration disabled = BukkitMain.oldConfig() ? OldConfigManager.getOpDisabled() : ConfigManager.getOpDisabled();
 				String message = e.getMessage().substring(0, 1).toUpperCase() + e.getMessage().substring(1).toLowerCase();
 				if (!disabled.contains("DisabledOpCommands." + message)) {
-					p.sendMessage("command is not blocked. cancelled.");
+					for (String msg : Messages.getMessages("Main", "RemoveOpCouldNotRemove")) {
+						p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+								msg.replace("%c", e.getMessage()))));
+					}
 					lookingFor.remove(p.getUniqueId().toString());
 					partsHad.remove(p.getUniqueId().toString());
 					e.setCancelled(true);
@@ -442,8 +509,11 @@ public class CommandValueListener implements Listener {
 				JsonObject object = partsHad.get(p.getUniqueId().toString());
 				object.addProperty("command", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
-				
-				p.sendMessage("do you want to remove /" + e.getMessage() + " from the block list for ops?");
+
+				for (String msg : Messages.getMessages("Main", "RemoveOpQuestion")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+							msg.replace("%c", e.getMessage()))));
+				}
 				/*
 				 * Send message to confirm
 				 */
@@ -457,7 +527,10 @@ public class CommandValueListener implements Listener {
 				} else if (e.getMessage().equalsIgnoreCase("yes")) {
 					object.addProperty("confirmation", true);
 				} else {
-					p.sendMessage("can only be yes or no");
+					for (String msg : Messages.getMessages("Main", "CanOnlyBeYesOrNo")) {
+						p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+								msg)));
+					}
 					e.setCancelled(true);
 					return;
 				}
@@ -466,22 +539,34 @@ public class CommandValueListener implements Listener {
 				
 				Gson gson = new Gson();
 				RemoveOpCommand removeopcommand = gson.fromJson(partsHad.get(p.getUniqueId().toString()), RemoveOpCommand.class);
-				
+
 				if (!removeopcommand.getConfirmation()) {
 					lookingFor.remove(p.getUniqueId().toString());
 					partsHad.remove(p.getUniqueId().toString());
-					p.sendMessage("cancelled the command blocker steps");
+					for (String msg : Messages.getMessages("Main", "Cancelled")) {
+						p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+								msg)));
+					}
 					e.setCancelled(true);
 					return;
 				}
-				
-				Log.addLog(Universal.get().getMethods(), p.getName() + ": Removed command /" + removeopcommand.getCommand() + " in opblock.yml");
-				
-				p.sendMessage("Command=" + removeopcommand.getCommand());
-				p.sendMessage("Confirmation=" + removeopcommand.getConfirmation());
-				
-				BlockedCommands.removeBlockedCommand(removeopcommand.getCommand());
-				
+
+				if (BlockedOpCommands.removeBlockedCommand(removeopcommand.getCommand())) {
+					Log.addLog(Universal.get().getMethods(),
+							p.getName() + ": Removed command /" + removeopcommand.getCommand() + " in opblock.yml");
+
+					for (String msg : Messages.getMessages("Main", "RemovedOpCommandOutput")) {
+						p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+								msg.replace("%c", removeopcommand.getCommand()))));
+					}
+				} else {
+					for (String msg : Messages.getMessages("Main", "RemoveOpCouldNotRemove")) {
+						p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+								msg.replace("%c", removeopcommand.getCommand()).replace("%y",
+										removeopcommand.getConfirmation().toString()))));
+					}
+				}
+
 				partsHad.remove(p.getUniqueId().toString());
 				lookingFor.remove(p.getUniqueId().toString());
 			}
@@ -517,9 +602,13 @@ public class CommandValueListener implements Listener {
 			}
 			
 			if (!partsHad.get(p.getUniqueId().toString()).has("command")) {
-				FileConfiguration disabled = BukkitMain.oldConfig() ? OldConfigManager.getDisabled() : ConfigManager.getDisabled();
-				if (disabled.getString("DisabledCommands." + msg) != null) {
-					p.sendMessage("command is already blocked. cancelled.");
+				FileConfiguration disabled = BukkitMain.oldConfig() ? OldConfigManager.getDisabled() :
+						ConfigManager.getDisabled();
+				if (disabled.contains("DisabledCommands." + msg)) {
+					for (String msg2 : Messages.getMessages("Main", "CommandAlreadyBlocked")) {
+						p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+								msg2.replace("%c", message))));
+					}
 					lookingFor.remove(p.getUniqueId().toString());
 					partsHad.remove(p.getUniqueId().toString());
 					e.setCancelled(true);
@@ -528,45 +617,60 @@ public class CommandValueListener implements Listener {
 				JsonObject object = partsHad.get(p.getUniqueId().toString());
 				object.addProperty("command", message);
 				partsHad.put(p.getUniqueId().toString(), object);
-				
-				p.sendMessage("add a permission");
+
+				for (String msg2 : Messages.getMessages("Main", "AddPermission")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+							msg2)));
+				}
 				/*
 				 * Send message to add a permission
 				 */
-				
+
 			} else if (!partsHad.get(p.getUniqueId().toString()).has("permission")) {
-				
+
 				/*
-				 * Send message that you can't use a command 
+				 * Send message that you can't use a command
 				 */
-				p.sendMessage("you cant use a command for this");
-				
+				for (String msg2 : Messages.getMessages("Main", "CantUseCommand")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+							msg2)));
+				}
+
 				e.setCancelled(true);
 				return;
 			} else if (!partsHad.get(p.getUniqueId().toString()).has("message")) {
-				
+
 				/*
-				 * Send message that you can't use a command 
+				 * Send message that you can't use a command
 				 */
-				p.sendMessage("you cant use a command for this");
-				
+				for (String msg2 : Messages.getMessages("Main", "CantUseCommand")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+							msg2)));
+				}
+
 				e.setCancelled(true);
 				return;
 			} else if (!partsHad.get(p.getUniqueId().toString()).has("worlds")) {
-				
+
 				/*
-				 * Send message that you can't use a command 
+				 * Send message that you can't use a command
 				 */
-				p.sendMessage("you cant use a command for this");
-				
+				for (String msg2 : Messages.getMessages("Main", "CantUseCommand")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+							msg2)));
+				}
+
 				e.setCancelled(true);
 				return;
 			} else if (!partsHad.get(p.getUniqueId().toString()).has("playercommands")) {
 				JsonObject object = partsHad.get(p.getUniqueId().toString());
 				object.addProperty("playercommands", message);
 				partsHad.put(p.getUniqueId().toString(), object);
-				
-				p.sendMessage("add a console command");
+
+				for (String msg2 : Messages.getMessages("Main", "AddConsoleCommand")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+							msg2)));
+				}
 				/*
 				 * Send message to add a console command
 				 */
@@ -574,17 +678,23 @@ public class CommandValueListener implements Listener {
 				JsonObject object = partsHad.get(p.getUniqueId().toString());
 				object.addProperty("consolecommands", message);
 				partsHad.put(p.getUniqueId().toString(), object);
-				
-				p.sendMessage("confirmation: yes or no");
+
+				for (String msg2 : Messages.getMessages("Main", "Confirmation")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+							msg2)));
+				}
 				/*
 				 * Send message to add a confirmation
 				 */
 			} else if (!partsHad.get(p.getUniqueId().toString()).has("confirmation")) {
 				/*
-				 * Send message that you can't use a command 
+				 * Send message that you can't use a command
 				 */
-				p.sendMessage("you cant use a command for this");
-				
+				for (String msg2 : Messages.getMessages("Main", "CantUseCommand")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+							msg2)));
+				}
+
 				e.setCancelled(true);
 				return;
 			}
@@ -597,9 +707,13 @@ public class CommandValueListener implements Listener {
 			}
 			
 			if (!partsHad.get(p.getUniqueId().toString()).has("command")) {
-				FileConfiguration disabled = BukkitMain.oldConfig() ? OldConfigManager.getDisabled() : ConfigManager.getDisabled();
-				if (disabled.getString("DisabledCommands." + msg) == null) {
-					p.sendMessage("command is not blocked. cancelled.");
+				FileConfiguration disabled = BukkitMain.oldConfig() ? OldConfigManager.getDisabled() :
+						ConfigManager.getDisabled();
+				if (!disabled.contains("DisabledCommands." + msg)) {
+					for (String msg2 : Messages.getMessages("Main", "UnblockCancelledBecauseNotBlocked")) {
+						p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+								msg2.replace("%c", message))));
+					}
 					lookingFor.remove(p.getUniqueId().toString());
 					partsHad.remove(p.getUniqueId().toString());
 					e.setCancelled(true);
@@ -608,16 +722,22 @@ public class CommandValueListener implements Listener {
 				JsonObject object = partsHad.get(p.getUniqueId().toString());
 				object.addProperty("command", message);
 				partsHad.put(p.getUniqueId().toString(), object);
-				
-				p.sendMessage("do you want to remove /" + message + " from the block list?");
 
-				
+				for (String msg2 : Messages.getMessages("Main", "RemoveCommandQuestion")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p,
+							ChatColor.translateAlternateColorCodes('&', msg2).replace("%c", message)));
+				}
+
+
 			} else if (!partsHad.get(p.getUniqueId().toString()).has("confirmation")) {
 				/*
-				 * Send message that you can't use a command 
+				 * Send message that you can't use a command
 				 */
-				p.sendMessage("you cant use a command for this");
-				
+				for (String msg2 : Messages.getMessages("Main", "CantUseCommand")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+							msg2)));
+				}
+
 				e.setCancelled(true);
 				return;
 			}
@@ -630,9 +750,13 @@ public class CommandValueListener implements Listener {
 			}
 			
 			if (!partsHad.get(p.getUniqueId().toString()).has("command")) {
-				FileConfiguration disabled = BukkitMain.oldConfig() ? OldConfigManager.getOpDisabled() : ConfigManager.getOpDisabled();
-				if (disabled.getString("DisabledOpCommands." + msg) != null) {
-					p.sendMessage("command is already blocked. cancelled.");
+				FileConfiguration disabled = BukkitMain.oldConfig() ? OldConfigManager.getOpDisabled() :
+						ConfigManager.getOpDisabled();
+				if (disabled.contains("DisabledOpCommands." + msg)) {
+					for (String msg2 : Messages.getMessages("Main", "CommandAlreadyBlocked")) {
+						p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+								msg2.replace("%c", message))));
+					}
 					lookingFor.remove(p.getUniqueId().toString());
 					partsHad.remove(p.getUniqueId().toString());
 					e.setCancelled(true);
@@ -641,36 +765,48 @@ public class CommandValueListener implements Listener {
 				JsonObject object = partsHad.get(p.getUniqueId().toString());
 				object.addProperty("command", message);
 				partsHad.put(p.getUniqueId().toString(), object);
-				
-				p.sendMessage("add a message");
+
+				for (String msg2 : Messages.getMessages("Main", "AddOpAddMessage")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+							msg2)));
+				}
 				/*
 				 * Send message to add a permission
 				 */
-				
+
 			} else if (!partsHad.get(p.getUniqueId().toString()).has("message")) {
-				
+
 				/*
-				 * Send message that you can't use a command 
+				 * Send message that you can't use a command
 				 */
-				p.sendMessage("you cant use a command for this");
-				
+				for (String msg2 : Messages.getMessages("Main", "CantUseCommand")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+							msg2)));
+				}
+
 				e.setCancelled(true);
 				return;
 			} else if (!partsHad.get(p.getUniqueId().toString()).has("worlds")) {
-				
+
 				/*
-				 * Send message that you can't use a command 
+				 * Send message that you can't use a command
 				 */
-				p.sendMessage("you cant use a command for this");
-				
+				for (String msg2 : Messages.getMessages("Main", "CantUseCommand")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+							msg2)));
+				}
+
 				e.setCancelled(true);
 				return;
 			} else if (!partsHad.get(p.getUniqueId().toString()).has("playercommands")) {
 				JsonObject object = partsHad.get(p.getUniqueId().toString());
 				object.addProperty("playercommands", message);
 				partsHad.put(p.getUniqueId().toString(), object);
-				
-				p.sendMessage("add a console command");
+
+				for (String msg2 : Messages.getMessages("Main", "AddOpAddConsoleCommand")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+							msg2)));
+				}
 				/*
 				 * Send message to add a permission
 				 */
@@ -678,17 +814,23 @@ public class CommandValueListener implements Listener {
 				JsonObject object = partsHad.get(p.getUniqueId().toString());
 				object.addProperty("consolecommands", message);
 				partsHad.put(p.getUniqueId().toString(), object);
-				
-				p.sendMessage("confirmation: yes or no");
+
+				for (String msg2 : Messages.getMessages("Main", "Confirmation")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+							msg2)));
+				}
 				/*
 				 * Send message to add a permission
 				 */
 			} else if (!partsHad.get(p.getUniqueId().toString()).has("confirmation")) {
 				/*
-				 * Send message that you can't use a command 
+				 * Send message that you can't use a command
 				 */
-				p.sendMessage("you can't use a command for this");
-				
+				for (String msg2 : Messages.getMessages("Main", "CantUseCommand")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+							msg2)));
+				}
+
 				e.setCancelled(true);
 				return;
 			}
@@ -699,11 +841,14 @@ public class CommandValueListener implements Listener {
 				CommandBlockerCmd.noPermissions(p);
 				return;
 			}
-			
 			if (!partsHad.get(p.getUniqueId().toString()).has("command")) {
-				FileConfiguration disabled = BukkitMain.oldConfig() ? OldConfigManager.getOpDisabled() : ConfigManager.getOpDisabled();
-				if (disabled.getString("DisabledCommands." + msg) == null) {
-					p.sendMessage("command is not blocked. cancelled.");
+				FileConfiguration disabled = BukkitMain.oldConfig() ? OldConfigManager.getOpDisabled() :
+						ConfigManager.getOpDisabled();
+				if (!disabled.contains("DisabledOpCommands." + msg)) {
+					for (String msg2 : Messages.getMessages("Main", "RemoveOpCouldNotRemove")) {
+						p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+								msg2.replace("%c", message))));
+					}
 					lookingFor.remove(p.getUniqueId().toString());
 					partsHad.remove(p.getUniqueId().toString());
 					e.setCancelled(true);
@@ -712,18 +857,24 @@ public class CommandValueListener implements Listener {
 				JsonObject object = partsHad.get(p.getUniqueId().toString());
 				object.addProperty("command", message);
 				partsHad.put(p.getUniqueId().toString(), object);
-				
-				p.sendMessage("do you want to remove /" + message + " from the block list for ops?");
+
+				for (String msg2 : Messages.getMessages("Main", "RemoveOpQuestion")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p,
+							ChatColor.translateAlternateColorCodes('&', msg2).replace("%c", message)));
+				}
 				/*
 				 * Send message to add a permission
 				 */
-				
+
 			} else if (!partsHad.get(p.getUniqueId().toString()).has("confirmation")) {
 				/*
-				 * Send message that you can't use a command 
+				 * Send message that you can't use a command
 				 */
-				p.sendMessage("you cant use a command for this");
-				
+				for (String msg2 : Messages.getMessages("Main", "CantUseCommand")) {
+					p.sendMessage(PlaceholderAPITest.testforPAPI(p, ChatColor.translateAlternateColorCodes('&',
+							msg2)));
+				}
+
 				e.setCancelled(true);
 				return;
 			}

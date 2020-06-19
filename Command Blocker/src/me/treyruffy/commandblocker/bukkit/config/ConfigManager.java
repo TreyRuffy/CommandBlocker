@@ -14,27 +14,31 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import me.treyruffy.commandblocker.bukkit.BukkitMain;
 
 public class ConfigManager {
-	
-	private static BukkitMain plugin = BukkitMain.get();
-	
+
+	private static final BukkitMain plugin = BukkitMain.get();
+
 	public static FileConfiguration MainConfig;
 	public static File MainConfigFile;
-	
+
 	public static FileConfiguration MainDisabled;
 	public static File MainDisabledFile;
-	
+
 	public static FileConfiguration OpDisabled;
 	public static File OpDisabledFile;
-	
+
+	public static FileConfiguration Messages;
+	public static File MessagesFile;
+
 	public void setup() {
 		if (!plugin.getDataFolder().exists()) {
 			plugin.getDataFolder().mkdir();
 		}
-		
+
 		MainConfigFile = new File(plugin.getDataFolder(), "config.yml");
 		MainDisabledFile = new File(plugin.getDataFolder(), "disabled.yml");
 		OpDisabledFile = new File(plugin.getDataFolder(), "opblock.yml");
-		
+		MessagesFile = new File(plugin.getDataFolder(), "messages.yml");
+
 		if (!MainConfigFile.exists()) {
 			try {
 				MainConfigFile.createNewFile();
@@ -42,7 +46,7 @@ public class ConfigManager {
 				Bukkit.getServer().getLogger().log(Level.SEVERE, "Could not save " + MainConfigFile + ".", e);
 			}
 		}
-		
+
 		if (!MainDisabledFile.exists()) {
 			try {
 				MainDisabledFile.createNewFile();
@@ -57,10 +61,18 @@ public class ConfigManager {
 				Bukkit.getServer().getLogger().log(Level.SEVERE, "Could not save " + OpDisabledFile + ".", e);
 			}
 		}
-		
+		if (!MessagesFile.exists()) {
+			try {
+				MessagesFile.createNewFile();
+			} catch (IOException e) {
+				Bukkit.getServer().getLogger().log(Level.SEVERE, "Could not save " + MessagesFile + ".", e);
+			}
+		}
+
 		MainConfig = YamlConfiguration.loadConfiguration(MainConfigFile);
 		MainDisabled = YamlConfiguration.loadConfiguration(MainDisabledFile);
 		OpDisabled = YamlConfiguration.loadConfiguration(OpDisabledFile);
+		Messages = YamlConfiguration.loadConfiguration(MessagesFile);
 	}
 	
 	public static FileConfiguration getConfig() {
@@ -73,15 +85,23 @@ public class ConfigManager {
 		if (MainDisabled == null) {
 			reloadDisabled();
 		}
-		return MainDisabled; 
+		return MainDisabled;
 	}
+
 	public static FileConfiguration getOpDisabled() {
 		if (OpDisabled == null) {
 			reloadOpDisabled();
 		}
 		return OpDisabled;
 	}
-	
+
+	public static FileConfiguration getMessages() {
+		if (Messages == null) {
+			reloadMessages();
+		}
+		return Messages;
+	}
+
 	public static void saveConfig() {
 		if (MainConfig == null) {
 			throw new NullArgumentException("Cannot save a non-existent file!");
@@ -102,6 +122,7 @@ public class ConfigManager {
 			Bukkit.getServer().getLogger().log(Level.SEVERE, "Could not save " + MainDisabledFile + ".", e);
 		}
 	}
+
 	public static void saveOpDisabled() {
 		if (OpDisabled == null) {
 			throw new NullArgumentException("Cannot save a non-existent file!");
@@ -112,7 +133,18 @@ public class ConfigManager {
 			Bukkit.getServer().getLogger().log(Level.SEVERE, "Could not save " + OpDisabledFile + ".", e);
 		}
 	}
-	
+
+	public static void saveMessages() {
+		if (Messages == null) {
+			throw new NullArgumentException("Cannot save a non-existent file!");
+		}
+		try {
+			Messages.save(MessagesFile);
+		} catch (IOException e) {
+			Bukkit.getServer().getLogger().log(Level.SEVERE, "Could not save " + MessagesFile + ".", e);
+		}
+	}
+
 	public static void reloadConfig() {
 		MainConfigFile = new File(plugin.getDataFolder(), "config.yml");
 		if (!MainConfigFile.exists()) {
@@ -155,6 +187,22 @@ public class ConfigManager {
 				OpDisabled.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(opData)));
 			} catch (NoSuchMethodError e) {
 				OpDisabled.setDefaults(YamlConfiguration.loadConfiguration(OpDisabledFile));
+			}
+		}
+	}
+
+	public static void reloadMessages() {
+		MessagesFile = new File(plugin.getDataFolder(), "messages.yml");
+		if (!MessagesFile.exists()) {
+			plugin.saveResource("messages.yml", false);
+		}
+		Messages = YamlConfiguration.loadConfiguration(MessagesFile);
+		InputStream messagesData = plugin.getResource("messages.yml");
+		if (messagesData != null) {
+			try {
+				Messages.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(messagesData)));
+			} catch (NoSuchMethodError e) {
+				Messages.setDefaults(YamlConfiguration.loadConfiguration(MessagesFile));
 			}
 		}
 	}

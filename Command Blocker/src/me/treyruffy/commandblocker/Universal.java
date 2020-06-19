@@ -1,7 +1,5 @@
 package me.treyruffy.commandblocker;
 
-import me.treyruffy.commandblocker.updater.Updates;
-
 public class Universal {
 
 	private static Universal instance = null;
@@ -15,7 +13,6 @@ public class Universal {
 		this.mi = mi;
 		
 		mi.setupMetrics();
-		Updates.updateCheck(mi);
 	}
 	
 	public MethodInterface getMethods() {

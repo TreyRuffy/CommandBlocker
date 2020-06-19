@@ -37,7 +37,7 @@ public class BungeeMethods implements MethodInterface {
 
 	@Override
 	public void sendMessage(Object player, String msg) {
-		((CommandSender) player).sendMessage(new TextComponent(msg));
+		((CommandSender) player).sendMessage(TextComponent.fromLegacyText(msg));
 	}
 
 	@Override

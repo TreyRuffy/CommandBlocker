@@ -83,7 +83,7 @@ public class BungeeBlock implements Listener {
 
 					// MannyLama's patch #9
 					if (message.length() != 0) {
-						p.sendMessage(new TextComponent(message));
+						p.sendMessage(TextComponent.fromLegacyText(message));
 					}
 				}
 				

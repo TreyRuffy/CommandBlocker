@@ -3,6 +3,7 @@ package me.treyruffy.commandblocker.bungeecord.listeners;
 import me.treyruffy.commandblocker.Universal;
 import me.treyruffy.commandblocker.bungeecord.BungeeMain;
 import me.treyruffy.commandblocker.bungeecord.config.BungeeConfigManager;
+import me.treyruffy.commandblocker.bungeecord.config.Messages;
 import me.treyruffy.commandblocker.updater.UpdateChecker;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
@@ -27,7 +28,8 @@ public class Update implements Listener {
 		if (!p.hasPermission("cb.updates")) {
 			return;
 		}
-		String latestUpdate = UpdateChecker.request("5280", "CommandBlocker v" + BungeeMain.get().getProxy().getPluginManager().getPlugin("CommandBlocker").getDescription().getVersion() + " BungeeCord");
+		String latestUpdate = UpdateChecker.request("5280",
+				"Trey's Command Blocker v" + BungeeMain.get().getProxy().getPluginManager().getPlugin("CommandBlocker").getDescription().getVersion() + " BungeeCord");
 		if (latestUpdate.equals("")) {
 			return;
 		}
@@ -37,12 +39,9 @@ public class Update implements Listener {
 			return;
 		}
 		ProxyServer.getInstance().getScheduler().runAsync(BungeeMain.get(), () -> {
-			p.sendMessage(new TextComponent(ChatColor.AQUA + "+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=+"));
-			p.sendMessage(new TextComponent(ChatColor.GREEN + "There is a new update for"));
-			p.sendMessage(new TextComponent(ChatColor.GREEN + "Command Blocker"));
-			p.sendMessage(new TextComponent(ChatColor.RED + "Download at:"));
-			p.sendMessage(new TextComponent(ChatColor.LIGHT_PURPLE + "https://www.spigotmc.org/resources/5280/"));
-			p.sendMessage(new TextComponent(ChatColor.AQUA + "+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=+"));
+			for (String message1 : Messages.getMessages("Updates", "UpdateFound")) {
+				p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', message1)));
+			}
 		});
 	}
 }

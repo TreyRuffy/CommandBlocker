@@ -1,5 +1,8 @@
 package me.treyruffy.commandblocker.bukkit.listeners;
 
+import me.clip.placeholderapi.PlaceholderAPI;
+import me.treyruffy.commandblocker.bukkit.PlaceholderAPITest;
+import me.treyruffy.commandblocker.bukkit.config.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -31,8 +34,7 @@ public class Update implements Listener {
 		}
 
 		String latestUpdate = UpdateChecker.request("5280",
-				"CommandBlocker v" + BukkitMain.get().getDescription().getVersion() +
-						" Bukkit");
+				"Trey's Command Blocker v" + BukkitMain.get().getDescription().getVersion() + " Bukkit");
 		if (latestUpdate.equals("")) {
 			return;
 		}
@@ -43,12 +45,10 @@ public class Update implements Listener {
 		}
 		
 		Bukkit.getScheduler().runTaskLaterAsynchronously(BukkitMain.get(), () -> {
-			p.sendMessage(ChatColor.AQUA + "+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=+");
-			p.sendMessage(ChatColor.GREEN + "There is a new update (" + latestUpdate + ") for");
-			p.sendMessage(ChatColor.GREEN + "Trey's Command Blocker");
-			p.sendMessage(ChatColor.RED + "Download at:");
-			p.sendMessage(ChatColor.LIGHT_PURPLE + "https://www.spigotmc.org/resources/5280/");
-			p.sendMessage(ChatColor.AQUA + "+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=+");
+			for (String msg2 : Messages.getMessages("Updates", "UpdateFound")) {
+				p.sendMessage(PlaceholderAPITest.testforPAPI(p,
+						ChatColor.translateAlternateColorCodes('&', msg2).replace("%s", latestUpdate)));
+			}
 		}, 4L);
 		
 	}

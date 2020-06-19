@@ -17,26 +17,126 @@ import me.treyruffy.commandblocker.bukkit.BukkitMain;
 import me.treyruffy.commandblocker.bukkit.Variables;
 import me.treyruffy.commandblocker.bukkit.config.ConfigManager;
 import me.treyruffy.commandblockerlegacy.OldConfigManager;
+import org.jetbrains.annotations.NotNull;
 
 public class BukkitBlock implements Listener{
-	
+
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onCommand(PlayerCommandPreprocessEvent e) {
+	public void onCommand(@NotNull PlayerCommandPreprocessEvent e) {
 		Player p = e.getPlayer();
-		
-		Boolean cancel = p.isOp() ? opBlocker(e.getPlayer(), e.getMessage().split(" ")) : blocker(e.getPlayer(), e.getMessage().split(" "));
+
+		Boolean cancel = p.isOp() ? opBlocker(e.getPlayer(), e.getMessage().split(" ")) : blocker(e.getPlayer(),
+				e.getMessage().split(" "));
 		if (cancel) {
 			e.setCancelled(true);
 		}
 	}
-	
-	private Boolean blocker(Player p, String[] args) {
-		FileConfiguration disabled = BukkitMain.oldConfig() ? OldConfigManager.getDisabled() : ConfigManager.getDisabled();
-		
+
+	private @NotNull Boolean blocker(Player p, String[] args) {
+
+		FileConfiguration disabled = BukkitMain.oldConfig() ? OldConfigManager.getDisabled() :
+				ConfigManager.getDisabled();
+		FileConfiguration config = BukkitMain.oldConfig() ? OldConfigManager.getConfig() : ConfigManager.getConfig();
+
+		if (config.getBoolean("ColonedCommands.Enabled")) {
+			if (!config.getStringList("ColonedCommands.Worlds").contains("all")) {
+				if (!config.getStringList("ColonedCommands.Worlds").contains(p.getWorld().getName())) {
+					return false;
+				}
+			}
+
+			if (config.getStringList("ColonedCommands.WhitelistedPlayers").contains(p.getUniqueId().toString())) {
+				return false;
+			}
+
+			if (p.hasPermission(config.getString("ColonedCommands.Permission"))) {
+				return false;
+			}
+
+			if (config.getBoolean("ColonedCommands.DisableAllColonsInCommands")) {
+				if (args[0].startsWith("/") && args[0].contains(":")) {
+					if (!config.getString("ColonedCommands.Message").replace(" ", "").equalsIgnoreCase("none")) {
+						String message;
+						if ((config.getString("ColonedCommands.Message") == null) || (config.getString(
+								"ColonedCommands.Message").equalsIgnoreCase("default"))) {
+							String msg = ChatColor.translateAlternateColorCodes('&', config.getString("Default" +
+									".Message"));
+
+							message = (BukkitMain.isPapiEnabled() ? PlaceholderAPI.setPlaceholders(p,
+									Variables.translateVariables(msg, p)) : Variables.translateVariables(msg, p));
+						} else {
+							String msg = ChatColor.translateAlternateColorCodes('&', config.getString("ColonedCommands"
+									+ ".Message"));
+
+							message = (BukkitMain.isPapiEnabled() ? PlaceholderAPI.setPlaceholders(p,
+									Variables.translateVariables(msg, p)) : Variables.translateVariables(msg, p));
+						}
+						// MannyLama's patch #9
+						if (message.length() != 0) {
+							p.sendMessage(message);
+						}
+
+						if ((config.getStringList("ColonedCommands.PlayerCommands").size() > 0) && (!config.getStringList("ColonedCommands.PlayerCommands").contains("none"))) {
+							for (String s : config.getStringList("ColonedCommands.PlayerCommands")) {
+								p.performCommand(Variables.translateVariables(s, p));
+							}
+						}
+
+						if (config.getStringList("ColonedCommands.ConsoleCommands").size() > 0 && (!config.getStringList("ColonedCommands.ConsoleCommands").contains("none"))) {
+							for (String s : config.getStringList("ColonedCommands.ConsoleCommands")) {
+								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Variables.translateVariables(s, p));
+							}
+						}
+					}
+					return true;
+				}
+			} else {
+				for (String c : config.getStringList("ColonedCommands.DisableColonsInFollowingCommands")) {
+					if (args[0].toLowerCase().startsWith("/" + c.toLowerCase() + ":")) {
+						if (!config.getString("ColonedCommands.Message").replace(" ", "").equalsIgnoreCase("none")) {
+							String message;
+							if ((config.getString("ColonedCommands.Message") == null) || (config.getString(
+									"ColonedCommands.Message").equalsIgnoreCase("default"))) {
+								String msg = ChatColor.translateAlternateColorCodes('&', config.getString("Default" +
+										".Message"));
+
+								message = (BukkitMain.isPapiEnabled() ? PlaceholderAPI.setPlaceholders(p,
+										Variables.translateVariables(msg, p)) : Variables.translateVariables(msg, p));
+							} else {
+								String msg = ChatColor.translateAlternateColorCodes('&', config.getString(
+										"ColonedCommands.Message"));
+
+								message = (BukkitMain.isPapiEnabled() ? PlaceholderAPI.setPlaceholders(p,
+										Variables.translateVariables(msg, p)) : Variables.translateVariables(msg, p));
+							}
+							// MannyLama's patch #9
+							if (message.length() != 0) {
+								p.sendMessage(message);
+							}
+
+							if ((config.getStringList("ColonedCommands.PlayerCommands").size() > 0) && (!config.getStringList("ColonedCommands.PlayerCommands").contains("none"))) {
+								for (String s : config.getStringList("ColonedCommands.PlayerCommands")) {
+									p.performCommand(Variables.translateVariables(s, p));
+								}
+							}
+
+							if (config.getStringList("ColonedCommands.ConsoleCommands").size() > 0 && (!config.getStringList("ColonedCommands.ConsoleCommands").contains("none"))) {
+								for (String s : config.getStringList("ColonedCommands.ConsoleCommands")) {
+									Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Variables.translateVariables(s,
+											p));
+								}
+							}
+						}
+						return true;
+					}
+				}
+			}
+		}
+
 		if (disabled.getConfigurationSection("DisabledCommands") == null) {
 			return false;
 		}
-		
+
 		for (String cmd : disabled.getConfigurationSection("DisabledCommands").getKeys(false)) {
 			String cmds = cmd.replace("%colon%", ":");
 			String[] cmdList = cmds.split(" ");
@@ -47,7 +147,7 @@ public class BukkitBlock implements Listener{
 					for (String s : cmdList) {
 						
 						if (j != 0) {
-							if (!args[i].equalsIgnoreCase(s)) {
+							if (!s.equalsIgnoreCase(args[i])) {
 								return false;
 							}
 							i++;
@@ -60,7 +160,6 @@ public class BukkitBlock implements Listener{
 				}
 
 				String permission = cmd.replace(":", "").replace("%colon%", "").replace(" ", "");
-				FileConfiguration config = BukkitMain.oldConfig() ? OldConfigManager.getConfig() : ConfigManager.getConfig();
 
 				if (disabled.getStringList("DisabledCommands." + cmd + ".Worlds").isEmpty()) {
 					List<String> a = new ArrayList<>();
@@ -115,7 +214,8 @@ public class BukkitBlock implements Listener{
 
 				if (disabled.getStringList("DisabledCommands." + cmd + ".ConsoleCommands").size() > 0 && (!disabled.getStringList("DisabledCommands." + cmd + ".ConsoleCommands").contains("none"))) {
 					for (String s : disabled.getStringList("DisabledCommands." + cmd + ".ConsoleCommands")) {
-						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Variables.translateVariables(s, p).replace("%command%", cmds));
+						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Variables.translateVariables(s, p).replace(
+								"%command%", cmds));
 					}
 				}
 				return true;
@@ -124,15 +224,113 @@ public class BukkitBlock implements Listener{
 		return false;
 	}
 
-	private Boolean opBlocker(Player p, String[] args) {
-		FileConfiguration opDisabled = BukkitMain.oldConfig() ? OldConfigManager.getOpDisabled() : ConfigManager.getOpDisabled();
+	private @NotNull Boolean opBlocker(Player p, String[] args) {
+		FileConfiguration config = BukkitMain.oldConfig() ? OldConfigManager.getConfig() : ConfigManager.getConfig();
+		FileConfiguration opDisabled = BukkitMain.oldConfig() ? OldConfigManager.getOpDisabled() :
+				ConfigManager.getOpDisabled();
+
+		if (config.getBoolean("ColonedCommands.Enabled")) {
+			if (!config.getStringList("ColonedCommands.Worlds").contains("all")) {
+				if (!config.getStringList("ColonedCommands.Worlds").contains(p.getWorld().getName())) {
+					return false;
+				}
+			}
+
+			if (config.getStringList("ColonedCommands.WhitelistedPlayers").contains(p.getUniqueId().toString())) {
+				return false;
+			}
+
+			if (config.getBoolean("ColonedCommands.DisableForOperators")) {
+				return false;
+			}
+
+			if (config.getBoolean("ColonedCommands.DisableAllColonsInCommands")) {
+				if (args[0].startsWith("/") && args[0].contains(":")) {
+					if (!config.getString("ColonedCommands.Message").replace(" ", "").equalsIgnoreCase("none")) {
+						String message;
+						if ((config.getString("ColonedCommands.Message") == null) || (config.getString(
+								"ColonedCommands.Message").equalsIgnoreCase("default"))) {
+							String msg = ChatColor.translateAlternateColorCodes('&', config.getString("Default" +
+									".Message"));
+
+							message = (BukkitMain.isPapiEnabled() ? PlaceholderAPI.setPlaceholders(p,
+									Variables.translateVariables(msg, p)) : Variables.translateVariables(msg, p));
+						} else {
+							String msg = ChatColor.translateAlternateColorCodes('&', config.getString("ColonedCommands"
+									+ ".Message"));
+
+							message = (BukkitMain.isPapiEnabled() ? PlaceholderAPI.setPlaceholders(p,
+									Variables.translateVariables(msg, p)) : Variables.translateVariables(msg, p));
+						}
+						// MannyLama's patch #9
+						if (message.length() != 0) {
+							p.sendMessage(message);
+						}
+
+						if ((config.getStringList("ColonedCommands.PlayerCommands").size() > 0) && (!config.getStringList("ColonedCommands.PlayerCommands").contains("none"))) {
+							for (String s : config.getStringList("ColonedCommands.PlayerCommands")) {
+								p.performCommand(Variables.translateVariables(s, p));
+							}
+						}
+
+						if (config.getStringList("ColonedCommands.ConsoleCommands").size() > 0 && (!config.getStringList("ColonedCommands.ConsoleCommands").contains("none"))) {
+							for (String s : config.getStringList("ColonedCommands.ConsoleCommands")) {
+								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Variables.translateVariables(s, p));
+							}
+						}
+					}
+					return true;
+				}
+			} else {
+				for (String c : config.getStringList("ColonedCommands.DisableColonsInFollowingCommands")) {
+					if (args[0].toLowerCase().startsWith("/" + c.toLowerCase() + ":")) {
+						if (!config.getString("ColonedCommands.Message").replace(" ", "").equalsIgnoreCase("none")) {
+							String message;
+							if ((config.getString("ColonedCommands.Message") == null) || (config.getString(
+									"ColonedCommands.Message").equalsIgnoreCase("default"))) {
+								String msg = ChatColor.translateAlternateColorCodes('&', config.getString("Default" +
+										".Message"));
+
+								message = (BukkitMain.isPapiEnabled() ? PlaceholderAPI.setPlaceholders(p,
+										Variables.translateVariables(msg, p)) : Variables.translateVariables(msg, p));
+							} else {
+								String msg = ChatColor.translateAlternateColorCodes('&', config.getString(
+										"ColonedCommands.Message"));
+
+								message = (BukkitMain.isPapiEnabled() ? PlaceholderAPI.setPlaceholders(p,
+										Variables.translateVariables(msg, p)) : Variables.translateVariables(msg, p));
+							}
+							// MannyLama's patch #9
+							if (message.length() != 0) {
+								p.sendMessage(message);
+							}
+
+							if ((config.getStringList("ColonedCommands.PlayerCommands").size() > 0) && (!config.getStringList("ColonedCommands.PlayerCommands").contains("none"))) {
+								for (String s : config.getStringList("ColonedCommands.PlayerCommands")) {
+									p.performCommand(Variables.translateVariables(s, p));
+								}
+							}
+
+							if (config.getStringList("ColonedCommands.ConsoleCommands").size() > 0 && (!config.getStringList("ColonedCommands.ConsoleCommands").contains("none"))) {
+								for (String s : config.getStringList("ColonedCommands.ConsoleCommands")) {
+									Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Variables.translateVariables(s,
+											p));
+								}
+							}
+						}
+						return true;
+					}
+				}
+			}
+		}
+
 		if (opDisabled.getConfigurationSection("DisabledOpCommands") == null) {
 			return false;
 		}
-		
+
 		for (String cmd : opDisabled.getConfigurationSection("DisabledOpCommands").getKeys(false)) {
 			String cmds = cmd.replace("%colon%", ":");
-			
+
 			String[] cmdList = cmds.split(" ");
 			
 			if (args[0].equalsIgnoreCase("/" + cmdList[0])) {
@@ -153,8 +351,6 @@ public class BukkitBlock implements Listener{
 					return false;
 				}
 
-				FileConfiguration config = BukkitMain.oldConfig() ? OldConfigManager.getConfig() : ConfigManager.getConfig();
-				
 				if (opDisabled.getStringList("DisabledOpCommands." + cmd + ".Worlds").isEmpty()) {
 					List<String> a = new ArrayList<>();
 					a.add("all");
@@ -206,4 +402,5 @@ public class BukkitBlock implements Listener{
 		}
 		return false;
 	}
+
 }

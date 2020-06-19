@@ -23,20 +23,20 @@ public class CommandBlockerTabComplete implements TabCompleter {
 			if (sender.hasPermission("cb.remove")) {
 				tabCompletion.add("remove");
 			}
-			if (sender.hasPermission("cb.addop")) {
-				tabCompletion.add("addOp");
-			}
-			if (sender.hasPermission("cb.removeop")) {
-				tabCompletion.add("removeOp");
-			}
-			if (sender.hasPermission("cb.reload")) {
-				tabCompletion.add("reload");
-			}
 			if (sender.hasPermission("cb.edit")) {
 				tabCompletion.add("edit");
 			}
+			if (sender.hasPermission("cb.addop")) {
+				tabCompletion.add("addOP");
+			}
+			if (sender.hasPermission("cb.removeop")) {
+				tabCompletion.add("removeOP");
+			}
 			if (sender.hasPermission("cb.editop")) {
-				tabCompletion.add("editOp");
+				tabCompletion.add("editOP");
+			}
+			if (sender.hasPermission("cb.reload")) {
+				tabCompletion.add("reload");
 			}
 			if (args.length == 1) {
 				for (String list : tabCompletion) {

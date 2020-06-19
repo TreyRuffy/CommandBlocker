@@ -8,8 +8,10 @@ import com.google.gson.JsonObject;
 
 import me.treyruffy.commandblocker.Log;
 import me.treyruffy.commandblocker.Universal;
+import me.treyruffy.commandblocker.bungeecord.BungeeMain;
 import me.treyruffy.commandblocker.bungeecord.api.BlockedCommands;
 import me.treyruffy.commandblocker.bungeecord.config.BungeeConfigManager;
+import me.treyruffy.commandblocker.bungeecord.config.Messages;
 import me.treyruffy.commandblocker.bungeecord.listeners.BungeeCommandValueListener;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
@@ -17,7 +19,6 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
-import net.md_5.bungee.config.Configuration;
 
 
 public class CommandBlockerCommand extends Command implements TabExecutor {
@@ -36,49 +37,63 @@ public class CommandBlockerCommand extends Command implements TabExecutor {
 	public void execute(CommandSender sender, String[] args) {
     	
     	if ((!(sender.hasPermission("cb.add") || sender.hasPermission("cb.reload") || sender.hasPermission("cb.remove")) && (sender instanceof ProxiedPlayer))) {
-    		sender.sendMessage(new TextComponent(ChatColor.RED + "dont have perms"));
-    		return;
-    	}
+			sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+					BungeeConfigManager.getConfig().getString("Messages" + ".NoPermission"))));
+			return;
+		}
     	
-    	Configuration disabled = BungeeConfigManager.getDisabled();
-		Configuration config = BungeeConfigManager.getConfig();
-		
 		if (args.length == 0) {
-			sender.sendMessage(new TextComponent(ChatColor.RED + "its /cb <add, reload, remove>"));
-    		return;
+			for (String message : Messages.getMessages("Main", "BungeeNoArguments")) {
+				sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', message)));
+			}
+			return;
 		}
     	
 		if (args[0].equalsIgnoreCase("add")) {
 			if (!sender.hasPermission("cb.add")) {
-				sender.sendMessage(new TextComponent(ChatColor.RED + "dont have perms"));
+				sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+						BungeeConfigManager.getConfig().getString("Messages" + ".NoPermission"))));
 				return;
 			}
 			if (args.length == 1) {
 				if (!(sender instanceof ProxiedPlayer)) {
-					sender.sendMessage(new TextComponent(ChatColor.RED + "its /cb add <command> <permission> <message>"));
-		    		return;
+					for (String message : Messages.getMessages("Main", "AddArguments")) {
+						sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+								message)));
+					}
+					return;
 				}
 				ProxiedPlayer p = (ProxiedPlayer) sender;
 				BungeeCommandValueListener.lookingFor.put(p.getUniqueId().toString(), "add");
 				BungeeCommandValueListener.partsHad.put(p.getUniqueId().toString(), new JsonObject());
-				p.sendMessage(new TextComponent("add the command to block"));
-				return;
+				for (String message : Messages.getMessages("Main", "AddCommandToBlock")) {
+					sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+							message)));
+				}
 			} else if (args.length == 2) {
 				if (!(sender instanceof ProxiedPlayer)) {
-					sender.sendMessage(new TextComponent(ChatColor.RED + "its /cb add <command> <permission> <message>"));
-		    		return;
+					for (String message : Messages.getMessages("Main", "AddArguments")) {
+						sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+								message)));
+					}
+					return;
 				}
 				ProxiedPlayer p = (ProxiedPlayer) sender;
 				BungeeCommandValueListener.lookingFor.put(p.getUniqueId().toString(), "add");
 				JsonObject object = new JsonObject();
 				object.addProperty("command", args[0]);
 				BungeeCommandValueListener.partsHad.put(p.getUniqueId().toString(), object);
-				p.sendMessage(new TextComponent("add the permission for the blocked command"));
-				return;
+				for (String message : Messages.getMessages("Main", "AddPermission")) {
+					sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+							message)));
+				}
 			} else if (args.length == 3) {
 				if (!(sender instanceof ProxiedPlayer)) {
-					sender.sendMessage(new TextComponent(ChatColor.RED + "its /cb add <command> <permission> <message>"));
-		    		return;
+					for (String message : Messages.getMessages("Main", "AddArguments")) {
+						sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+								message)));
+					}
+					return;
 				}
 				ProxiedPlayer p = (ProxiedPlayer) sender;
 				BungeeCommandValueListener.lookingFor.put(p.getUniqueId().toString(), "add");
@@ -86,111 +101,142 @@ public class CommandBlockerCommand extends Command implements TabExecutor {
 				object.addProperty("command", args[0]);
 				object.addProperty("permission", args[1]);
 				BungeeCommandValueListener.partsHad.put(p.getUniqueId().toString(), object);
-				p.sendMessage(new TextComponent("add the message for the blocked command"));
-				return;
+				for (String message : Messages.getMessages("Main", "AddMessage")) {
+					sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+							message)));
+				}
 			} else {
 				if (!(sender instanceof ProxiedPlayer)) {
 					String command = args[1].substring(0, 1).toUpperCase() + args[1].substring(1).toLowerCase();
-					String msg = args[3];
+					StringBuilder msg = new StringBuilder(args[3]);
 					for (int i = 4; i < args.length; i++) {
-						msg = msg + " " + args[i];
+						msg.append(" ").append(args[i]);
 					}
-					if (BlockedCommands.addBlockedCommand(command, args[2], msg, null, null)) {
-						sender.sendMessage(new TextComponent("added /" + command + " with permission " + args[2] + " and message " + msg));
-						Log.addLog(Universal.get().getMethods(), sender.getName() + ": Added /" + command + " to disabled.yml with permission " + args[2] + " and message " + msg);
-						return;
+					if (BlockedCommands.addBlockedCommand(command, args[2], msg.toString(), null, null)) {
+						for (String message : Messages.getMessages("Main", "AddCommandToConfig")) {
+							sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&'
+									, message.replace("%c", command).replace("%p", args[2]).replace("%m", msg))));
+						}
+						Log.addLog(Universal.get().getMethods(), sender.getName() + ": Added /" + command + " to " +
+								"disabled.yml with permission " + args[2] + " and message " + msg);
 					} else {
-						sender.sendMessage(new TextComponent("could not add /" + command + " to disabled.yml"));
-						return;
+						for (String message : Messages.getMessages("Main", "CouldNotAddCommandToConfig")) {
+							sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&'
+									, message.replace("%c", command))));
+						}
 					}
-					
+
 				} else {
 					ProxiedPlayer p = (ProxiedPlayer) sender;
 					BungeeCommandValueListener.lookingFor.put(p.getUniqueId().toString(), "add");
 					JsonObject object = new JsonObject();
 					object.addProperty("command", args[1]);
 					object.addProperty("permission", args[2]);
-					String msg = args[3];
+					StringBuilder msg = new StringBuilder(args[3]);
 					for (int i = 4; i < args.length; i++) {
-						msg = msg + " " + args[i];
+						msg.append(" ").append(args[i]);
 					}
-					object.addProperty("message", msg);
+					object.addProperty("message", msg.toString());
 					BungeeCommandValueListener.partsHad.put(p.getUniqueId().toString(), object);
-					p.sendMessage(new TextComponent("add the servers for the blocked command"));
-					return;
+					for (String message : Messages.getMessages("Main", "AddServer")) {
+						sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+								message)));
+					}
 				}
 			}
 		} else if (args[0].equalsIgnoreCase("remove")) {
 			if (!sender.hasPermission("cb.add")) {
-				sender.sendMessage(new TextComponent(ChatColor.RED + "dont have perms"));
+				sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+						BungeeConfigManager.getConfig().getString("Messages" + ".NoPermission"))));
 				return;
 			}
 			if (args.length == 1) {
 				if (!(sender instanceof ProxiedPlayer)) {
-					sender.sendMessage(new TextComponent(ChatColor.RED + "its /cb remove <command>"));
-		    		return;
+					for (String message : Messages.getMessages("Main", "RemoveArguments")) {
+						sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+								message)));
+					}
+					return;
 				}
 				ProxiedPlayer p = (ProxiedPlayer) sender;
 				BungeeCommandValueListener.lookingFor.put(p.getUniqueId().toString(), "remove");
 				BungeeCommandValueListener.partsHad.put(p.getUniqueId().toString(), new JsonObject());
-				p.sendMessage(new TextComponent("add the command to unblock"));
-			} else {
-				String command = args[1];
-				for (int i = 2; i < args.length; i++) {
-					command = command + " " + args[i];
+				for (String message : Messages.getMessages("Main", "RemoveCommandFromBlocklist")) {
+					sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+							message)));
 				}
-				if (BlockedCommands.removeBlockedCommand(command)) {
-					sender.sendMessage(new TextComponent("removed /" + command + " from disabled.yml")); 
-					Log.addLog(Universal.get().getMethods(), sender.getName() + ": Removed /" + command + " from disabled.yml");
+			} else {
+				StringBuilder command = new StringBuilder(args[1]);
+				for (int i = 2; i < args.length; i++) {
+					command.append(" ").append(args[i]);
+				}
+				if (BlockedCommands.removeBlockedCommand(command.toString())) {
+					for (String message : Messages.getMessages("Main", "RemovedCommand")) {
+						sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+								message.replace("%c", command))));
+					}
+					Log.addLog(Universal.get().getMethods(), sender.getName() + ": Removed /" + command + " from " +
+							"disabled.yml");
 				} else {
-					sender.sendMessage(new TextComponent(ChatColor.RED + "could not remove /" + command));
+					for (String message : Messages.getMessages("Main", "UnblockCancelledBecauseNotBlocked")) {
+						sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+								message.replace("%c", command))));
+					}
 				}
 			}
 			
 		} else if (args[0].equalsIgnoreCase("reload")) {
 			if (!sender.hasPermission("cb.reload")) {
-				sender.sendMessage(new TextComponent(ChatColor.RED + "dont have perms"));
+				sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+						BungeeConfigManager.getConfig().getString("Messages" + ".NoPermission"))));
 				return;
 			}
-			
-			sender.sendMessage(new TextComponent(ChatColor.BLUE + "-=====[" + ChatColor.AQUA + ChatColor.BOLD + " Command Blocker " + ChatColor.BLUE + "]=====-"));
-			sender.sendMessage(new TextComponent(ChatColor.GREEN + "Reloading the Command Blocker yml files..."));
+
+			for (String message : Messages.getMessages("Main", "ReloadCommand")) {
+				sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', message)));
+			}
 			try {
 				BungeeConfigManager.reloadConfig();
 				BungeeConfigManager.reloadDisabled();
-				sender.sendMessage(new TextComponent(ChatColor.GREEN + "Reloaded the Command Blocker YAML files successfully!"));
-				sender.sendMessage(new TextComponent(ChatColor.BLUE + "-======================-"));
+				BungeeConfigManager.reloadMessages();
+				new BungeeMain().fixCommands();
+				for (String message : Messages.getMessages("Main", "ReloadSuccessful")) {
+					sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+							message)));
+				}
 			} catch (Exception e) {
-				sender.sendMessage(new TextComponent(ChatColor.RED + "Could not reload the Command Blocker YAML files."));
-				sender.sendMessage(new TextComponent(ChatColor.BLUE + "-======================-"));
+				for (String message : Messages.getMessages("Main", "ReloadFailed")) {
+					sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+							message)));
+				}
 				e.printStackTrace();
 			}
-			return;
 		} else {
-			sender.sendMessage(new TextComponent(ChatColor.RED + "its /cb <add, reload, remove>"));
-    		return;
+			for (String message : Messages.getMessages("Main", "BungeeNoArguments")) {
+				sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', message)));
+			}
 		}
 	}
 
-	public Iterable<String> onTabComplete(CommandSender sender, String[] args){
-			ArrayList<String> tab = new ArrayList<String>();
-			List<String> tabList = Lists.newArrayList();
-			if (sender.hasPermission("cb.add")){
-				tab.add("add");
-			}
-			if (sender.hasPermission("cb.remove")){
-				tab.add("remove");
-			}
-			if (sender.hasPermission("cb.reload")){
-				tab.add("reload");
-			}
-			if (args.length == 1) {
-				for (String list : tab) {
-					if (list.toLowerCase().startsWith(args[0].toLowerCase())){
-						tabList.add(list);
-					}
+	public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
+		ArrayList<String> tab = new ArrayList<>();
+		List<String> tabList = Lists.newArrayList();
+		if (sender.hasPermission("cb.add")) {
+			tab.add("add");
+		}
+		if (sender.hasPermission("cb.remove")) {
+			tab.add("remove");
+		}
+		if (sender.hasPermission("cb.reload")) {
+			tab.add("reload");
+		}
+		if (args.length == 1) {
+			for (String list : tab) {
+				if (list.toLowerCase().startsWith(args[0].toLowerCase())) {
+					tabList.add(list);
 				}
 			}
-			return tabList;
-	  }
+		}
+		return tabList;
+	}
 }

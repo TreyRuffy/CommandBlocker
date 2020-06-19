@@ -12,8 +12,10 @@ import me.treyruffy.commandblocker.Log;
 import me.treyruffy.commandblocker.Universal;
 import me.treyruffy.commandblocker.bungeecord.api.BlockedCommands;
 import me.treyruffy.commandblocker.bungeecord.config.BungeeConfigManager;
+import me.treyruffy.commandblocker.bungeecord.config.Messages;
 import me.treyruffy.commandblocker.json.AddCommand;
 import me.treyruffy.commandblocker.json.RemoveCommand;
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ChatEvent;
@@ -37,8 +39,7 @@ public class BungeeCommandValueListener implements Listener {
 		if (!(p.hasPermission("cb.add") || p.hasPermission("cb.remove"))) {
 			return;
 		}
-		
-		
+
 		if (!lookingFor.containsKey(p.getUniqueId().toString())) {
 			return;
 		}
@@ -49,7 +50,8 @@ public class BungeeCommandValueListener implements Listener {
 			if (lookingFor.get(p.getUniqueId().toString()).equalsIgnoreCase("add")) {
 				
 				if (!p.hasPermission("cb.add")) {
-					p.sendMessage(new TextComponent("no perms"));
+					p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+							BungeeConfigManager.getConfig().getString("Messages" + ".NoPermission"))));
 					return;
 				}
 				
@@ -57,64 +59,85 @@ public class BungeeCommandValueListener implements Listener {
 					Configuration disabled = BungeeConfigManager.getDisabled();
 
 					if (disabled.getSection("DisabledCommands").getKeys().contains(msg)) {
-						p.sendMessage(new TextComponent("command is already blocked. cancelled."));
+						for (String message1 : Messages.getMessages("Main", "CommandAlreadyBlocked")) {
+							p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+									message1.replace("%c", msg))));
+						}
 						lookingFor.remove(p.getUniqueId().toString());
 						partsHad.remove(p.getUniqueId().toString());
 						e.setCancelled(true);
 						return;
 					}
-					
+
 					JsonObject object = partsHad.get(p.getUniqueId().toString());
 					object.addProperty("command", message);
 					partsHad.put(p.getUniqueId().toString(), object);
-					
-					p.sendMessage(new TextComponent("add a permission"));
+
+					for (String message1 : Messages.getMessages("Main", "AddPermission")) {
+						p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+								message1)));
+					}
 					/*
 					 * Send message to add a permission
 					 */
-					
+
 				} else if (!partsHad.get(p.getUniqueId().toString()).has("permission")) {
-					
+
 					/*
-					 * Send message that you can't use a command 
+					 * Send message that you can't use a command
 					 */
-					p.sendMessage(new TextComponent("you cant use a command for this"));
-					
+					for (String message1 : Messages.getMessages("Main", "CantUseCommand")) {
+						p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+								message1)));
+					}
+
 					e.setCancelled(true);
 					return;
 				} else if (!partsHad.get(p.getUniqueId().toString()).has("message")) {
-					
+
 					/*
-					 * Send message that you can't use a command 
+					 * Send message that you can't use a command
 					 */
-					p.sendMessage(new TextComponent("you cant use a command for this"));
-					
+					for (String message1 : Messages.getMessages("Main", "CantUseCommand")) {
+						p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+								message1)));
+					}
+
 					e.setCancelled(true);
 					return;
 				} else if (!partsHad.get(p.getUniqueId().toString()).has("worlds")) {
-					
+
 					/*
-					 * Send message that you can't use a command 
+					 * Send message that you can't use a command
 					 */
-					p.sendMessage(new TextComponent("you cant use a command for this"));
-					
+					for (String message1 : Messages.getMessages("Main", "CantUseCommand")) {
+						p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+								message1)));
+					}
+
 					e.setCancelled(true);
 					return;
 				} else if (!partsHad.get(p.getUniqueId().toString()).has("playercommands")) {
 					JsonObject object = partsHad.get(p.getUniqueId().toString());
 					object.addProperty("playercommands", message);
 					partsHad.put(p.getUniqueId().toString(), object);
-							
-					p.sendMessage(new TextComponent("confirmation: yes or no"));
+
+					for (String message1 : Messages.getMessages("Main", "Confirmation")) {
+						p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+								message1)));
+					}
 					/*
 					 * Send message to add a confirmation
 					 */
 				} else if (!partsHad.get(p.getUniqueId().toString()).has("confirmation")) {
 					/*
-					 * Send message that you can't use a command 
+					 * Send message that you can't use a command
 					 */
-					p.sendMessage(new TextComponent("you cant use a command for this"));
-					
+					for (String message1 : Messages.getMessages("Main", "CantUseCommand")) {
+						p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+								message1)));
+					}
+
 					e.setCancelled(true);
 					return;
 				}
@@ -123,14 +146,17 @@ public class BungeeCommandValueListener implements Listener {
 			if (lookingFor.get(p.getUniqueId().toString()).equalsIgnoreCase("remove")) {
 				
 				if (!p.hasPermission("cb.remove")) {
-					p.sendMessage(new TextComponent("no perms"));
+					p.sendMessage(TextComponent.fromLegacyText("no perms"));
 					return;
 				}
 				
 				if (!partsHad.get(p.getUniqueId().toString()).has("command")) {
 					Configuration disabled = BungeeConfigManager.getDisabled();
 					if (!disabled.getSection("DisabledCommands").getKeys().contains(msg)) {
-						p.sendMessage(new TextComponent("command is not blocked. cancelled."));
+						for (String message1 : Messages.getMessages("Main", "RemoveCommandFromBlocklist")) {
+							p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+									message1)));
+						}
 						lookingFor.remove(p.getUniqueId().toString());
 						partsHad.remove(p.getUniqueId().toString());
 						e.setCancelled(true);
@@ -139,16 +165,22 @@ public class BungeeCommandValueListener implements Listener {
 					JsonObject object = partsHad.get(p.getUniqueId().toString());
 					object.addProperty("command", message);
 					partsHad.put(p.getUniqueId().toString(), object);
-					
-					p.sendMessage(new TextComponent("do you want to remove /" + message + " from the block list?"));
-	
-					
+
+					for (String message1 : Messages.getMessages("Main", "RemoveCommandQuestion")) {
+						p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+								message1.replace("%c", message))));
+					}
+
+
 				} else if (!partsHad.get(p.getUniqueId().toString()).has("confirmation")) {
 					/*
-					 * Send message that you can't use a command 
+					 * Send message that you can't use a command
 					 */
-					p.sendMessage(new TextComponent("you cant use a command for this"));
-					
+					for (String message1 : Messages.getMessages("Main", "CantUseCommand")) {
+						p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+								message1)));
+					}
+
 					e.setCancelled(true);
 					return;
 				}
@@ -160,7 +192,9 @@ public class BungeeCommandValueListener implements Listener {
 		if (e.getMessage().equalsIgnoreCase("cancel")) {
 			lookingFor.remove(p.getUniqueId().toString());
 			partsHad.remove(p.getUniqueId().toString());
-			p.sendMessage(new TextComponent("cancelled the command blocker steps"));
+			for (String message1 : Messages.getMessages("Main", "Cancelled")) {
+				p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', message1)));
+			}
 			e.setCancelled(true);
 			return;
 		}
@@ -168,65 +202,79 @@ public class BungeeCommandValueListener implements Listener {
 		if (lookingFor.get(p.getUniqueId().toString()).equalsIgnoreCase("add")) {
 			
 			if (!p.hasPermission("cb.add")) {
-				p.sendMessage(new TextComponent("no perms"));
+				p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+						BungeeConfigManager.getConfig().getString("Messages" + ".NoPermission"))));
 				return;
 			}
 			Configuration disabled = BungeeConfigManager.getDisabled();
 			if (!partsHad.get(p.getUniqueId().toString()).has("command")) {
 				String msg = e.getMessage().substring(0, 1).toUpperCase() + e.getMessage().substring(1).toLowerCase();
 				if (disabled.getSection("DisabledCommands").getKeys().contains(msg)) {
-					p.sendMessage(new TextComponent("command is already blocked. cancelled."));
+					for (String message1 : Messages.getMessages("Main", "CommandAlreadyBlocked")) {
+						p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+								message1.replace("%c", e.getMessage()))));
+					}
 					lookingFor.remove(p.getUniqueId().toString());
 					partsHad.remove(p.getUniqueId().toString());
 					e.setCancelled(true);
 					return;
 				}
-				
+
 				JsonObject object = partsHad.get(p.getUniqueId().toString());
 				object.addProperty("command", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
-				
-				p.sendMessage(new TextComponent("add a permission"));
+
+				for (String message1 : Messages.getMessages("Main", "AddPermission")) {
+					p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', message1)));
+				}
 				/*
 				 * Send message to add a permission
 				 */
-				
+
 			} else if (!partsHad.get(p.getUniqueId().toString()).has("permission")) {
 				JsonObject object = partsHad.get(p.getUniqueId().toString());
 				object.addProperty("permission", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
-				
-				p.sendMessage(new TextComponent("add a message"));
+
+				for (String message1 : Messages.getMessages("Main", "AddMessage")) {
+					p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', message1)));
+				}
 				/*
 				 * Send message to add a message
 				 */
-				
+
 			} else if (!partsHad.get(p.getUniqueId().toString()).has("message")) {
 				JsonObject object = partsHad.get(p.getUniqueId().toString());
 				object.addProperty("message", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
-				
-				p.sendMessage(new TextComponent("add which servers. comma seperating them or all for all servers"));
+
+				for (String message1 : Messages.getMessages("Main", "AddServer")) {
+					p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', message1)));
+				}
 				/*
 				 * Send message to add worlds. Allow for all.
 				 */
-				
+
 			} else if (!partsHad.get(p.getUniqueId().toString()).has("worlds")) {
 				JsonObject object = partsHad.get(p.getUniqueId().toString());
 				object.addProperty("worlds", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
-				
-				p.sendMessage(new TextComponent("add a player command"));
+
+				for (String message1 : Messages.getMessages("Main", "AddPlayerCommand")) {
+					p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', message1)));
+				}
 				/*
 				 * Send message to add player commands. Allow for none.
 				 */
-				
+
 			} else if (!partsHad.get(p.getUniqueId().toString()).has("playercommands")) {
 				JsonObject object = partsHad.get(p.getUniqueId().toString());
 				object.addProperty("playercommands", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
-				
-				p.sendMessage(new TextComponent("confirmation: yes or no"));
+
+				for (String message1 : Messages.getMessages("Main", "AddConfirmation")) {
+					p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', message1)));
+				}
 				/*
 				 * Send message to confirm if the command is right
 				 */
@@ -237,7 +285,10 @@ public class BungeeCommandValueListener implements Listener {
 				} else if (e.getMessage().equalsIgnoreCase("yes")) {
 					object.addProperty("confirmation", true);
 				} else {
-					p.sendMessage(new TextComponent("can only be yes or no"));
+					for (String message1 : Messages.getMessages("Main", "CanOnlyBeYesOrNo")) {
+						p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+								message1)));
+					}
 					e.setCancelled(true);
 					return;
 				}
@@ -246,19 +297,23 @@ public class BungeeCommandValueListener implements Listener {
 				
 				Gson gson = new Gson();
 				AddCommand addcommand = gson.fromJson(partsHad.get(p.getUniqueId().toString()), AddCommand.class);
-				
+
 				if (!addcommand.getConfirmation()) {
 					lookingFor.remove(p.getUniqueId().toString());
 					partsHad.remove(p.getUniqueId().toString());
-					p.sendMessage(new TextComponent("cancelled the command blocker steps"));
+					for (String message1 : Messages.getMessages("Main", "Cancelled")) {
+						p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+								message1)));
+					}
 					e.setCancelled(true);
 					return;
 				}
-				String cmd = addcommand.getCommand().substring(0, 1).toUpperCase() + addcommand.getCommand().substring(1).toLowerCase();
-				
+				String cmd =
+						addcommand.getCommand().substring(0, 1).toUpperCase() + addcommand.getCommand().substring(1).toLowerCase();
+
 				List<String> worlds = new ArrayList<>();
 				Collections.addAll(worlds, addcommand.getWorlds().split(","));
-				
+
 				List<String> pCmds = new ArrayList<>();
 				for (String s : addcommand.getPlayerCommands().split(",")) {
 					pCmds.add("/" + s);
@@ -274,28 +329,38 @@ public class BungeeCommandValueListener implements Listener {
 					+ " as the player");
 				
 				if (BlockedCommands.addBlockedCommand(cmd, addcommand.getPermission(), addcommand.getMessage(), worlds, pCmds)) {
-					p.sendMessage(new TextComponent("successfully added to the file."));
+					for (String message1 : Messages.getMessages("Main", "AddedCommandOutputBungee")) {
+						p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+								message1.replace("%c", addcommand.getCommand()).replace("%p",
+										addcommand.getPermission()).replace("%m", addcommand.getMessage()).replace("%s"
+										, addcommand.getWorlds()).replace("%x", addcommand.getPlayerCommands()).replace("%y", addcommand.getConfirmation().toString()))));
+					}
 				} else {
-					p.sendMessage(new TextComponent("already in the file. edit with /cb edit" + cmd));
+					for (String message1 : Messages.getMessages("Main", "CouldNotAddCommandToConfig")) {
+						p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+								message1)));
+					}
 				}
 				lookingFor.remove(p.getUniqueId().toString());
 				partsHad.remove(p.getUniqueId().toString());
 			}
 			e.setCancelled(true);
-		}
-		
-		
-		if (lookingFor.get(p.getUniqueId().toString()).equalsIgnoreCase("remove")) {
+		} else if (lookingFor.get(p.getUniqueId().toString()).equalsIgnoreCase("remove")) {
 			if (!p.hasPermission("cb.remove")) {
-				p.sendMessage(new TextComponent("no perms"));
+				p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+						BungeeConfigManager.getConfig().getString("Messages" + ".NoPermission"))));
 				return;
 			}
-			
+
 			if (!partsHad.get(p.getUniqueId().toString()).has("command")) {
 				Configuration disabled = BungeeConfigManager.getDisabled();
-				String message = e.getMessage().substring(0, 1).toUpperCase() + e.getMessage().substring(1).toLowerCase();
+				String message =
+						e.getMessage().substring(0, 1).toUpperCase() + e.getMessage().substring(1).toLowerCase();
 				if (!disabled.getSection("DisabledCommands").getKeys().contains(message)) {
-					p.sendMessage(new TextComponent("command is not blocked. cancelled."));
+					for (String message1 : Messages.getMessages("Main", "UnblockCancelledBecauseNotBlocked")) {
+						p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+								message1)));
+					}
 					lookingFor.remove(p.getUniqueId().toString());
 					partsHad.remove(p.getUniqueId().toString());
 					e.setCancelled(true);
@@ -304,8 +369,11 @@ public class BungeeCommandValueListener implements Listener {
 				JsonObject object = partsHad.get(p.getUniqueId().toString());
 				object.addProperty("command", message);
 				partsHad.put(p.getUniqueId().toString(), object);
-				
-				p.sendMessage(new TextComponent("do you want to remove /" + e.getMessage() + " from the block list?"));
+
+				for (String message1 : Messages.getMessages("Main", "RemoveCommandQuestion")) {
+					p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+							message1.replace("%c", e.getMessage()))));
+				}
 				/*
 				 * Send message to confirm
 				 */
@@ -319,7 +387,10 @@ public class BungeeCommandValueListener implements Listener {
 				} else if (e.getMessage().equalsIgnoreCase("yes")) {
 					object.addProperty("confirmation", true);
 				} else {
-					p.sendMessage(new TextComponent("can only be yes or no"));
+					for (String message1 : Messages.getMessages("Main", "CanOnlyBeYesOrNo")) {
+						p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+								message1)));
+					}
 					e.setCancelled(true);
 					return;
 				}
@@ -331,17 +402,28 @@ public class BungeeCommandValueListener implements Listener {
 				if (!removecommand.getConfirmation()) {
 					lookingFor.remove(p.getUniqueId().toString());
 					partsHad.remove(p.getUniqueId().toString());
-					p.sendMessage(new TextComponent("cancelled the command blocker steps"));
+					for (String message1 : Messages.getMessages("Main", "Cancelled")) {
+						p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+								message1)));
+					}
 					e.setCancelled(true);
 					return;
 				}
-				
-				Log.addLog(Universal.get().getMethods(), p.getName() + ": Removed command /" + removecommand.getCommand() + " in disabled.yml");
-				
+
+				Log.addLog(Universal.get().getMethods(),
+						p.getName() + ": Removed command /" + removecommand.getCommand() + " in disabled.yml");
+
 				if (BlockedCommands.removeBlockedCommand(removecommand.getCommand())) {
-					p.sendMessage(new TextComponent("removed /" + removecommand.getCommand() + " from disabled.yml"));
+					for (String message1 : Messages.getMessages("Main", "RemovedCommandOutput")) {
+						p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+								message1.replace("%c", removecommand.getCommand()).replace("%y",
+										removecommand.getConfirmation().toString()))));
+					}
 				} else {
-					p.sendMessage(new TextComponent("could not remove command"));
+					for (String message1 : Messages.getMessages("Main", "UnblockCancelledBecauseNotBlocked")) {
+						p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+								message1.replace("%c", removecommand.getCommand()))));
+					}
 				}
 					
 				partsHad.remove(p.getUniqueId().toString());

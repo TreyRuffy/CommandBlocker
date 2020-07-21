@@ -184,7 +184,7 @@ public class CommandBlockerCmd implements CommandExecutor {
 						OldConfigManager.reloadOpDisabled();
 						OldConfigManager.reloadMessages();
 					}
-					new BukkitMain().fixCommands();
+					BukkitMain.fixCommands();
 					for (String message : Messages.getMessages("Main", "ReloadSuccessful")) {
 						sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
 					}

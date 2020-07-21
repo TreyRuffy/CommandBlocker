@@ -139,7 +139,7 @@ public class BukkitMain extends JavaPlugin implements Listener {
 		return Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
 	}
 
-	public void fixCommands() {
+	public static void fixCommands() {
 		ConfigurationSection configuration = oldConfig() ? OldConfigManager.getDisabled().getConfigurationSection(
 				"DisabledCommands") : ConfigManager.getDisabled().getConfigurationSection("DisabledCommands");
 		assert configuration != null;

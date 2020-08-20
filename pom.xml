@@ -4,110 +4,71 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-  
+
 	<groupId>me.treyruffy.commandblocker</groupId>
-	<artifactId>TreysCommandBlocker</artifactId>
-	<name>TreysCommandBlocker</name>
+	<artifactId>CommandBlockerMain</artifactId>
+	<name>CommandBlocker</name>
 	<description>Allows you to block commands!</description>
 	<url>https://www.spigotmc.org/resources/5280/</url>
-	<packaging>jar</packaging>
-  
+	<modules>
+		<module>Command Blocker Legacy</module>
+		<module>Command Blocker</module>
+	</modules>
+	<packaging>pom</packaging>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<commandblockerlegacy.version>1.0.0</commandblockerlegacy.version>
+	</properties>
+
 	<licenses>
 		<license>
 			<name>GPLv3</name>
 			<url>http://www.gnu.org/copyleft/gpl.html</url>
 		</license>
 	</licenses>
-  
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
-  
-	<build>
-		<sourceDirectory>src</sourceDirectory>
-		<resources>
-			<resource>
-				<directory>src/resources</directory>
-				<filtering>true</filtering>
-				<includes>
-					<include>*.yml</include>
-					<include>*.txt</include>
-				</includes>
-			</resource>
-		</resources>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.7.0</version>
-				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-	
-	<dependencies>
-		<!-- Bukkit API -->
-		<dependency>
-			<groupId>org.bukkit</groupId>
-			<artifactId>bukkit</artifactId>
-			<version>1.12.2-R0.1-SNAPSHOT</version>
-			<scope>provided</scope>
-		</dependency> 
-		<dependency>
-			<groupId>com.comphenix.protocol</groupId>
-			<artifactId>ProtocolLib-API</artifactId>
-			<version>4.3.0</version>
-		</dependency>
-		<dependency>
-		    <groupId>me.clip</groupId>
-		    <artifactId>placeholderapi</artifactId>
-		    <version>2.8.2</version>
-		    <scope>provided</scope>
-		</dependency>
-		
-		<!-- BungeeCord API -->
-		<dependency>
-		    <groupId>net.md-5</groupId>
-		    <artifactId>bungeecord-api</artifactId>
-		    <version>1.12-SNAPSHOT</version>
-		    <type>jar</type>
-		    <scope>provided</scope>
-		</dependency>
-		<dependency>
-            <groupId>net.md-5</groupId>
-            <artifactId>bungeecord-api</artifactId>
-            <version>1.12-SNAPSHOT</version>
-            <type>javadoc</type>
-            <scope>provided</scope>
-        </dependency>
-	</dependencies>
-  
-	<repositories>
-		<repository>
-			<id>dmulloy2-repo</id>
-			<url>http://repo.dmulloy2.net/nexus/repository/public/</url>
-		</repository>
-		<repository>
-			<id>bukkit-repo</id>
-			<url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
-		</repository>
-		<repository>
-		    <id>placeholderapi</id>
-		    <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
-		</repository>
-		
-		<repository>
-            <id>bungeecord-repo</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </repository>
-	</repositories>
+
+    <version>2.0.0</version>
   
 	<issueManagement>
 		<system>GitHub</system>
 		<url>https://github.com/TreyRuffy/CommandBlocker/issues</url>
 	</issueManagement>
-  
-	<version>6.2</version>
+
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.1.1</version>
+				<configuration>
+					<stripVersion>true</stripVersion>
+					<artifactItems>
+						<artifactItem>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>CommandBlocker</artifactId>
+							<version>${project.version}</version>
+						</artifactItem>
+						<artifactItem>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>CommandBlockerLegacy</artifactId>
+							<version>${commandblockerlegacy.version}</version>
+						</artifactItem>
+					</artifactItems>
+				</configuration>
+				<inherited>false</inherited>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>

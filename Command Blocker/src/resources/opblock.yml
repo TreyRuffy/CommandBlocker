@@ -1,0 +1,29 @@
+# This allows you to block commands from OPs!
+# It is the same format as disabled.yml
+# Besides the permissions.
+#
+# Make a command only disabled in some worlds by doing:
+#DisabledOpCommands:
+#    Plugins:
+#        Worlds:
+#        - world
+#
+# Allows you to perform console and player commands!
+# Placeholders are %player% -> player's name, %username% -> player's username,
+#   and %command% -> disabled command
+#DisabledCommands:
+#    Plugins:
+#        PlayerCommands:
+#        - say this allows me to perform player commands!
+#        - say I, %player%, was bad and tried to execute %command%
+#        ConsoleCommands:
+#        - say this allows me to perform console commands!
+#
+## If you have two of the same command, the one nearest to the top will be used! ##
+
+DisabledOpCommands: []
+#Please leave this commented out. If you want to add commands, remove the [].
+    #NoBlockedOpCommands:
+        #Message: '&cThis is commented out because most people do not want to block OP commands.'
+        #PlayerCommands:
+        #- tell %player% You are not able to do this.

@@ -1,0 +1,11 @@
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+.
+
+# Command Blocker
+Command Blocker Legacy/target
+target/
+Command Blocker/target

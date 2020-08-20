@@ -1,0 +1,116 @@
+# Allows you set your own disabled commands! :D
+# Placeholders are fFIXJI HFKJKLKLTJKLJKLJKLFJKLJL FIX PLEASE and %player% -> player's name
+
+# Make a command only disabled in some worlds by doing:
+#DisabledCommands:
+#    Plugins:
+#        Worlds:
+#        - world
+#
+# Allows you to perform console and player commands!
+# Placeholders are %player% -> player's name, %username% -> player's username,
+#   and %command% -> disabled command
+#DisabledCommands:
+#    Plugins:
+#        PlayerCommands:
+#        - say this allows me to perform player commands!
+#        - say I, %player%, was bad and tried to execute %command%
+#        ConsoleCommands:
+#        - say this allows me to perform console commands!
+#
+# Make a command allowed to tab complete by doing:
+#DisabledCommands:
+#   Plugins:
+#       NoTabComplete: false
+#
+## If you have two of the same command, the one nearest to the top will be used! ##
+DisabledCommands:
+    Plugins:
+        Message: "Plugins (0):"
+        Permission: cb.allow.plugins
+        WhitelistedPlayers:
+        - "49059600-26d6-45ac-8b43-86a14f7d96ac"
+    Pl:
+        Message: "Plugins (0):"
+        Permission: cb.allow.plugins
+    Bukkit:plugins:
+        Message: "Plugins (0):"
+        Permission: cb.allow.plugins
+    Bukkit:pl:
+        Message: "Plugins (0):"
+        Permission: cb.allow.plugins
+    Help:
+        Message: "&cNo help can be provided at this time."
+        Permission: cb.allow.help
+    ?:
+        Message: "&cNo help can be provided at this time."
+        Permission: cb.allow.help
+    Bukkit:help:
+        Message: "&cNo help can be provided at this time."
+        Permission: cb.allow.help
+    Bukkit:?:
+        Message: "&cNo help can be provided at this time."
+        Permission: cb.allow.help
+    Minecraft:?:
+        Message: "&cNo help can be provided at this time."
+        Permission: cb.allow.help
+    Minecraft:help:
+        Message: "&cNo help can be provided at this time."
+        Permission: cb.allow.help
+    Version:
+        Message: "&cYou are unable to view this at this time."
+        Permission: cb.allow.version
+    Ver:
+        Message: "&cYou are unable to view this at this time."
+        Permission: cb.allow.version
+    Icanhasbukkit:
+        Message: "&cYou are unable to view this at this time."
+        Permission: cb.allow.version
+    Bukkit:ver:
+        Message: "&cYou are unable to view this at this time."
+        Permission: cb.allow.version
+    Bukkit:version:
+        Message: "&cYou are unable to view this at this time."
+        Permission: cb.allow.version
+    About:
+        Message: "&cYou are unable to view this at this time."
+        Permission: cb.allow.version
+    Bukkit:about:
+        Message: "&cYou are unable to view this at this time."
+        Permission: cb.allow.version
+    Me:
+        Message: "&cYou are unable to execute this at this time."
+        Permission: cb.allow.me
+    Minecraft:me:
+        Message: "&cYou are unable to execute this at this time."
+        Permission: cb.allow.me
+    Reload:
+        Message: "&cYou are unable to execute this at this time."
+        Permission: cb.allow.reload
+    Rl:
+        Message: "&cYou are unable to execute this at this time."
+        Permission: cb.allow.reload
+    Bukkit:rl:
+        Message: "&cYou are unable to execute this at this time."
+        Permission: cb.allow.reload
+    Bukkit:reload:
+        Message: "&cYou are unable to execute this at this time."
+        Permission: cb.allow.reload
+    Restart:
+        Message: "&cYou are unable to execute this at this time."
+        Permission: cb.allow.restart
+    Stop:
+        Message: "&cYou are unable to execute this at this time."
+        Permission: cb.allow.stop
+    Op:
+        Message: "&cYou are unable to execute this at this time."
+        Permission: cb.allow.op
+    Minecraft:op:
+        Message: "&cYou are unable to execute this at this time."
+        Permission: cb.allow.op
+    Deop:
+        Message: "&cYou are unable to execute this at this time."
+        Permission: cb.allow.deop
+    Minecraft:deop:
+        Message: "&cYou are unable to execute this at this time."
+        Permission: cb.allow.deop

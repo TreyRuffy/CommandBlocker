@@ -1,0 +1,7 @@
+main: me.treyruffy.commandblockerlegacy.CommandBlockerLegacy
+version: ${project.version}
+name: ${project.name}
+author: TreyRuffy
+description: ${project.description}
+prefix: Trey's Command Blocker Legacy
+url: ${project.url}

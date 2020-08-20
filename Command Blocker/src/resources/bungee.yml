@@ -1,0 +1,4 @@
+main: me.treyruffy.commandblocker.bungeecord.BungeeMain
+name: ${project.name}
+version: ${project.version}
+author: TreyRuffy

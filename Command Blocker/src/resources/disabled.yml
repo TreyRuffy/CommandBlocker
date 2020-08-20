@@ -1,5 +1,5 @@
 # Allows you set your own disabled commands! :D
-# Placeholders are fFIXJI HFKJKLKLTJKLJKLJKLFJKLJL FIX PLEASE and %player% -> player's name
+# There are many placeholders and you can use PlaceholderAPI
 
 # Make a command only disabled in some worlds by doing:
 #DisabledCommands:

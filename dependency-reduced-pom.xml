@@ -4,7 +4,7 @@
   <groupId>me.treyruffy.commandblocker</groupId>
   <artifactId>CommandBlocker</artifactId>
   <name>CommandBlocker</name>
-  <version>2.0.0</version>
+  <version>2.0.1</version>
   <description>Allows you to block commands!</description>
   <url>https://www.spigotmc.org/resources/5280/</url>
   <issueManagement>

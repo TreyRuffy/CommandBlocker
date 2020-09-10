@@ -13,7 +13,7 @@
 	<modules>
 		<module>Command Blocker Legacy</module>
 		<module>Command Blocker</module>
-	</modules>
+    </modules>
 	<packaging>pom</packaging>
 
 	<properties>

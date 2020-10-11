@@ -4,6 +4,7 @@
 out
 gen
 .
+.gradle
 
 # Command Blocker
 Command Blocker Legacy/target

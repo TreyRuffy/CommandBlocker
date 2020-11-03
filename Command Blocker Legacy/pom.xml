@@ -21,10 +21,10 @@
   <version>1.0.0</version>
 
   <build>
-    <sourceDirectory>src</sourceDirectory>
+    <sourceDirectory>src/main/java</sourceDirectory>
     <resources>
       <resource>
-        <directory>src/resources</directory>
+        <directory>src/main/resources</directory>
         <filtering>true</filtering>
         <includes>
           <include>*.yml</include>

@@ -43,8 +43,11 @@ public class BlockedOpCommands {
 	 */
 	public static boolean addBlockedCommand(String command, String message, List<String> worlds, List<String> playerCommands, List<String> consoleCommands) {
 		FileConfiguration disabled = BukkitMain.oldConfig() ? OldConfigManager.getOpDisabled() : ConfigManager.getOpDisabled();
-		String cmd = command.substring(0, 1).toUpperCase() + command.substring(1).toLowerCase();
-			
+		String cmd = command;
+		if (Character.isLetter(command.charAt(0))) {
+			cmd = command.substring(0, 1).toUpperCase() + command.substring(1).toLowerCase();
+		}
+
 		if (!disabled.contains("DisabledOpCommands." + cmd)) {
 			if (message != null) {
 				disabled.set("DisabledOpCommands." + cmd + ".Message", message.replace("§", "&"));
@@ -77,7 +80,10 @@ public class BlockedOpCommands {
 	 */
 	public static boolean editBlockedCommandMessage(String command, String message) {
 		FileConfiguration disabled = BukkitMain.oldConfig() ? OldConfigManager.getOpDisabled() : ConfigManager.getOpDisabled();
-		String cmd = command.substring(0, 1).toUpperCase() + command.substring(1).toLowerCase();
+		String cmd = command;
+		if (Character.isLetter(command.charAt(0))) {
+			cmd = command.substring(0, 1).toUpperCase() + command.substring(1).toLowerCase();
+		}
 		if (disabled.contains("DisabledOpCommands." + cmd)) {
 			if (message == null) {
 				return false;
@@ -101,8 +107,11 @@ public class BlockedOpCommands {
 	 */
 	public static boolean editBlockedCommandWorlds(String command, List<String> worlds) {
 		FileConfiguration disabled = BukkitMain.oldConfig() ? OldConfigManager.getOpDisabled() : ConfigManager.getOpDisabled();
-		String cmd = command.substring(0, 1).toUpperCase() + command.substring(1).toLowerCase();
-		
+		String cmd = command;
+		if (Character.isLetter(command.charAt(0))) {
+			cmd = command.substring(0, 1).toUpperCase() + command.substring(1).toLowerCase();
+		}
+
 		if (disabled.contains("DisabledOpCommands." + cmd)) {
 			if (worlds == null) {
 				return false;
@@ -126,7 +135,10 @@ public class BlockedOpCommands {
 	 */
 	public static boolean editBlockedCommandPlayerCommands(String command, List<String> playerCommands) {
 		FileConfiguration disabled = BukkitMain.oldConfig() ? OldConfigManager.getOpDisabled() : ConfigManager.getOpDisabled();
-		String cmd = command.substring(0, 1).toUpperCase() + command.substring(1).toLowerCase();
+		String cmd = command;
+		if (Character.isLetter(command.charAt(0))) {
+			cmd = command.substring(0, 1).toUpperCase() + command.substring(1).toLowerCase();
+		}
 		
 		if (disabled.contains("DisabledOpCommands." + cmd)) {
 			if (playerCommands == null) {
@@ -151,7 +163,10 @@ public class BlockedOpCommands {
 	 */
 	public static boolean editBlockedCommandConsoleCommands(String command, List<String> consoleCommands) {
 		FileConfiguration disabled = BukkitMain.oldConfig() ? OldConfigManager.getOpDisabled() : ConfigManager.getOpDisabled();
-		String cmd = command.substring(0, 1).toUpperCase() + command.substring(1).toLowerCase();
+		String cmd = command;
+		if (Character.isLetter(command.charAt(0))) {
+			cmd = command.substring(0, 1).toUpperCase() + command.substring(1).toLowerCase();
+		}
 		
 		if (disabled.contains("DisabledOpCommands." + cmd)) {
 			if (consoleCommands == null) {
@@ -175,7 +190,10 @@ public class BlockedOpCommands {
 	 */
 	public static String getBlockedCommandMessage(String command) {
 		FileConfiguration disabled = BukkitMain.oldConfig() ? OldConfigManager.getOpDisabled() : ConfigManager.getOpDisabled();
-		String cmd = command.substring(0, 1).toUpperCase() + command.substring(1).toLowerCase();
+		String cmd = command;
+		if (Character.isLetter(command.charAt(0))) {
+			cmd = command.substring(0, 1).toUpperCase() + command.substring(1).toLowerCase();
+		}
 		
 		if (disabled.contains("DisabledOpCommands." + cmd)) {
 			if ((disabled.getString("DisabledOpCommands." + cmd + ".Message") != null) && !(disabled.getString("DisabledOpCommands." + cmd + ".Message").equalsIgnoreCase("default"))) {
@@ -194,13 +212,16 @@ public class BlockedOpCommands {
 	 */
 	public static List<String> getBlockedCommandWorlds(String command) {
 		FileConfiguration disabled = BukkitMain.oldConfig() ? OldConfigManager.getOpDisabled() : ConfigManager.getOpDisabled();
-		String cmd = command.substring(0, 1).toUpperCase() + command.substring(1).toLowerCase();
+		String cmd = command;
+		if (Character.isLetter(command.charAt(0))) {
+			cmd = command.substring(0, 1).toUpperCase() + command.substring(1).toLowerCase();
+		}
 		
 		if (disabled.contains("DisabledOpCommands." + cmd)) {
 			if (disabled.getString("DisabledOpCommands." + cmd + ".Worlds") != null) {
 				return disabled.getStringList("DisabledOpCommands." + cmd + ".Worlds");
 			}
-			List<String> worlds = new ArrayList<String>();
+			List<String> worlds = new ArrayList<>();
 			worlds.add("all");
 			return worlds;
 		}
@@ -214,13 +235,16 @@ public class BlockedOpCommands {
 	 */
 	public static List<String> getBlockedCommandPlayerCommands(String command) {
 		FileConfiguration disabled = BukkitMain.oldConfig() ? OldConfigManager.getOpDisabled() : ConfigManager.getOpDisabled();
-		String cmd = command.substring(0, 1).toUpperCase() + command.substring(1).toLowerCase();
+		String cmd = command;
+		if (Character.isLetter(command.charAt(0))) {
+			cmd = command.substring(0, 1).toUpperCase() + command.substring(1).toLowerCase();
+		}
 		
 		if (disabled.contains("DisabledOpCommands." + cmd)) {
 			if (disabled.getString("DisabledOpCommands." + cmd + ".PlayerCommands") != null) {
 				return disabled.getStringList("DisabledOpCommands." + cmd + ".PlayerCommands");
 			}
-			List<String> cmds = new ArrayList<String>();
+			List<String> cmds = new ArrayList<>();
 			cmds.add("none");
 			return cmds;
 		}
@@ -234,13 +258,16 @@ public class BlockedOpCommands {
 	 */
 	public static List<String> getBlockedCommandConsoleCommands(String command) {
 		FileConfiguration disabled = BukkitMain.oldConfig() ? OldConfigManager.getOpDisabled() : ConfigManager.getOpDisabled();
-		String cmd = command.substring(0, 1).toUpperCase() + command.substring(1).toLowerCase();
+		String cmd = command;
+		if (Character.isLetter(command.charAt(0))) {
+			cmd = command.substring(0, 1).toUpperCase() + command.substring(1).toLowerCase();
+		}
 		
 		if (disabled.contains("DisabledOpCommands." + cmd)) {
 			if (disabled.getString("DisabledOpCommands." + cmd + ".ConsoleCommands") != null) {
 				return disabled.getStringList("DisabledOpCommands." + cmd + ".ConsoleCommands");
 			}
-			List<String> cmds = new ArrayList<String>();
+			List<String> cmds = new ArrayList<>();
 			cmds.add("none");
 			return cmds;
 		}
@@ -254,7 +281,10 @@ public class BlockedOpCommands {
 	 */
 	public static boolean removeBlockedCommand(String command) {
 		FileConfiguration disabled = BukkitMain.oldConfig() ? OldConfigManager.getOpDisabled() : ConfigManager.getOpDisabled();
-		String cmd = command.substring(0, 1).toUpperCase() + command.substring(1).toLowerCase();
+		String cmd = command;
+		if (Character.isLetter(command.charAt(0))) {
+			cmd = command.substring(0, 1).toUpperCase() + command.substring(1).toLowerCase();
+		}
 		
 		if (disabled.contains("DisabledOpCommands." + cmd)) {
 			disabled.set("DisabledOpCommands." + cmd, null);

@@ -133,7 +133,10 @@ public class CommandBlockerCmd implements CommandExecutor {
 									, message)));
 						}
 					} else {
-						String command = args[1].substring(0, 1).toUpperCase() + args[1].substring(1).toLowerCase();
+						String command = args[1];
+						if (Character.isLetter(args[1].charAt(0))) {
+							command = args[1].substring(0, 1).toUpperCase() + args[1].substring(1).toLowerCase();
+						}
 						StringBuilder msg = new StringBuilder(args[3]);
 						for (int i = 4; i < args.length - 1; i++) {
 							msg.append(" ").append(args[i]);
@@ -313,7 +316,10 @@ public class CommandBlockerCmd implements CommandExecutor {
 									, message)));
 						}
 					} else {
-						String command = args[1].substring(0, 1).toUpperCase() + args[1].substring(1).toLowerCase();
+						String command = args[1];
+						if (Character.isLetter(args[1].charAt(0))) {
+							command = args[1].substring(0, 1).toUpperCase() + args[1].substring(1).toLowerCase();
+						}
 						StringBuilder msg = new StringBuilder(args[2]);
 						for (int i = 3; i < args.length; i++) {
 							msg.append(" ").append(args[i]);

@@ -145,6 +145,9 @@ public class BukkitMain extends JavaPlugin implements Listener {
 		assert configuration != null;
 		for (String cmds : configuration.getKeys(false)) {
 			String path = cmds.substring(0, 1).toUpperCase() + cmds.substring(1).toLowerCase();
+			if (!Character.isLetter(cmds.charAt(0))) {
+				return;
+			}
 			if (!Character.isUpperCase(cmds.charAt(0))) {
 				configuration.set(path, configuration.get(cmds));
 				configuration.set(cmds, null);

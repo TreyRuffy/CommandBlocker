@@ -57,6 +57,15 @@ public class Variables {
 		return MiniMessage.get().parse(msg);
 	}
 
+	public static Component translateVariables(String msg, CommandSender commandSender,
+											   HashMap<String, String> additionalPlaceholders) {
+		return translateVariables(msg, commandSender, additionalPlaceholders, false);
+	}
+
+	public static Component translateVariables(String msg, CommandSender commandSender) {
+		return translateVariables(msg, commandSender, null, false);
+	}
+
 	public static Component translateVariablesWithComponentPlaceholders(String msg, CommandSender commandSender,
 																		HashMap<String, String> additionalPlaceholders,
 																		HashMap<String, Component> additionalComponentPlaceholders) {
@@ -68,15 +77,6 @@ public class Variables {
 			}
 		}
 		return MiniMessage.get().parse(msg);
-	}
-
-	public static Component translateVariables(String msg, CommandSender commandSender,
-											   HashMap<String, String> additionalPlaceholders) {
-		return translateVariables(msg, commandSender, additionalPlaceholders, false);
-	}
-
-	public static Component translateVariables(String msg, CommandSender commandSender) {
-		return translateVariables(msg, commandSender, null, false);
 	}
 
 

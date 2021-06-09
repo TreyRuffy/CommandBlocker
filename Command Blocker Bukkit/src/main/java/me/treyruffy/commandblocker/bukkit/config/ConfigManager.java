@@ -1,5 +1,6 @@
-package me.treyruffy.commandblockerlegacy;
+package me.treyruffy.commandblocker.bukkit.config;
 
+import me.treyruffy.commandblocker.bukkit.BukkitMain;
 import org.apache.commons.lang.NullArgumentException;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -8,9 +9,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.logging.Level;
 
-public class OldConfigManager {
+public class ConfigManager {
+
+	private static final BukkitMain plugin = BukkitMain.get();
 
 	public static FileConfiguration MainConfig;
 	public static File MainConfigFile;
@@ -111,45 +115,45 @@ public class OldConfigManager {
 	}
 
 	public static void reloadConfig() {
-		MainConfigFile = new File(Bukkit.getPluginManager().getPlugin("CommandBlocker").getDataFolder(), "config.yml");
+		MainConfigFile = new File(plugin.getDataFolder(), "config.yml");
 		if (!MainConfigFile.exists()) {
-			Bukkit.getPluginManager().getPlugin("CommandBlocker").saveResource("config.yml", false);
+			plugin.saveResource("config.yml", false);
 		}
 		MainConfig = YamlConfiguration.loadConfiguration(MainConfigFile);
-		InputStream configData = Bukkit.getPluginManager().getPlugin("CommandBlocker").getResource("config.yml");
+		InputStream configData = plugin.getResource("config.yml");
 		if (configData != null) {
 			try {
-				MainConfig.setDefaults(YamlConfiguration.loadConfiguration(configData));
+				MainConfig.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(configData)));
 			} catch (NoSuchMethodError e) {
 				MainConfig.setDefaults(YamlConfiguration.loadConfiguration(MainConfigFile));
 			}
 		}
 	}
 	public static void reloadDisabled() {
-		MainDisabledFile = new File(Bukkit.getPluginManager().getPlugin("CommandBlocker").getDataFolder(), "disabled.yml");
+		MainDisabledFile = new File(plugin.getDataFolder(), "disabled.yml");
 		if (!MainDisabledFile.exists()) {
-			Bukkit.getPluginManager().getPlugin("CommandBlocker").saveResource("disabled.yml", false);
+			plugin.saveResource("disabled.yml", false);
 		}
 		MainDisabled = YamlConfiguration.loadConfiguration(MainDisabledFile);
-		InputStream disabledData = Bukkit.getPluginManager().getPlugin("CommandBlocker").getResource("disabled.yml");
+		InputStream disabledData = plugin.getResource("disabled.yml");
 		if (disabledData != null) {
 			try {
-				MainDisabled.setDefaults(YamlConfiguration.loadConfiguration(disabledData));
+				MainDisabled.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(disabledData)));
 			} catch (NoSuchMethodError e) {
 				MainDisabled.setDefaults(YamlConfiguration.loadConfiguration(MainDisabledFile));
 			}
 		}
 	}
 	public static void reloadOpDisabled() {
-		OpDisabledFile = new File(Bukkit.getPluginManager().getPlugin("CommandBlocker").getDataFolder(), "opblock.yml");
+		OpDisabledFile = new File(plugin.getDataFolder(), "opblock.yml");
 		if (!OpDisabledFile.exists()) {
-			Bukkit.getPluginManager().getPlugin("CommandBlocker").saveResource("opblock.yml", false);
+			plugin.saveResource("opblock.yml", false);
 		}
 		OpDisabled = YamlConfiguration.loadConfiguration(OpDisabledFile);
-		InputStream opData = Bukkit.getPluginManager().getPlugin("CommandBlocker").getResource("opblock.yml");
+		InputStream opData = plugin.getResource("opblock.yml");
 		if (opData != null) {
 			try {
-				OpDisabled.setDefaults(YamlConfiguration.loadConfiguration(opData));
+				OpDisabled.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(opData)));
 			} catch (NoSuchMethodError e) {
 				OpDisabled.setDefaults(YamlConfiguration.loadConfiguration(OpDisabledFile));
 			}
@@ -157,18 +161,20 @@ public class OldConfigManager {
 	}
 
 	public static void reloadMessages() {
-		MessagesFile = new File(Bukkit.getPluginManager().getPlugin("CommandBlocker").getDataFolder(), "messages.yml");
+		MessagesFile = new File(plugin.getDataFolder(), "messages.yml");
 		if (!MessagesFile.exists()) {
-			Bukkit.getPluginManager().getPlugin("CommandBlocker").saveResource("messages.yml", false);
+			plugin.saveResource("messages.yml", false);
 		}
 		Messages = YamlConfiguration.loadConfiguration(MessagesFile);
-		InputStream messagesData = Bukkit.getPluginManager().getPlugin("CommandBlocker").getResource("messages.yml");
+		InputStream messagesData = plugin.getResource("messages.yml");
 		if (messagesData != null) {
 			try {
-				Messages.setDefaults(YamlConfiguration.loadConfiguration(messagesData));
+				Messages.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(messagesData)));
 			} catch (NoSuchMethodError e) {
 				Messages.setDefaults(YamlConfiguration.loadConfiguration(MessagesFile));
 			}
 		}
 	}
+
+
 }

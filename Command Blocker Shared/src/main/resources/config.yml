@@ -1,0 +1,68 @@
+# ---------------------------------------- #
+# +--------------------------------------+
+# |           Command Blocker!           |
+# | Blocks players from seeing commands! |
+# |            (c): TreyRuffy            |
+# +--------------------------------------+
+# ---------------------------------------- #
+
+# -------------------------------------------------------------------------------- #
+# +------------------------------------------------------------------------------+
+# | Add blocked commands and set permissions in:                                 |
+# | disabled.yml and opblock.yml                                                 |
+# |                                                                              |
+# | Main permissions are:                                                        |
+# | cb.add    -> /cb add                                                         |
+# | cb.remove -> /cb remove                                                      |
+# | cb.reload -> /cb reload                                                      |
+# | cb.addop    -> /cb addop                                                     |
+# | cb.removeop -> /cb removeop                                                  |
+# +------------------------------------------------------------------------------+
+# -------------------------------------------------------------------------------- #
+
+Default:
+    # This is the default message to show.
+    Message: '&cSorry, the owner has disabled that command.'
+    # This is the default permission. Placeholders are %command% -> Command sent.
+    ## %command% does not include any colons ##
+    Permission: cb.allow.%command%
+
+Messages:
+    # This message will be sent to players without permission to do /cb
+    NoPermission: '&cYou do not have the required permissions to execute this command.'
+
+# Allows you to disable tab complete!
+DisableTabComplete: true
+
+# Allows you to disable op tab complete!
+DisableOpTabComplete: true
+
+ColonedCommands:
+    Enabled: false
+
+    # Allows you to disable commands like bukkit:help and essentials:help
+    DisableAllColonsInCommands: false
+
+    # If the above value is false, which commands do you want to disable colons with
+    DisableColonsInFollowingCommands:
+        # Disables bukkit: commands like bukkit:help
+        - bukkit
+    Worlds:
+        - all
+    Message: '&cYou cannot use ":" in this command.'
+    Permission: cb.allowcolonedcommands
+    WhitelistedPlayers:
+        - "49059600-26d6-45ac-8b43-86a14f7d96ac"
+    PlayerCommands:
+        - none
+    ConsoleCommands:
+        - none
+    DisableForOperators: false
+    DisableTabComplete: true
+
+Updates:
+    # This will allow checking for updates
+    Check: true
+
+    # This will tell people with cb.updates to get an update notification
+    TellPlayers: true

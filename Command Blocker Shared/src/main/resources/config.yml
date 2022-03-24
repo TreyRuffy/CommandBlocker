@@ -1,13 +1,13 @@
 # ---------------------------------------- #
-# +--------------------------------------+ 
-# |           Command Blocker!           | 
-# | Blocks players from seeing commands! | 
-# |            (c): TreyRuffy            | 
-# +--------------------------------------+ 
+# +--------------------------------------+
+# |           Command Blocker!           |
+# | Blocks players from seeing commands! |
+# |            (c): TreyRuffy            |
+# +--------------------------------------+
 # ---------------------------------------- #
 
 # -------------------------------------------------------------------------------- #
-# +------------------------------------------------------------------------------+ 
+# +------------------------------------------------------------------------------+
 # | Add blocked commands and set permissions in:                                 |
 # | disabled.yml and opblock.yml                                                 |
 # |                                                                              |
@@ -17,18 +17,16 @@
 # | cb.reload -> /cb reload                                                      |
 # | cb.addop    -> /cb addop                                                     |
 # | cb.removeop -> /cb removeop                                                  |
-
 # +------------------------------------------------------------------------------+
 # -------------------------------------------------------------------------------- #
 
 Default:
     # This is the default message to show.
     Message: '&cSorry, the owner has disabled that command.'
-    
     # This is the default permission. Placeholders are %command% -> Command sent.
     ## %command% does not include any colons ##
     Permission: cb.allow.%command%
-    
+
 Messages:
     # This message will be sent to players without permission to do /cb
     NoPermission: '&cYou do not have the required permissions to execute this command.'

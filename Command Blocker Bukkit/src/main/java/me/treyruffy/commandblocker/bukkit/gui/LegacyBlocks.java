@@ -86,14 +86,13 @@ public class LegacyBlocks {
 				}
 			case "GLASS":
 				return "GLASS";
+			default:
+				return null;
 		}
-		return null;
 	}
 	
 	public int getLegacyId(String color) {
 		switch (color) {
-			case "WHITE":
-				return 0;
 			case "ORANGE":
 				return 1;
 			case "MAGENTA":
@@ -124,7 +123,8 @@ public class LegacyBlocks {
 				return 14;
 			case "BLACK":
 				return 15;
+			default:
+				return 0;
 		}
-		return 0;
 	}
 }

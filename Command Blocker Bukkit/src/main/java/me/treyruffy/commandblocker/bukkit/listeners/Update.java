@@ -5,6 +5,7 @@ import me.treyruffy.commandblocker.Universal;
 import me.treyruffy.commandblocker.bukkit.BukkitMain;
 import me.treyruffy.commandblocker.bukkit.Variables;
 import me.treyruffy.commandblocker.updater.UpdateChecker;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -36,7 +37,7 @@ public class Update implements Listener {
 			return;
 		}
 
-		for (String msgToSend : mi.getOldMessages("Updates", "UpdateFound")) {
+		for (Component msgToSend : mi.getOldMessages("Updates", "UpdateFound")) {
 			HashMap<String, String> placeholders = new HashMap<>();
 			placeholders.put("%s", latestUpdateVersion);
 			mi.sendMessage(Bukkit.getConsoleSender(), Variables.translateVariables(msgToSend, Bukkit.getConsoleSender(), placeholders));
@@ -46,7 +47,7 @@ public class Update implements Listener {
 		if (config.getBoolean("Updates.TellPlayers")) {
 			for (Player p : Bukkit.getOnlinePlayers()) {
 				if (p.hasPermission("cb.updates")) {
-					for (String msgToSend : mi.getOldMessages("Updates", "UpdateFound")) {
+					for (Component msgToSend : mi.getOldMessages("Updates", "UpdateFound")) {
 						HashMap<String, String> placeholders = new HashMap<>();
 						placeholders.put("%s", latestUpdateVersion);
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));
@@ -72,7 +73,7 @@ public class Update implements Listener {
 		if (!p.hasPermission("cb.updates")) {
 			return;
 		}
-		for (String msgToSend : mi.getOldMessages("Updates", "UpdateFound")) {
+		for (Component msgToSend : mi.getOldMessages("Updates", "UpdateFound")) {
 			HashMap<String, String> placeholders = new HashMap<>();
 			placeholders.put("%s", latestUpdateVersion);
 			mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));

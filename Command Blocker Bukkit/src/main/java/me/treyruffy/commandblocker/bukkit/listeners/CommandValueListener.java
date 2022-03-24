@@ -16,6 +16,7 @@ import me.treyruffy.commandblocker.json.RemoveCommand;
 import me.treyruffy.commandblocker.json.RemoveOpCommand;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -52,7 +53,7 @@ public class CommandValueListener implements Listener {
 				if (!BukkitMain.sendOldMessages())
 					BukkitMain.adventure().player(p).hideBossBar(bossBar.get(p.getUniqueId().toString()));
 			bossBar.remove(p.getUniqueId().toString());
-			for (String msgToSend : mi.getOldMessages("Main", "Cancelled")) {
+			for (Component msgToSend : mi.getOldMessages("Main", "Cancelled")) {
 				mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 			}
 			/*
@@ -79,7 +80,7 @@ public class CommandValueListener implements Listener {
 				FileConfiguration disabled = (FileConfiguration) mi.getDisabledCommandsConfig();
 				String message = e.getMessage().substring(0, 1).toUpperCase() + e.getMessage().substring(1).toLowerCase();
 				if (disabled.contains("DisabledCommands." + message)) {
-					for (String msgToSend : mi.getOldMessages("Main", "CommandAlreadyBlocked")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "CommandAlreadyBlocked")) {
 						HashMap<String, String> placeholders = new HashMap<>();
 						placeholders.put("%c", e.getMessage());
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));
@@ -106,7 +107,7 @@ public class CommandValueListener implements Listener {
 				if (!BukkitMain.sendOldMessages())
 					BukkitMain.adventure().player(p).showBossBar(bar);
 
-				for (String msgToSend : mi.getOldMessages("Main", "AddPermission")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "AddPermission")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 				/*
@@ -118,7 +119,7 @@ public class CommandValueListener implements Listener {
 				object.addProperty("permission", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
 
-				for (String msgToSend : mi.getOldMessages("Main", "AddMessage")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "AddMessage")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 				/*
@@ -130,7 +131,7 @@ public class CommandValueListener implements Listener {
 				object.addProperty("message", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
 
-				for (String msgToSend : mi.getOldMessages("Main", "AddWorld")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "AddWorld")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 				/*
@@ -142,7 +143,7 @@ public class CommandValueListener implements Listener {
 				object.addProperty("worlds", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
 
-				for (String msgToSend : mi.getOldMessages("Main", "AddPlayerCommand")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "AddPlayerCommand")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 				/*
@@ -154,7 +155,7 @@ public class CommandValueListener implements Listener {
 				object.addProperty("playercommands", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
 
-				for (String msgToSend : mi.getOldMessages("Main", "AddConsoleCommand")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "AddConsoleCommand")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 				/*
@@ -166,7 +167,7 @@ public class CommandValueListener implements Listener {
 				object.addProperty("consolecommands", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
 
-				for (String msgToSend : mi.getOldMessages("Main", "AddConfirmation")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "AddConfirmation")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 				/*
@@ -180,7 +181,7 @@ public class CommandValueListener implements Listener {
 				} else if (e.getMessage().equalsIgnoreCase("yes")) {
 					object.addProperty("confirmation", true);
 				} else {
-					for (String msgToSend : mi.getOldMessages("Main", "CanOnlyBeYesOrNo")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "CanOnlyBeYesOrNo")) {
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 					}
 					e.setCancelled(true);
@@ -199,7 +200,7 @@ public class CommandValueListener implements Listener {
 						if (!BukkitMain.sendOldMessages())
 							BukkitMain.adventure().player(p).hideBossBar(bossBar.get(p.getUniqueId().toString()));
 					bossBar.remove(p.getUniqueId().toString());
-					for (String msgToSend : mi.getOldMessages("Main", "Cancelled")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "Cancelled")) {
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 					}
 					e.setCancelled(true);
@@ -236,7 +237,7 @@ public class CommandValueListener implements Listener {
 					Log.addLog(Universal.get().getMethods(),
 							p.getName() + ": Added command /" + addcommand.getCommand() + " in disabled.yml with " +
 									"permission " + addcommand.getPermission() + " and message " + addcommand.getMessage() + " in worlds: " + addcommand.getWorlds() + ". When executed, it runs " + addcommand.getPlayerCommands() + " as the player and " + addcommand.getConsoleCommands() + " as console.");
-					for (String msgToSend : mi.getOldMessages("Main", "AddedCommandOutput")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "AddedCommandOutput")) {
 						HashMap<String, String> placeholders = new HashMap<>();
 						placeholders.put("%c", addcommand.getCommand());
 						placeholders.put("%p", addcommand.getPermission());
@@ -248,7 +249,7 @@ public class CommandValueListener implements Listener {
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));
 					}
 				} else {
-					for (String msgToSend : mi.getOldMessages("Main", "CouldNotAddCommandToConfig")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "CouldNotAddCommandToConfig")) {
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 					}
 				}
@@ -278,7 +279,7 @@ public class CommandValueListener implements Listener {
 				FileConfiguration disabled = (FileConfiguration) mi.getDisabledCommandsConfig();
 				String message = e.getMessage().substring(0, 1).toUpperCase() + e.getMessage().substring(1).toLowerCase();
 				if (!disabled.contains("DisabledCommands." + message)) {
-					for (String msgToSend : mi.getOldMessages("Main", "UnblockCancelledBecauseNotBlocked")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "UnblockCancelledBecauseNotBlocked")) {
 						HashMap<String, String> placeholders = new HashMap<>();
 						placeholders.put("%c", e.getMessage());
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));
@@ -304,7 +305,7 @@ public class CommandValueListener implements Listener {
 				if (!BukkitMain.sendOldMessages())
 					BukkitMain.adventure().player(p).showBossBar(bar);
 
-				for (String msgToSend : mi.getOldMessages("Main", "RemoveCommandQuestion")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "RemoveCommandQuestion")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));
 				}
 				e.setCancelled(true);
@@ -321,7 +322,7 @@ public class CommandValueListener implements Listener {
 				} else if (e.getMessage().equalsIgnoreCase("yes")) {
 					object.addProperty("confirmation", true);
 				} else {
-					for (String msgToSend : mi.getOldMessages("Main", "CanOnlyBeYesOrNo")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "CanOnlyBeYesOrNo")) {
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 					}
 					e.setCancelled(true);
@@ -339,7 +340,7 @@ public class CommandValueListener implements Listener {
 							BukkitMain.adventure().player(p).hideBossBar(bossBar.get(p.getUniqueId().toString()));
 					bossBar.remove(p.getUniqueId().toString());
 					partsHad.remove(p.getUniqueId().toString());
-					for (String msgToSend : mi.getOldMessages("Main", "Cancelled")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "Cancelled")) {
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 					}
 					e.setCancelled(true);
@@ -350,14 +351,14 @@ public class CommandValueListener implements Listener {
 					Log.addLog(Universal.get().getMethods(),
 							p.getName() + ": Removed command /" + removecommand.getCommand() + " in disabled.yml");
 
-					for (String msgToSend : mi.getOldMessages("Main", "RemovedCommandOutput")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "RemovedCommandOutput")) {
 						HashMap<String, String> placeholders = new HashMap<>();
 						placeholders.put("%c", removecommand.getCommand());
 						placeholders.put("%y", String.valueOf(removecommand.getConfirmation()));
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));
 					}
 				} else {
-					for (String msgToSend : mi.getOldMessages("Main", "UnblockCancelledBecauseNotBlocked")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "UnblockCancelledBecauseNotBlocked")) {
 						HashMap<String, String> placeholders = new HashMap<>();
 						placeholders.put("%c", removecommand.getCommand());
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));
@@ -390,7 +391,7 @@ public class CommandValueListener implements Listener {
 				FileConfiguration disabled = (FileConfiguration) mi.getOpBlockConfig();
 				String message = e.getMessage().substring(0, 1).toUpperCase() + e.getMessage().substring(1).toLowerCase();
 				if (disabled.contains("DisabledOpCommands." + message)) {
-					for (String msgToSend : mi.getOldMessages("Main", "CommandAlreadyBlocked")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "CommandAlreadyBlocked")) {
 						HashMap<String, String> placeholders = new HashMap<>();
 						placeholders.put("%c", e.getMessage());
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));
@@ -416,7 +417,7 @@ public class CommandValueListener implements Listener {
 					BukkitMain.adventure().player(p).showBossBar(bar);
 				partsHad.put(p.getUniqueId().toString(), object);
 
-				for (String msgToSend : mi.getOldMessages("Main", "AddOpAddMessage")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "AddOpAddMessage")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 				/*
@@ -428,7 +429,7 @@ public class CommandValueListener implements Listener {
 				object.addProperty("message", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
 
-				for (String msgToSend : mi.getOldMessages("Main", "AddOpAddWorld")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "AddOpAddWorld")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 				/*
@@ -440,7 +441,7 @@ public class CommandValueListener implements Listener {
 				object.addProperty("worlds", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
 
-				for (String msgToSend : mi.getOldMessages("Main", "AddOpAddPlayerCommand")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "AddOpAddPlayerCommand")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 				/*
@@ -452,7 +453,7 @@ public class CommandValueListener implements Listener {
 				object.addProperty("playercommands", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
 
-				for (String msgToSend : mi.getOldMessages("Main", "AddOpAddConsoleCommand")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "AddOpAddConsoleCommand")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 				/*
@@ -464,7 +465,7 @@ public class CommandValueListener implements Listener {
 				object.addProperty("consolecommands", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
 
-				for (String msgToSend : mi.getOldMessages("Main", "AddOpConfirmation")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "AddOpConfirmation")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 				/*
@@ -477,7 +478,7 @@ public class CommandValueListener implements Listener {
 				} else if (e.getMessage().equalsIgnoreCase("yes")) {
 					object.addProperty("confirmation", true);
 				} else {
-					for (String msgToSend : mi.getOldMessages("Main", "CanOnlyBeYesOrNo")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "CanOnlyBeYesOrNo")) {
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 					}
 					e.setCancelled(true);
@@ -496,7 +497,7 @@ public class CommandValueListener implements Listener {
 						if (!BukkitMain.sendOldMessages())
 							BukkitMain.adventure().player(p).hideBossBar(bossBar.get(p.getUniqueId().toString()));
 					bossBar.remove(p.getUniqueId().toString());
-					for (String msgToSend : mi.getOldMessages("Main", "Cancelled")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "Cancelled")) {
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 					}
 					e.setCancelled(true);
@@ -525,7 +526,7 @@ public class CommandValueListener implements Listener {
 							p.getName() + ": Added command /" + addopcommand.getCommand() + " in opblock.yml with " +
 									"message " + addopcommand.getMessage() + " in worlds: " + addopcommand.getWorlds() + ". When executed, it runs " + addopcommand.getPlayerCommands() + " as the player and " + addopcommand.getConsoleCommands() + " as console.");
 
-					for (String msgToSend : mi.getOldMessages("Main", "AddedOpCommandOutput")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "AddedOpCommandOutput")) {
 						HashMap<String, String> placeholders = new HashMap<>();
 						placeholders.put("%c", addopcommand.getCommand());
 						placeholders.put("%m", addopcommand.getMessage());
@@ -536,7 +537,7 @@ public class CommandValueListener implements Listener {
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));
 					}
 				} else {
-					for (String msgToSend : mi.getOldMessages("Main", "CouldNotAddCommandToOpConfig")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "CouldNotAddCommandToOpConfig")) {
 						HashMap<String, String> placeholders = new HashMap<>();
 						placeholders.put("%c", addopcommand.getCommand());
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));
@@ -577,7 +578,7 @@ public class CommandValueListener implements Listener {
 				FileConfiguration disabled = (FileConfiguration) mi.getOpBlockConfig();
 				String message = e.getMessage().substring(0, 1).toUpperCase() + e.getMessage().substring(1).toLowerCase();
 				if (!disabled.contains("DisabledOpCommands." + message)) {
-					for (String msgToSend : mi.getOldMessages("Main", "RemoveOpCouldNotRemove")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "RemoveOpCouldNotRemove")) {
 						HashMap<String, String> placeholders = new HashMap<>();
 						placeholders.put("%c", e.getMessage());
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));
@@ -604,7 +605,7 @@ public class CommandValueListener implements Listener {
 				if (!BukkitMain.sendOldMessages())
 					BukkitMain.adventure().player(p).showBossBar(bar);
 
-				for (String msgToSend : mi.getOldMessages("Main", "RemoveOpQuestion")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "RemoveOpQuestion")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));
 				}
 				/*
@@ -620,7 +621,7 @@ public class CommandValueListener implements Listener {
 				} else if (e.getMessage().equalsIgnoreCase("yes")) {
 					object.addProperty("confirmation", true);
 				} else {
-					for (String msgToSend : mi.getOldMessages("Main", "CanOnlyBeYesOrNo")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "CanOnlyBeYesOrNo")) {
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 					}
 					e.setCancelled(true);
@@ -639,7 +640,7 @@ public class CommandValueListener implements Listener {
 						if (!BukkitMain.sendOldMessages())
 							BukkitMain.adventure().player(p).hideBossBar(bossBar.get(p.getUniqueId().toString()));
 					bossBar.remove(p.getUniqueId().toString());
-					for (String msgToSend : mi.getOldMessages("Main", "Cancelled")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "Cancelled")) {
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 					}
 					e.setCancelled(true);
@@ -650,13 +651,13 @@ public class CommandValueListener implements Listener {
 					Log.addLog(Universal.get().getMethods(),
 							p.getName() + ": Removed command /" + removeopcommand.getCommand() + " in opblock.yml");
 
-					for (String msgToSend : mi.getOldMessages("Main", "RemovedOpCommandOutput")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "RemovedOpCommandOutput")) {
 						HashMap<String, String> placeholders = new HashMap<>();
 						placeholders.put("%c", removeopcommand.getCommand());
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));
 					}
 				} else {
-					for (String msgToSend : mi.getOldMessages("Main", "RemoveOpCouldNotRemove")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "RemoveOpCouldNotRemove")) {
 						HashMap<String, String> placeholders = new HashMap<>();
 						placeholders.put("%c", removeopcommand.getCommand());
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));
@@ -710,7 +711,7 @@ public class CommandValueListener implements Listener {
 			if (!partsHad.get(p.getUniqueId().toString()).has("command")) {
 				FileConfiguration disabled = (FileConfiguration) mi.getDisabledCommandsConfig();
 				if (disabled.contains("DisabledCommands." + msg)) {
-					for (String msgToSend : mi.getOldMessages("Main", "CommandAlreadyBlocked")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "CommandAlreadyBlocked")) {
 						HashMap<String, String> placeholders = new HashMap<>();
 						placeholders.put("%c", message);
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));
@@ -728,7 +729,7 @@ public class CommandValueListener implements Listener {
 				object.addProperty("command", message);
 				partsHad.put(p.getUniqueId().toString(), object);
 
-				for (String msgToSend : mi.getOldMessages("Main", "AddPermission")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "AddPermission")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 				/*
@@ -740,7 +741,7 @@ public class CommandValueListener implements Listener {
 				/*
 				 * Send message that you can't use a command
 				 */
-				for (String msgToSend : mi.getOldMessages("Main", "CantUseCommand")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "CantUseCommand")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 
@@ -751,7 +752,7 @@ public class CommandValueListener implements Listener {
 				/*
 				 * Send message that you can't use a command
 				 */
-				for (String msgToSend : mi.getOldMessages("Main", "CantUseCommand")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "CantUseCommand")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 
@@ -762,7 +763,7 @@ public class CommandValueListener implements Listener {
 				/*
 				 * Send message that you can't use a command
 				 */
-				for (String msgToSend : mi.getOldMessages("Main", "CantUseCommand")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "CantUseCommand")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 
@@ -773,7 +774,7 @@ public class CommandValueListener implements Listener {
 				object.addProperty("playercommands", message);
 				partsHad.put(p.getUniqueId().toString(), object);
 
-				for (String msgToSend : mi.getOldMessages("Main", "AddConsoleCommand")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "AddConsoleCommand")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 				/*
@@ -784,7 +785,7 @@ public class CommandValueListener implements Listener {
 				object.addProperty("consolecommands", message);
 				partsHad.put(p.getUniqueId().toString(), object);
 
-				for (String msgToSend : mi.getOldMessages("Main", "Confirmation")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "Confirmation")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 				/*
@@ -794,7 +795,7 @@ public class CommandValueListener implements Listener {
 				/*
 				 * Send message that you can't use a command
 				 */
-				for (String msgToSend : mi.getOldMessages("Main", "CantUseCommand")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "CantUseCommand")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 
@@ -812,7 +813,7 @@ public class CommandValueListener implements Listener {
 			if (!partsHad.get(p.getUniqueId().toString()).has("command")) {
 				FileConfiguration disabled = (FileConfiguration) mi.getDisabledCommandsConfig();
 				if (!disabled.contains("DisabledCommands." + msg)) {
-					for (String msgToSend : mi.getOldMessages("Main", "UnblockCancelledBecauseNotBlocked")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "UnblockCancelledBecauseNotBlocked")) {
 						HashMap<String, String> placeholders = new HashMap<>();
 						placeholders.put("%c", message);
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));
@@ -829,7 +830,7 @@ public class CommandValueListener implements Listener {
 				object.addProperty("command", message);
 				partsHad.put(p.getUniqueId().toString(), object);
 
-				for (String msgToSend : mi.getOldMessages("Main", "RemoveCommandQuestion")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "RemoveCommandQuestion")) {
 					HashMap<String, String> placeholders = new HashMap<>();
 					placeholders.put("%c", message);
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));
@@ -839,7 +840,7 @@ public class CommandValueListener implements Listener {
 				/*
 				 * Send message that you can't use a command
 				 */
-				for (String msgToSend : mi.getOldMessages("Main", "CantUseCommand")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "CantUseCommand")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 
@@ -857,7 +858,7 @@ public class CommandValueListener implements Listener {
 			if (!partsHad.get(p.getUniqueId().toString()).has("command")) {
 				FileConfiguration disabled = (FileConfiguration) mi.getOpBlockConfig();
 				if (disabled.contains("DisabledOpCommands." + msg)) {
-					for (String msgToSend : mi.getOldMessages("Main", "CommandAlreadyBlocked")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "CommandAlreadyBlocked")) {
 						HashMap<String, String> placeholders = new HashMap<>();
 						placeholders.put("%c", message);
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));
@@ -874,7 +875,7 @@ public class CommandValueListener implements Listener {
 				object.addProperty("command", message);
 				partsHad.put(p.getUniqueId().toString(), object);
 
-				for (String msgToSend : mi.getOldMessages("Main", "AddOpAddMessage")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "AddOpAddMessage")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 				/*
@@ -886,7 +887,7 @@ public class CommandValueListener implements Listener {
 				/*
 				 * Send message that you can't use a command
 				 */
-				for (String msgToSend : mi.getOldMessages("Main", "CantUseCommand")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "CantUseCommand")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 
@@ -897,7 +898,7 @@ public class CommandValueListener implements Listener {
 				/*
 				 * Send message that you can't use a command
 				 */
-				for (String msgToSend : mi.getOldMessages("Main", "CantUseCommand")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "CantUseCommand")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 
@@ -908,7 +909,7 @@ public class CommandValueListener implements Listener {
 				object.addProperty("playercommands", message);
 				partsHad.put(p.getUniqueId().toString(), object);
 
-				for (String msgToSend : mi.getOldMessages("Main", "AddOpAddConsoleCommand")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "AddOpAddConsoleCommand")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 				/*
@@ -919,7 +920,7 @@ public class CommandValueListener implements Listener {
 				object.addProperty("consolecommands", message);
 				partsHad.put(p.getUniqueId().toString(), object);
 
-				for (String msgToSend : mi.getOldMessages("Main", "Confirmation")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "Confirmation")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 				/*
@@ -929,7 +930,7 @@ public class CommandValueListener implements Listener {
 				/*
 				 * Send message that you can't use a command
 				 */
-				for (String msgToSend : mi.getOldMessages("Main", "CantUseCommand")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "CantUseCommand")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 
@@ -946,7 +947,7 @@ public class CommandValueListener implements Listener {
 			if (!partsHad.get(p.getUniqueId().toString()).has("command")) {
 				FileConfiguration disabled = (FileConfiguration) mi.getOpBlockConfig();
 				if (!disabled.contains("DisabledOpCommands." + msg)) {
-					for (String msgToSend : mi.getOldMessages("Main", "RemoveOpCouldNotRemove")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "RemoveOpCouldNotRemove")) {
 						HashMap<String, String> placeholders = new HashMap<>();
 						placeholders.put("%c", message);
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));
@@ -963,7 +964,7 @@ public class CommandValueListener implements Listener {
 				object.addProperty("command", message);
 				partsHad.put(p.getUniqueId().toString(), object);
 
-				for (String msgToSend : mi.getOldMessages("Main", "RemoveOpQuestion")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "RemoveOpQuestion")) {
 					HashMap<String, String> placeholders = new HashMap<>();
 					placeholders.put("%c", message);
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));
@@ -976,7 +977,7 @@ public class CommandValueListener implements Listener {
 				/*
 				 * Send message that you can't use a command
 				 */
-				for (String msgToSend : mi.getOldMessages("Main", "CantUseCommand")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "CantUseCommand")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 

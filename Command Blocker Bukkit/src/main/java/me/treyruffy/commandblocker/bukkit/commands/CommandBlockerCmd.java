@@ -18,6 +18,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -75,7 +76,7 @@ public class CommandBlockerCmd implements CommandExecutor {
 					/*
 					 * Send message to input a command
 					 */
-					for (String msg : mi.getOldMessages("Main", "AddCommandToBlock")) {
+					for (Component msg : mi.getOldMessages("Main", "AddCommandToBlock")) {
 						mi.sendMessage(p, Variables.translateVariables(msg, p));
 					}
 				} else {
@@ -102,7 +103,7 @@ public class CommandBlockerCmd implements CommandExecutor {
 					if (!BukkitMain.sendOldMessages())
 						BukkitMain.adventure().player(p).showBossBar(bar);
 
-					for (String msg : mi.getOldMessages("Main", "AddPermission")) {
+					for (Component msg : mi.getOldMessages("Main", "AddPermission")) {
 						mi.sendMessage(p, Variables.translateVariables(msg, p));
 					}
 				} else {
@@ -130,7 +131,7 @@ public class CommandBlockerCmd implements CommandExecutor {
 					object.addProperty("permission", args[2]);
 					CommandValueListener.partsHad.put(p.getUniqueId().toString(), object);
 
-					for (String msg : mi.getOldMessages("Main", "AddMessage")) {
+					for (Component msg : mi.getOldMessages("Main", "AddMessage")) {
 						mi.sendMessage(p, Variables.translateVariables(msg, p));
 					}
 				} else {
@@ -163,7 +164,7 @@ public class CommandBlockerCmd implements CommandExecutor {
 					object.addProperty("message", msg.toString());
 					CommandValueListener.partsHad.put(p.getUniqueId().toString(), object);
 
-					for (String msgToSend : mi.getOldMessages("Main", "AddWorld")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "AddWorld")) {
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 					}
 				} else {
@@ -176,7 +177,7 @@ public class CommandBlockerCmd implements CommandExecutor {
 						msg.append(" ").append(args[i]);
 					}
 					if (BlockedCommands.addBlockedCommand(command, args[2], msg.toString(), null, null, null)) {
-						for (String msgToSend : mi.getOldMessages("Main", "AddWorld")) {
+						for (Component msgToSend : mi.getOldMessages("Main", "AddWorld")) {
 							HashMap<String, String> placeholders = new HashMap<>();
 							placeholders.put("%c", command);
 							placeholders.put("%p", args[2]);
@@ -186,7 +187,7 @@ public class CommandBlockerCmd implements CommandExecutor {
 						Log.addLog(Universal.get().getMethods(),
 								"CONSOLE: Added /" + command + " to disabled" + ".yml with permission " + args[2] + " and message " + msg);
 					} else {
-						for (String msgToSend : mi.getOldMessages("Main", "CouldNotAddCommandToConfig")) {
+						for (Component msgToSend : mi.getOldMessages("Main", "CouldNotAddCommandToConfig")) {
 							HashMap<String, String> placeholders = new HashMap<>();
 							placeholders.put("%c", command);
 							mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender, placeholders));
@@ -205,7 +206,7 @@ public class CommandBlockerCmd implements CommandExecutor {
 				return true;
 			}
 
-			for (String msgToSend : mi.getOldMessages("Main", "ReloadCommand")) {
+			for (Component msgToSend : mi.getOldMessages("Main", "ReloadCommand")) {
 				mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender));
 			}
 			try {
@@ -221,11 +222,11 @@ public class CommandBlockerCmd implements CommandExecutor {
 					OldConfigManager.reloadMessages();
 				}
 				BukkitMain.fixCommands();
-				for (String msgToSend : mi.getOldMessages("Main", "ReloadSuccessful")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "ReloadSuccessful")) {
 					mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender));
 				}
 			} catch (Exception e) {
-				for (String msgToSend : mi.getOldMessages("Main", "ReloadFailed")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "ReloadFailed")) {
 					mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender));
 				}
 
@@ -251,11 +252,11 @@ public class CommandBlockerCmd implements CommandExecutor {
 					/*
 					 * Send message to input a command
 					 */
-					for (String msgToSend : mi.getOldMessages("Main", "RemoveCommandFromBlocklist")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "RemoveCommandFromBlocklist")) {
 						mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender));
 					}
 				} else {
-					for (String msgToSend : mi.getOldMessages("Main", "RemoveArguments")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "RemoveArguments")) {
 						mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender));
 					}
 				}
@@ -265,7 +266,7 @@ public class CommandBlockerCmd implements CommandExecutor {
 					command.append(" ").append(args[i]);
 				}
 				if (BlockedCommands.removeBlockedCommand(command.toString())) {
-					for (String msgToSend : mi.getOldMessages("Main", "RemovedCommand")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "RemovedCommand")) {
 						HashMap<String, String> placeholders = new HashMap<>();
 						placeholders.put("%c", command.toString());
 						mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender, placeholders));
@@ -278,7 +279,7 @@ public class CommandBlockerCmd implements CommandExecutor {
 								sender.getName() + ": Removed /" + command + " " + "from disabled.yml");
 					}
 				} else {
-					for (String msgToSend : mi.getOldMessages("Main", "UnblockCancelledBecauseNotBlocked")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "UnblockCancelledBecauseNotBlocked")) {
 						HashMap<String, String> placeholders = new HashMap<>();
 						placeholders.put("%c", command.toString());
 						mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender, placeholders));
@@ -305,11 +306,11 @@ public class CommandBlockerCmd implements CommandExecutor {
 					/*
 					 * Send message to input a command
 					 */
-					for (String msgToSend : mi.getOldMessages("Main", "AddOpAddCommand")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "AddOpAddCommand")) {
 						mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender));
 					}
 				} else {
-					for (String msgToSend : mi.getOldMessages("Main", "AddOpArguments")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "AddOpArguments")) {
 						mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender));
 					}
 				}
@@ -331,11 +332,11 @@ public class CommandBlockerCmd implements CommandExecutor {
 					CommandValueListener.bossBar.put(p.getUniqueId().toString(), bar);
 					if (!BukkitMain.sendOldMessages())
 						BukkitMain.adventure().player(p).showBossBar(bar);
-					for (String msgToSend : mi.getOldMessages("Main", "AddOpAddMessage")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "AddOpAddMessage")) {
 						mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender));
 					}
 				} else {
-					for (String msgToSend : mi.getOldMessages("Main", "AddOpArguments")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "AddOpArguments")) {
 						mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender));
 					}
 				}
@@ -361,7 +362,7 @@ public class CommandBlockerCmd implements CommandExecutor {
 						msg.append(" ").append(args[i]);
 					}
 					object.addProperty("message", msg.toString());
-					for (String msgToSend : mi.getOldMessages("Main", "AddOpAddWorld")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "AddOpAddWorld")) {
 						mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender));
 					}
 				} else {
@@ -374,7 +375,7 @@ public class CommandBlockerCmd implements CommandExecutor {
 						msg.append(" ").append(args[i]);
 					}
 					if (BlockedOpCommands.addBlockedCommand(command, msg.toString(), null, null, null)) {
-						for (String msgToSend : mi.getOldMessages("Main", "AddOpAddedCommandToConfig")) {
+						for (Component msgToSend : mi.getOldMessages("Main", "AddOpAddedCommandToConfig")) {
 							HashMap<String, String> placeholders = new HashMap<>();
 							placeholders.put("%c", command);
 							placeholders.put("%m", msg.toString());
@@ -389,7 +390,7 @@ public class CommandBlockerCmd implements CommandExecutor {
 						}
 
 					} else {
-						for (String msgToSend : mi.getOldMessages("Main", "AddOpCouldNotAddCommand")) {
+						for (Component msgToSend : mi.getOldMessages("Main", "AddOpCouldNotAddCommand")) {
 							HashMap<String, String> placeholders = new HashMap<>();
 							placeholders.put("%c", command);
 							mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender, placeholders));
@@ -417,11 +418,11 @@ public class CommandBlockerCmd implements CommandExecutor {
 					/*
 					 * Send message to input a command
 					 */
-					for (String msgToSend : mi.getOldMessages("Main", "RemoveOpRemoveCommand")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "RemoveOpRemoveCommand")) {
 						mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender));
 					}
 				} else {
-					for (String msgToSend : mi.getOldMessages("Main", "RemoveOpArguments")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "RemoveOpArguments")) {
 						mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender));
 					}
 				}
@@ -432,7 +433,7 @@ public class CommandBlockerCmd implements CommandExecutor {
 					command.append(" ").append(args[i]);
 				}
 				if (BlockedOpCommands.removeBlockedCommand(command.toString())) {
-					for (String msgToSend : mi.getOldMessages("Main", "RemoveOpRemovedCommand")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "RemoveOpRemovedCommand")) {
 						HashMap<String, String> placeholders = new HashMap<>();
 						placeholders.put("%c", command.toString());
 						mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender, placeholders));
@@ -445,7 +446,7 @@ public class CommandBlockerCmd implements CommandExecutor {
 								sender.getName() + ": Removed /" + command + " " + "from opblock.yml");
 					}
 				} else {
-					for (String msgToSend : mi.getOldMessages("Main", "RemoveOpCouldNotRemove")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "RemoveOpCouldNotRemove")) {
 						HashMap<String, String> placeholders = new HashMap<>();
 						placeholders.put("%c", command.toString());
 						mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender, placeholders));
@@ -456,7 +457,7 @@ public class CommandBlockerCmd implements CommandExecutor {
 			// EditOp argument
 		} else if (args[0].equalsIgnoreCase("edit")) {
 			if (!(sender instanceof Player)) {
-				for (String msgToSend : mi.getOldMessages("Main", "EditNeedToBePlayer")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "EditNeedToBePlayer")) {
 					mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender));
 				}
 				return true;
@@ -484,7 +485,7 @@ public class CommandBlockerCmd implements CommandExecutor {
 					} else if (ConfigManager.MainDisabled.contains("DisabledCommands." + newArgs.toString().toLowerCase())) {
 						newArgs = new StringBuilder(newArgs.toString().toLowerCase());
 					} else {
-						for (String msgToSend : mi.getOldMessages("Main", "EditNotBlockedCommand")) {
+						for (Component msgToSend : mi.getOldMessages("Main", "EditNotBlockedCommand")) {
 							HashMap<String, String> placeholders = new HashMap<>();
 							placeholders.put("%c", newArgs.toString());
 							mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender, placeholders));
@@ -497,7 +498,7 @@ public class CommandBlockerCmd implements CommandExecutor {
 					} else if (OldConfigManager.MainDisabled.contains("DisabledCommands." + newArgs.toString().toLowerCase())) {
 						newArgs = new StringBuilder(newArgs.toString().toLowerCase());
 					} else {
-						for (String msgToSend : mi.getOldMessages("Main", "EditNotBlockedCommand")) {
+						for (Component msgToSend : mi.getOldMessages("Main", "EditNotBlockedCommand")) {
 							HashMap<String, String> placeholders = new HashMap<>();
 							placeholders.put("%c", newArgs.toString());
 							mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender, placeholders));
@@ -511,12 +512,12 @@ public class CommandBlockerCmd implements CommandExecutor {
 				new DisabledGui().openGui(p, newArgs.toString(), false);
 				return true;
 			}
-			for (String msgToSend : mi.getOldMessages("Main", "EditNeedCommandToEdit")) {
+			for (Component msgToSend : mi.getOldMessages("Main", "EditNeedCommandToEdit")) {
 				mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender));
 			}
 		} else if (args[0].equalsIgnoreCase("editop")) {
 			if (!(sender instanceof Player)) {
-				for (String msgToSend : mi.getOldMessages("Main", "EditOpNeedToBePlayer")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "EditOpNeedToBePlayer")) {
 					mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender));
 				}
 				return true;
@@ -560,7 +561,7 @@ public class CommandBlockerCmd implements CommandExecutor {
 				new DisabledGui().openGui(p, newArgs.toString(), true);
 				return true;
 			}
-			for (String msgToSend : mi.getOldMessages("Main", "EditOpNeedCommandToEdit")) {
+			for (Component msgToSend : mi.getOldMessages("Main", "EditOpNeedCommandToEdit")) {
 				mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender));
 			}
 		} else if (args[0].equalsIgnoreCase("list")) {
@@ -592,7 +593,7 @@ public class CommandBlockerCmd implements CommandExecutor {
 			}
 
 			if (wantedPage <= 0 || wantedPage > pageCount) {
-				for (String msgToSend : mi.getOldMessages("Main", "ListOutOfBounds")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "ListOutOfBounds")) {
 					HashMap<String, String> placeholders = new HashMap<>();
 					placeholders.put("%count", String.valueOf(BlockedCommands.getBlockedCommands().size()));
 					placeholders.put("%pages", String.valueOf(pageCount));
@@ -604,12 +605,12 @@ public class CommandBlockerCmd implements CommandExecutor {
 				return true;
 			}
 
-			for (String msgToSend : mi.getOldMessages("Main", "ListStart")) {
+			for (Component msgToSend : mi.getOldMessages("Main", "ListStart")) {
 				placeholdersForList(sender, mi, wantedPage, pageCount, msgToSend, false);
 			}
 
 			for (String command : commandPage.get(wantedPage)) {
-				for (String msgToSend : mi.getOldMessages("Main", "ListCommands")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "ListCommands")) {
 					HashMap<String, String> placeholders = new HashMap<>();
 					placeholders.put("%count", String.valueOf(BlockedCommands.getBlockedCommands().size()));
 					placeholders.put("%pages", String.valueOf(pageCount));
@@ -619,7 +620,7 @@ public class CommandBlockerCmd implements CommandExecutor {
 				}
 			}
 
-			for (String msgToSend : mi.getOldMessages("Main", "ListEnd")) {
+			for (Component msgToSend : mi.getOldMessages("Main", "ListEnd")) {
 				placeholdersForList(sender, mi, wantedPage, pageCount, msgToSend, false);
 			}
 		} else if (args[0].equalsIgnoreCase("listop")) {
@@ -651,7 +652,7 @@ public class CommandBlockerCmd implements CommandExecutor {
 			}
 
 			if (wantedPage <= 0 || wantedPage > pageCount) {
-				for (String msgToSend : mi.getOldMessages("Main", "ListOpOutOfBounds")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "ListOpOutOfBounds")) {
 					HashMap<String, String> placeholders = new HashMap<>();
 					placeholders.put("%count", String.valueOf(BlockedCommands.getBlockedCommands().size()));
 					placeholders.put("%pages", String.valueOf(pageCount));
@@ -663,12 +664,12 @@ public class CommandBlockerCmd implements CommandExecutor {
 				return true;
 			}
 
-			for (String msgToSend : mi.getOldMessages("Main", "ListOpStart")) {
+			for (Component msgToSend : mi.getOldMessages("Main", "ListOpStart")) {
 				placeholdersForList(sender, mi, wantedPage, pageCount, msgToSend, true);
 			}
 
 			for (String command : commandPage.get(wantedPage)) {
-				for (String msgToSend : mi.getOldMessages("Main", "ListOpCommands")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "ListOpCommands")) {
 					HashMap<String, String> placeholders = new HashMap<>();
 					placeholders.put("%count", String.valueOf(BlockedCommands.getBlockedCommands().size()));
 					placeholders.put("%pages", String.valueOf(pageCount));
@@ -678,18 +679,24 @@ public class CommandBlockerCmd implements CommandExecutor {
 				}
 			}
 
-			for (String msgToSend : mi.getOldMessages("Main", "ListOpEnd")) {
+			for (Component msgToSend : mi.getOldMessages("Main", "ListOpEnd")) {
 				placeholdersForList(sender, mi, wantedPage, pageCount, msgToSend, true);
 			}
 		}
 
 		// Sent an argument that isnt one of the listed
 		else {
-			for (String msgToSend : mi.getOldMessages("Main", "NoArguments")) {
+			for (Component msgToSend : mi.getOldMessages("Main", "NoArguments")) {
 				mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender));
 			}
 		}
 		return true;
+	}
+
+	private void placeholdersForList(@NotNull CommandSender sender, MethodInterface mi, int wantedPage, int pageCount,
+									 Component msgToSend, boolean op) {
+		String msgString = MiniMessage.miniMessage().serialize(msgToSend);
+		placeholdersForList(sender, mi, wantedPage, pageCount, msgString, op);
 	}
 
 	private void placeholdersForList(@NotNull CommandSender sender, MethodInterface mi, int wantedPage, int pageCount,
@@ -728,7 +735,7 @@ public class CommandBlockerCmd implements CommandExecutor {
 	}
 
 	private boolean editOpNotBlocked(@NotNull CommandSender sender, MethodInterface mi, StringBuilder newArgs) {
-		for (String msgToSend : mi.getOldMessages("Main", "EditOpNotBlockedCommand")) {
+		for (Component msgToSend : mi.getOldMessages("Main", "EditOpNotBlockedCommand")) {
 			HashMap<String, String> placeholders = new HashMap<>();
 			placeholders.put("%c", newArgs.toString());
 			mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender, placeholders));
@@ -738,7 +745,7 @@ public class CommandBlockerCmd implements CommandExecutor {
 
 	public static void noPermissions(MethodInterface mi, CommandSender sender) {
 		if (sender instanceof Player) {
-			for (String msgToSend : mi.getOldMessages("Messages", "NoPermission", mi.getConfig())) {
+			for (Component msgToSend : mi.getOldMessages("Messages", "NoPermission", mi.getConfig())) {
 				mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender));
 			}
 			String uuid = ((Player) sender).getUniqueId().toString();

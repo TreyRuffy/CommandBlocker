@@ -72,7 +72,7 @@ public class CommandBlockerCommand extends Command implements TabExecutor {
 					/*
 					 * Send message to input a command
 					 */
-					for (String msg : mi.getOldMessages("Main", "AddCommandToBlock")) {
+					for (Component msg : mi.getOldMessages("Main", "AddCommandToBlock")) {
 						mi.sendMessage(p, Variables.translateVariables(msg, p));
 					}
 				} else {
@@ -96,7 +96,7 @@ public class CommandBlockerCommand extends Command implements TabExecutor {
 					BungeeMain.adventure().player(p).showBossBar(bar);
 					BungeeCommandValueListener.partsHad.put(p.getUniqueId().toString(), object);
 
-					for (String msg : mi.getOldMessages("Main", "AddPermission")) {
+					for (Component msg : mi.getOldMessages("Main", "AddPermission")) {
 						mi.sendMessage(p, Variables.translateVariables(msg, p));
 					}
 				} else {
@@ -121,7 +121,7 @@ public class CommandBlockerCommand extends Command implements TabExecutor {
 					object.addProperty("permission", args[2]);
 					BungeeCommandValueListener.partsHad.put(p.getUniqueId().toString(), object);
 
-					for (String msg : mi.getOldMessages("Main", "AddMessage")) {
+					for (Component msg : mi.getOldMessages("Main", "AddMessage")) {
 						mi.sendMessage(p, Variables.translateVariables(msg, p));
 					}
 				} else {
@@ -152,7 +152,7 @@ public class CommandBlockerCommand extends Command implements TabExecutor {
 					object.addProperty("message", msg.toString());
 					BungeeCommandValueListener.partsHad.put(p.getUniqueId().toString(), object);
 
-					for (String msgToSend : mi.getOldMessages("Main", "AddServer")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "AddServer")) {
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 					}
 				} else {
@@ -165,7 +165,7 @@ public class CommandBlockerCommand extends Command implements TabExecutor {
 						msg.append(" ").append(args[i]);
 					}
 					if (BlockedCommands.addBlockedCommand(command, args[2], msg.toString(), null, null)) {
-						for (String msgToSend : mi.getOldMessages("Main", "AddCommandToConfig")) {
+						for (Component msgToSend : mi.getOldMessages("Main", "AddCommandToConfig")) {
 							HashMap<String, String> placeholders = new HashMap<>();
 							placeholders.put("%c", command);
 							placeholders.put("%p", args[2]);
@@ -175,7 +175,7 @@ public class CommandBlockerCommand extends Command implements TabExecutor {
 						Log.addLog(Universal.get().getMethods(),
 								"CONSOLE: Added /" + command + " to disabled" + ".yml with permission " + args[2] + " and message " + msg);
 					} else {
-						for (String msgToSend : mi.getOldMessages("Main", "CouldNotAddCommandToConfig")) {
+						for (Component msgToSend : mi.getOldMessages("Main", "CouldNotAddCommandToConfig")) {
 							HashMap<String, String> placeholders = new HashMap<>();
 							placeholders.put("%c", command);
 							mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender, placeholders));
@@ -193,7 +193,7 @@ public class CommandBlockerCommand extends Command implements TabExecutor {
 				return;
 			}
 
-			for (String msgToSend : mi.getOldMessages("Main", "ReloadCommand")) {
+			for (Component msgToSend : mi.getOldMessages("Main", "ReloadCommand")) {
 				mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender));
 			}
 			try {
@@ -201,11 +201,11 @@ public class CommandBlockerCommand extends Command implements TabExecutor {
 				BungeeConfigManager.reloadDisabled();
 				BungeeConfigManager.reloadMessages();
 				BungeeMain.fixCommands();
-				for (String msgToSend : mi.getOldMessages("Main", "ReloadSuccessful")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "ReloadSuccessful")) {
 					mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender));
 				}
 			} catch (Exception e) {
-				for (String msgToSend : mi.getOldMessages("Main", "ReloadFailed")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "ReloadFailed")) {
 					mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender));
 				}
 
@@ -230,11 +230,11 @@ public class CommandBlockerCommand extends Command implements TabExecutor {
 					/*
 					 * Send message to input a command
 					 */
-					for (String msgToSend : mi.getOldMessages("Main", "RemoveCommandFromBlocklist")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "RemoveCommandFromBlocklist")) {
 						mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender));
 					}
 				} else {
-					for (String msgToSend : mi.getOldMessages("Main", "RemoveArguments")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "RemoveArguments")) {
 						mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender));
 					}
 				}
@@ -244,7 +244,7 @@ public class CommandBlockerCommand extends Command implements TabExecutor {
 					command.append(" ").append(args[i]);
 				}
 				if (BlockedCommands.removeBlockedCommand(command.toString())) {
-					for (String msgToSend : mi.getOldMessages("Main", "RemovedCommand")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "RemovedCommand")) {
 						HashMap<String, String> placeholders = new HashMap<>();
 						placeholders.put("%c", command.toString());
 						mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender, placeholders));
@@ -257,7 +257,7 @@ public class CommandBlockerCommand extends Command implements TabExecutor {
 								sender.getName() + ": Removed /" + command + " " + "from disabled.yml");
 					}
 				} else {
-					for (String msgToSend : mi.getOldMessages("Main", "UnblockCancelledBecauseNotBlocked")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "UnblockCancelledBecauseNotBlocked")) {
 						HashMap<String, String> placeholders = new HashMap<>();
 						placeholders.put("%c", command.toString());
 						mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender, placeholders));
@@ -293,7 +293,7 @@ public class CommandBlockerCommand extends Command implements TabExecutor {
 			}
 
 			if (wantedPage <= 0 || wantedPage > pageCount) {
-				for (String msgToSend : mi.getOldMessages("Main", "ListOutOfBounds")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "ListOutOfBounds")) {
 					HashMap<String, String> placeholders = new HashMap<>();
 					placeholders.put("%count", String.valueOf(BlockedCommands.getBlockedCommands().size()));
 					placeholders.put("%pages", String.valueOf(pageCount));
@@ -305,12 +305,12 @@ public class CommandBlockerCommand extends Command implements TabExecutor {
 				return;
 			}
 
-			for (String msgToSend : mi.getOldMessages("Main", "ListStart")) {
+			for (Component msgToSend : mi.getOldMessages("Main", "ListStart")) {
 				placeholdersForList(sender, mi, wantedPage, pageCount, msgToSend);
 			}
 
 			for (String command : commandPage.get(wantedPage)) {
-				for (String msgToSend : mi.getOldMessages("Main", "ListCommandsBungee")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "ListCommandsBungee")) {
 					HashMap<String, String> placeholders = new HashMap<>();
 					placeholders.put("%count", String.valueOf(BlockedCommands.getBlockedCommands().size()));
 					placeholders.put("%pages", String.valueOf(pageCount));
@@ -320,19 +320,20 @@ public class CommandBlockerCommand extends Command implements TabExecutor {
 				}
 			}
 
-			for (String msgToSend : mi.getOldMessages("Main", "ListEnd")) {
+			for (Component msgToSend : mi.getOldMessages("Main", "ListEnd")) {
 				placeholdersForList(sender, mi, wantedPage, pageCount, msgToSend);
 			}
 		}
 		else {
-			for (String msgToSend : mi.getOldMessages("Main", "BungeeNoArguments")) {
+			for (Component msgToSend : mi.getOldMessages("Main", "BungeeNoArguments")) {
 				mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender));
 			}
 		}
 	}
 
+
 	private void placeholdersForList(@NotNull CommandSender sender, MethodInterface mi, int wantedPage, int pageCount,
-									 String msgToSend) {
+									 Component msgToSend) {
 		HashMap<String, String> placeholders = new HashMap<>();
 		placeholders.put("%count", String.valueOf(BlockedCommands.getBlockedCommands().size()));
 		placeholders.put("%pages", String.valueOf(pageCount));
@@ -393,7 +394,7 @@ public class CommandBlockerCommand extends Command implements TabExecutor {
 
 	public static void noPermissions(MethodInterface mi, CommandSender sender) {
 		if (sender instanceof ProxiedPlayer) {
-			for (String msgToSend : mi.getOldMessages("Messages", "NoPermission", mi.getConfig())) {
+			for (Component msgToSend : mi.getOldMessages("Messages", "NoPermission", mi.getConfig())) {
 				mi.sendMessage(sender, Variables.translateVariables(msgToSend, sender));
 			}
 			String uuid = ((ProxiedPlayer) sender).getUniqueId().toString();

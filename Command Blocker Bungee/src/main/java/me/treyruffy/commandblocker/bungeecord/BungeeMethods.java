@@ -5,7 +5,9 @@ import me.treyruffy.commandblocker.bungeecord.api.BlockedCommands;
 import me.treyruffy.commandblocker.bungeecord.config.BungeeConfigManager;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
@@ -60,15 +62,15 @@ public class BungeeMethods implements MethodInterface {
 	}
 
 	@Override
-	public List<String> getOldMessages(String category, String message) {
+	public List<Component> getOldMessages(String category, String message) {
 		return getOldMessages(category, message, getMessagesConfig());
 	}
 
 	@Override
-	public List<String> getOldMessages(String category, String message, Object configurationFile) {
-		List<String> list = new ArrayList<>();
+	public List<Component> getOldMessages(String category, String message, Object configurationFile) {
+		List<Component> list = new ArrayList<>();
 		if (!(configurationFile instanceof Configuration)) {
-			list.add(ChatColor.RED + "Configuration file is not correct.");
+			list.add(Component.text("Configuration file is not correct.").color(NamedTextColor.RED));
 			return list;
 		}
 		Configuration configuration = (Configuration) configurationFile;
@@ -77,7 +79,7 @@ public class BungeeMethods implements MethodInterface {
 			return list;
 		}
 		for (String stringListEntries : configuration.getStringList(category + "." + message)) {
-			list.add(ChatColor.translateAlternateColorCodes('&', stringListEntries));
+			list.add(LegacyComponentSerializer.legacyAmpersand().deserialize(stringListEntries));
 		}
 		return list;
 	}
@@ -88,23 +90,24 @@ public class BungeeMethods implements MethodInterface {
 	}
 
 	@Override
-	public String getOldMessage(String category, String message) {
+	public Component getOldMessage(String category, String message) {
 		return getOldMessage(category, message, getMessagesConfig());
 	}
 
 	@Override
-	public String getOldMessage(String category, String message, Object configurationFile) {
-		if (configurationFile == null)
-			return ChatColor.RED + "Configuration file is not set.";
+	public Component getOldMessage(String category, String message, Object configurationFile) {
+    if (configurationFile == null)
+      return Component.text("Configuration file is not set.").color(NamedTextColor.RED);
 		if (!(configurationFile instanceof Configuration)) {
-			return ChatColor.RED + "Configuration file is not correct.";
+			return Component.text("Configuration file is not correct.").color(NamedTextColor.RED);
 		}
 		Configuration configuration = (Configuration) configurationFile;
 		File file = getConfigFile(configurationFile);
 		String messageFromMessagesFile = configuration.getString(category + "." + message);
 		if (messageFromMessagesFile == null)
-			return ChatColor.RED + "Message (" + category + "." + message + ") is not set in " + file.getName() + ".";
-		return ChatColor.translateAlternateColorCodes('&', messageFromMessagesFile);
+			return Component.text("Message (" + category + "." + message + ") is not set in " + file.getName() + ".")
+					.color(NamedTextColor.RED);
+		return LegacyComponentSerializer.legacyAmpersand().deserialize(messageFromMessagesFile);
 	}
 
 	@Override
@@ -161,7 +164,9 @@ public class BungeeMethods implements MethodInterface {
 	@Override
 	public void log(String msg) {
 		BungeeAudiences adventure = BungeeMain.adventure();
-		Component component = MiniMessage.get().parse(ChatColor.translateAlternateColorCodes('&', msg));
+		Component temp = LegacyComponentSerializer.legacyAmpersand().deserialize(msg);
+		msg = MiniMessage.miniMessage().serialize(temp);
+		Component component = MiniMessage.miniMessage().deserialize(msg);
 		CommandSender commandSender = ProxyServer.getInstance().getConsole();
 		adventure.sender(commandSender).sendMessage(component);
 	}

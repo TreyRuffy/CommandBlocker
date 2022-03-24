@@ -3,6 +3,7 @@ package me.treyruffy.commandblocker.bukkit.listeners;
 import me.treyruffy.commandblocker.MethodInterface;
 import me.treyruffy.commandblocker.Universal;
 import me.treyruffy.commandblocker.bukkit.Variables;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -106,11 +107,11 @@ public class BukkitBlock implements Listener{
 				}
 
 				if ((disabled.getString("DisabledCommands." + cmd + ".Message") == null) || Objects.requireNonNull(disabled.getString("DisabledCommands." + cmd + ".Message")).equalsIgnoreCase("default")) {
-					for (String msg : mi.getOldMessages("Default", "Message", config)) {
+					for (Component msg : mi.getOldMessages("Default", "Message", config)) {
 						mi.sendMessage(p, Variables.translateVariables(msg, p));
 					}
 				} else if (!Objects.requireNonNull(disabled.getString("DisabledCommands." + cmd + ".Message")).replace(" ", "").equalsIgnoreCase("none")) {
-					for (String msg : mi.getOldMessages("DisabledCommands", cmd + ".Message", disabled)) {
+					for (Component msg : mi.getOldMessages("DisabledCommands", cmd + ".Message", disabled)) {
 						mi.sendMessage(p, Variables.translateVariables(msg, p));
 					}
 				}
@@ -199,11 +200,11 @@ public class BukkitBlock implements Listener{
 
 
 				if ((opDisabled.getString("DisabledOpCommands." + cmd + ".Message") == null) || (Objects.requireNonNull(opDisabled.getString("DisabledOpCommands." + cmd + ".Message")).equalsIgnoreCase("default"))) {
-					for (String msg : mi.getOldMessages("Default", "Message", config)) {
+					for (Component msg : mi.getOldMessages("Default", "Message", config)) {
 						mi.sendMessage(p, Variables.translateVariables(msg, p));
 					}
 				} else if (!(Objects.requireNonNull(opDisabled.getString("DisabledOpCommands." + cmd + ".Message"))).replace(" ", "").equalsIgnoreCase("none")) {
-					for (String msg : mi.getOldMessages("DisabledOpCommands", cmd + ".Message", opDisabled)) {
+					for (Component msg : mi.getOldMessages("DisabledOpCommands", cmd + ".Message", opDisabled)) {
 						mi.sendMessage(p, Variables.translateVariables(msg, p));
 					}
 				}
@@ -264,11 +265,11 @@ public class BukkitBlock implements Listener{
 	private void colonedCmdsMessage(Player p, FileConfiguration config, MethodInterface mi) {
 		if ((config.getString("ColonedCommands.Message") == null) || (Objects.requireNonNull(config.getString(
 				"ColonedCommands.Message")).equalsIgnoreCase("default"))) {
-			for (String msg : mi.getOldMessages("Default", "Message", config)) {
+			for (Component msg : mi.getOldMessages("Default", "Message", config)) {
 				mi.sendMessage(p, Variables.translateVariables(msg, p));
 			}
 		} else {
-			for (String msg : mi.getOldMessages("ColonedCommands", "Message", config)) {
+			for (Component msg : mi.getOldMessages("ColonedCommands", "Message", config)) {
 				mi.sendMessage(p, Variables.translateVariables(msg, p));
 			}
 		}

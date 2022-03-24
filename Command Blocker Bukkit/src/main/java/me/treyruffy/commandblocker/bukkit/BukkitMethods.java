@@ -7,6 +7,7 @@ import me.treyruffy.commandblocker.bukkit.config.ConfigManager;
 import me.treyruffy.commandblockerlegacy.OldConfigManager;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -72,15 +73,15 @@ public class BukkitMethods implements MethodInterface {
 	}
 
 	@Override
-	public List<String> getOldMessages(String category, String message) {
+	public List<Component> getOldMessages(String category, String message) {
 		return getOldMessages(category, message, getMessagesConfig());
 	}
 
 	@Override
-	public List<String> getOldMessages(String category, String message, Object configurationFile) {
-		List<String> list = new ArrayList<>();
+	public List<Component> getOldMessages(String category, String message, Object configurationFile) {
+		List<Component> list = new ArrayList<>();
 		if (!(configurationFile instanceof FileConfiguration)) {
-			list.add(ChatColor.RED + "Configuration file is not correct.");
+			list.add(Component.text("Configuration file is not correct.").color(NamedTextColor.RED));
 			return list;
 		}
 		FileConfiguration configuration = (FileConfiguration) configurationFile;
@@ -89,7 +90,7 @@ public class BukkitMethods implements MethodInterface {
 			return list;
 		}
 		for (String stringListEntries : configuration.getStringList(category + "." + message)) {
-			list.add(ChatColor.translateAlternateColorCodes('&', stringListEntries));
+			list.add(LegacyComponentSerializer.legacyAmpersand().deserialize(stringListEntries));
 		}
 		return list;
 	}
@@ -100,23 +101,24 @@ public class BukkitMethods implements MethodInterface {
 	}
 
 	@Override
-	public String getOldMessage(String category, String message) {
+	public Component getOldMessage(String category, String message) {
 		return getOldMessage(category, message, getMessagesConfig());
 	}
 
 	@Override
-	public String getOldMessage(String category, String message, Object configurationFile) {
+	public Component getOldMessage(String category, String message, Object configurationFile) {
 		if (configurationFile == null)
-			return ChatColor.RED + "Configuration file is not set.";
+			return Component.text("Configuration file is not set.").color(NamedTextColor.RED);
 		if (!(configurationFile instanceof FileConfiguration)) {
-			return ChatColor.RED + "Configuration file is not correct.";
+			return Component.text("Configuration file is not correct.").color(NamedTextColor.RED);
 		}
 		FileConfiguration configuration = (FileConfiguration) configurationFile;
 		File file = getConfigFile(configurationFile);
 		String messageFromMessagesFile = configuration.getString(category + "." + message);
 		if (messageFromMessagesFile == null)
-			return ChatColor.RED + "Message (" + category + "." + message + ") is not set in " + file.getName() + ".";
-		return ChatColor.translateAlternateColorCodes('&', messageFromMessagesFile);
+			return Component.text("Message (" + category + "." + message + ") is not set in " + file.getName() + ".")
+					.color(NamedTextColor.RED);
+		return LegacyComponentSerializer.legacyAmpersand().deserialize(messageFromMessagesFile);
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import me.treyruffy.commandblocker.bungeecord.commands.CommandBlockerCommand;
 import me.treyruffy.commandblocker.json.AddCommand;
 import me.treyruffy.commandblocker.json.RemoveCommand;
 import net.kyori.adventure.bossbar.BossBar;
+import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ChatEvent;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
@@ -51,7 +52,7 @@ public class BungeeCommandValueListener implements Listener {
 			if (bossBar.containsKey(p.getUniqueId().toString()))
 				BungeeMain.adventure().player(p).hideBossBar(bossBar.get(p.getUniqueId().toString()));
 			bossBar.remove(p.getUniqueId().toString());
-			for (String msgToSend : mi.getOldMessages("Main", "Cancelled")) {
+			for (Component msgToSend : mi.getOldMessages("Main", "Cancelled")) {
 				mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 			}
 			/*
@@ -74,7 +75,7 @@ public class BungeeCommandValueListener implements Listener {
 				if (!partsHad.get(p.getUniqueId().toString()).has("command")) {
 					Configuration disabled = (Configuration) mi.getDisabledCommandsConfig();
 					if (disabled.contains("DisabledCommands." + msg)) {
-						for (String msgToSend : mi.getOldMessages("Main", "CommandAlreadyBlocked")) {
+						for (Component msgToSend : mi.getOldMessages("Main", "CommandAlreadyBlocked")) {
 							HashMap<String, String> placeholders = new HashMap<>();
 							placeholders.put("%c", message);
 							mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));
@@ -98,7 +99,7 @@ public class BungeeCommandValueListener implements Listener {
 					BungeeMain.adventure().player(p).showBossBar(bar);
 					partsHad.put(p.getUniqueId().toString(), object);
 
-					for (String msgToSend : mi.getOldMessages("Main", "AddPermission")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "AddPermission")) {
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 					}
 					/*
@@ -110,7 +111,7 @@ public class BungeeCommandValueListener implements Listener {
 					/*
 					 * Send message that you can't use a command
 					 */
-					for (String msgToSend : mi.getOldMessages("Main", "CantUseCommand")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "CantUseCommand")) {
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 					}
 
@@ -121,7 +122,7 @@ public class BungeeCommandValueListener implements Listener {
 					/*
 					 * Send message that you can't use a command
 					 */
-					for (String msgToSend : mi.getOldMessages("Main", "CantUseCommand")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "CantUseCommand")) {
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 					}
 
@@ -132,7 +133,7 @@ public class BungeeCommandValueListener implements Listener {
 					/*
 					 * Send message that you can't use a command
 					 */
-					for (String msgToSend : mi.getOldMessages("Main", "CantUseCommand")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "CantUseCommand")) {
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 					}
 
@@ -143,7 +144,7 @@ public class BungeeCommandValueListener implements Listener {
 					object.addProperty("playercommands", message);
 					partsHad.put(p.getUniqueId().toString(), object);
 
-					for (String msgToSend : mi.getOldMessages("Main", "Confirmation")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "Confirmation")) {
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 					}
 					/*
@@ -153,7 +154,7 @@ public class BungeeCommandValueListener implements Listener {
 					/*
 					 * Send message that you can't use a command
 					 */
-					for (String msgToSend : mi.getOldMessages("Main", "CantUseCommand")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "CantUseCommand")) {
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 					}
 
@@ -171,7 +172,7 @@ public class BungeeCommandValueListener implements Listener {
 				if (!partsHad.get(p.getUniqueId().toString()).has("command")) {
 					Configuration disabled = (Configuration) mi.getDisabledCommandsConfig();
 					if (!disabled.contains("DisabledCommands." + msg)) {
-						for (String msgToSend : mi.getOldMessages("Main", "UnblockCancelledBecauseNotBlocked")) {
+						for (Component msgToSend : mi.getOldMessages("Main", "UnblockCancelledBecauseNotBlocked")) {
 							HashMap<String, String> placeholders = new HashMap<>();
 							placeholders.put("%c", message);
 							mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));
@@ -195,7 +196,7 @@ public class BungeeCommandValueListener implements Listener {
 					BungeeCommandValueListener.bossBar.put(p.getUniqueId().toString(), bar);
 					BungeeMain.adventure().player(p).showBossBar(bar);
 
-					for (String msgToSend : mi.getOldMessages("Main", "RemoveCommandQuestion")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "RemoveCommandQuestion")) {
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));
 					}
 
@@ -203,7 +204,7 @@ public class BungeeCommandValueListener implements Listener {
 					/*
 					 * Send message that you can't use a command
 					 */
-					for (String msgToSend : mi.getOldMessages("Main", "CantUseCommand")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "CantUseCommand")) {
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 					}
 
@@ -228,7 +229,7 @@ public class BungeeCommandValueListener implements Listener {
 				Configuration disabled = (Configuration) mi.getDisabledCommandsConfig();
 				String msg = e.getMessage().substring(0, 1).toUpperCase() + e.getMessage().substring(1).toLowerCase();
 				if (disabled.getSection("DisabledCommands").getKeys().contains(msg)) {
-					for (String msgToSend : mi.getOldMessages("Main", "CommandAlreadyBlocked")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "CommandAlreadyBlocked")) {
 						HashMap<String, String> placeholders = new HashMap<>();
 						placeholders.put("%c", e.getMessage());
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));
@@ -252,7 +253,7 @@ public class BungeeCommandValueListener implements Listener {
 				BungeeMain.adventure().player(p).showBossBar(bar);
 				partsHad.put(p.getUniqueId().toString(), object);
 
-				for (String msgToSend : mi.getOldMessages("Main", "AddPermission")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "AddPermission")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 				/*
@@ -264,7 +265,7 @@ public class BungeeCommandValueListener implements Listener {
 				object.addProperty("permission", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
 
-				for (String msgToSend : mi.getOldMessages("Main", "AddMessage")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "AddMessage")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 				/*
@@ -276,7 +277,7 @@ public class BungeeCommandValueListener implements Listener {
 				object.addProperty("message", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
 
-				for (String msgToSend : mi.getOldMessages("Main", "AddServer")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "AddServer")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 				/*
@@ -288,7 +289,7 @@ public class BungeeCommandValueListener implements Listener {
 				object.addProperty("worlds", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
 
-				for (String msgToSend : mi.getOldMessages("Main", "AddPlayerCommand")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "AddPlayerCommand")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 				/*
@@ -300,7 +301,7 @@ public class BungeeCommandValueListener implements Listener {
 				object.addProperty("playercommands", e.getMessage());
 				partsHad.put(p.getUniqueId().toString(), object);
 
-				for (String msgToSend : mi.getOldMessages("Main", "AddConfirmation")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "AddConfirmation")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 				}
 				/*
@@ -314,7 +315,7 @@ public class BungeeCommandValueListener implements Listener {
 				} else if (e.getMessage().equalsIgnoreCase("yes")) {
 					object.addProperty("confirmation", true);
 				} else {
-					for (String msgToSend : mi.getOldMessages("Main", "CanOnlyBeYesOrNo")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "CanOnlyBeYesOrNo")) {
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 					}
 					e.setCancelled(true);
@@ -332,7 +333,7 @@ public class BungeeCommandValueListener implements Listener {
 						BungeeMain.adventure().player(p).hideBossBar(bossBar.get(p.getUniqueId().toString()));
 					bossBar.remove(p.getUniqueId().toString());
 					partsHad.remove(p.getUniqueId().toString());
-					for (String msgToSend : mi.getOldMessages("Main", "Cancelled")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "Cancelled")) {
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 					}
 					e.setCancelled(true);
@@ -357,7 +358,7 @@ public class BungeeCommandValueListener implements Listener {
 					Log.addLog(Universal.get().getMethods(), p.getName() + ": Added command /" + addcommand.getCommand() + " to disabled.yml with permission " + addcommand.getPermission()
 							+ " and message " + addcommand.getMessage() + " in servers: " + addcommand.getWorlds() + ". When executed, it runs " + addcommand.getPlayerCommands()
 							+ " as the player");
-					for (String msgToSend : mi.getOldMessages("Main", "AddedCommandOutputBungee")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "AddedCommandOutputBungee")) {
 						HashMap<String, String> placeholders = new HashMap<>();
 						placeholders.put("%c", addcommand.getCommand());
 						placeholders.put("%p", addcommand.getPermission());
@@ -368,7 +369,7 @@ public class BungeeCommandValueListener implements Listener {
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));
 					}
 				} else {
-					for (String msgToSend : mi.getOldMessages("Main", "CouldNotAddCommandToConfig")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "CouldNotAddCommandToConfig")) {
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 					}
 				}
@@ -395,7 +396,7 @@ public class BungeeCommandValueListener implements Listener {
 				Configuration disabled = (Configuration) mi.getDisabledCommandsConfig();
 				String message = e.getMessage().substring(0, 1).toUpperCase() + e.getMessage().substring(1).toLowerCase();
 				if (!disabled.contains("DisabledCommands." + message)) {
-					for (String msgToSend : mi.getOldMessages("Main", "UnblockCancelledBecauseNotBlocked")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "UnblockCancelledBecauseNotBlocked")) {
 						HashMap<String, String> placeholders = new HashMap<>();
 						placeholders.put("%c", e.getMessage());
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));
@@ -418,7 +419,7 @@ public class BungeeCommandValueListener implements Listener {
 				BungeeMain.adventure().player(p).showBossBar(bar);
 				partsHad.put(p.getUniqueId().toString(), object);
 
-				for (String msgToSend : mi.getOldMessages("Main", "RemoveCommandQuestion")) {
+				for (Component msgToSend : mi.getOldMessages("Main", "RemoveCommandQuestion")) {
 					mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));
 				}
 				e.setCancelled(true);
@@ -435,7 +436,7 @@ public class BungeeCommandValueListener implements Listener {
 				} else if (e.getMessage().equalsIgnoreCase("yes")) {
 					object.addProperty("confirmation", true);
 				} else {
-					for (String msgToSend : mi.getOldMessages("Main", "CanOnlyBeYesOrNo")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "CanOnlyBeYesOrNo")) {
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 					}
 					e.setCancelled(true);
@@ -452,7 +453,7 @@ public class BungeeCommandValueListener implements Listener {
 						BungeeMain.adventure().player(p).hideBossBar(bossBar.get(p.getUniqueId().toString()));
 					bossBar.remove(p.getUniqueId().toString());
 					partsHad.remove(p.getUniqueId().toString());
-					for (String msgToSend : mi.getOldMessages("Main", "Cancelled")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "Cancelled")) {
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p));
 					}
 					e.setCancelled(true);
@@ -463,14 +464,14 @@ public class BungeeCommandValueListener implements Listener {
 					Log.addLog(Universal.get().getMethods(),
 							p.getName() + ": Removed command /" + removecommand.getCommand() + " in disabled.yml");
 
-					for (String msgToSend : mi.getOldMessages("Main", "RemovedCommandOutput")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "RemovedCommandOutput")) {
 						HashMap<String, String> placeholders = new HashMap<>();
 						placeholders.put("%c", removecommand.getCommand());
 						placeholders.put("%y", String.valueOf(removecommand.getConfirmation()));
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));
 					}
 				} else {
-					for (String msgToSend : mi.getOldMessages("Main", "UnblockCancelledBecauseNotBlocked")) {
+					for (Component msgToSend : mi.getOldMessages("Main", "UnblockCancelledBecauseNotBlocked")) {
 						HashMap<String, String> placeholders = new HashMap<>();
 						placeholders.put("%c", removecommand.getCommand());
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));

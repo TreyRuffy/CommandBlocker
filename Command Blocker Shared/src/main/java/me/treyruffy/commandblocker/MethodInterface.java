@@ -33,13 +33,13 @@ public interface MethodInterface {
 
     void sendMessage(Object commandSender, Component message);
 
-    List<String> getOldMessages(String category, String message);
-    List<String> getOldMessages(String category, String message, Object configurationFile);
+    List<Component> getOldMessages(String category, String message);
+    List<Component> getOldMessages(String category, String message, Object configurationFile);
 
     Character getChatComponentChar();
 
-    String getOldMessage(String category, String message);
-    String getOldMessage(String category, String message, Object configurationFile);
+    Component getOldMessage(String category, String message);
+	Component getOldMessage(String category, String message, Object configurationFile);
 	
     void log(String msg);
 }

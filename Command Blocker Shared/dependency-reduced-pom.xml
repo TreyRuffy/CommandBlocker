@@ -3,7 +3,7 @@
   <parent>
     <artifactId>CommandBlocker</artifactId>
     <groupId>me.treyruffy.commandblocker</groupId>
-    <version>2.1.1</version>
+    <version>2.1.2</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>CommandBlockerShared</artifactId>
@@ -75,7 +75,7 @@
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
-      <version>2.8.0</version>
+      <version>2.9.0</version>
       <scope>provided</scope>
     </dependency>
     <dependency>

@@ -4,7 +4,6 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -49,17 +48,35 @@ public class Variables {
 		return translateVariablesToString(msg, commandSender, null, false);
 	}
 
+	public static Component translateVariables(Component msg, CommandSender commandSender,
+											   HashMap<String, String> additionalPlaceholders,
+											   boolean excludePlayerPlaceholder) {
+		String msgString = MiniMessage.miniMessage().serialize(msg);
+		return translateVariables(msgString, commandSender, additionalPlaceholders, excludePlayerPlaceholder);
+	}
+
 	public static Component translateVariables(String msg, CommandSender commandSender,
 											   HashMap<String, String> additionalPlaceholders,
 											   boolean excludePlayerPlaceholder) {
 
 		msg = translateVariablesToString(msg, commandSender, additionalPlaceholders, excludePlayerPlaceholder);
-		return MiniMessage.get().parse(msg);
+		return MiniMessage.miniMessage().deserialize(msg);
+	}
+
+	public static Component translateVariables(Component msg, CommandSender commandSender,
+											   HashMap<String, String> additionalPlaceholders) {
+		String msgString = MiniMessage.miniMessage().serialize(msg);
+		return translateVariables(msgString, commandSender, additionalPlaceholders);
 	}
 
 	public static Component translateVariables(String msg, CommandSender commandSender,
 											   HashMap<String, String> additionalPlaceholders) {
 		return translateVariables(msg, commandSender, additionalPlaceholders, false);
+	}
+
+	public static Component translateVariables(Component msg, CommandSender commandSender) {
+		String msgString = MiniMessage.miniMessage().serialize(msg);
+		return translateVariables(msgString, commandSender);
 	}
 
 	public static Component translateVariables(String msg, CommandSender commandSender) {
@@ -73,16 +90,22 @@ public class Variables {
 		if (additionalComponentPlaceholders != null) {
 			for (String placeholder : additionalComponentPlaceholders.keySet()) {
 				msg = msg.replace(placeholder,
-						MiniMessage.get().serialize(additionalComponentPlaceholders.get(placeholder)) + "<reset>");
+						MiniMessage.miniMessage().serialize(additionalComponentPlaceholders.get(placeholder)) +
+								"<reset>");
 			}
 		}
-		return MiniMessage.get().parse(msg);
+		return MiniMessage.miniMessage().deserialize(msg);
 	}
 
 
+	public static String translateVariablesToLegacyString(Component msg, CommandSender commandSender) {
+		Component translatedComponent = translateVariables(msg, commandSender);
+		return LegacyComponentSerializer.legacySection().serialize(translatedComponent);
+	}
+
 	public static String translateVariablesToLegacyString(String msg, CommandSender commandSender) {
 		Component translatedComponent = translateVariables(msg, commandSender);
-		return LegacyComponentSerializer.legacy(ChatColor.COLOR_CHAR).serialize(translatedComponent);
+		return LegacyComponentSerializer.legacySection().serialize(translatedComponent);
 	}
 
 }

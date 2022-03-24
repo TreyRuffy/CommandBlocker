@@ -5,6 +5,7 @@ import me.treyruffy.commandblocker.Universal;
 import me.treyruffy.commandblocker.bungeecord.BungeeMain;
 import me.treyruffy.commandblocker.bungeecord.Variables;
 import me.treyruffy.commandblocker.updater.UpdateChecker;
+import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -35,7 +36,7 @@ public class Update implements Listener {
 			return;
 		}
 
-		for (String msgToSend : mi.getOldMessages("Updates", "UpdateFound")) {
+		for (Component msgToSend : mi.getOldMessages("Updates", "UpdateFound")) {
 			HashMap<String, String> placeholders = new HashMap<>();
 			placeholders.put("%s", latestUpdateVersion);
 			mi.sendMessage(BungeeMain.get().getProxy().getConsole(), Variables.translateVariables(msgToSend,
@@ -46,7 +47,7 @@ public class Update implements Listener {
 		if (config.getBoolean("Updates.TellPlayers")) {
 			for (ProxiedPlayer p : BungeeMain.get().getProxy().getPlayers()) {
 				if (p.hasPermission("cb.updates")) {
-					for (String msgToSend : mi.getOldMessages("Updates", "UpdateFound")) {
+					for (Component msgToSend : mi.getOldMessages("Updates", "UpdateFound")) {
 						HashMap<String, String> placeholders = new HashMap<>();
 						placeholders.put("%s", latestUpdateVersion);
 						mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));
@@ -72,7 +73,7 @@ public class Update implements Listener {
 		if (!p.hasPermission("cb.updates")) {
 			return;
 		}
-		for (String msgToSend : mi.getOldMessages("Updates", "UpdateFound")) {
+		for (Component msgToSend : mi.getOldMessages("Updates", "UpdateFound")) {
 			HashMap<String, String> placeholders = new HashMap<>();
 			placeholders.put("%s", latestUpdateVersion);
 			mi.sendMessage(p, Variables.translateVariables(msgToSend, p, placeholders));

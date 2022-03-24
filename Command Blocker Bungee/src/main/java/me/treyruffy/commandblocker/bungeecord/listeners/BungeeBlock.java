@@ -3,6 +3,7 @@ package me.treyruffy.commandblocker.bungeecord.listeners;
 import me.treyruffy.commandblocker.MethodInterface;
 import me.treyruffy.commandblocker.Universal;
 import me.treyruffy.commandblocker.bungeecord.Variables;
+import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ChatEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -101,11 +102,11 @@ public class BungeeBlock implements Listener {
 				}
 
 				if ((disabled.getString("DisabledCommands." + cmd + ".Message") == null) || Objects.requireNonNull(disabled.getString("DisabledCommands." + cmd + ".Message")).equalsIgnoreCase("default")) {
-					for (String msg : mi.getOldMessages("Default", "Message", config)) {
+					for (Component msg : mi.getOldMessages("Default", "Message", config)) {
 						mi.sendMessage(p, Variables.translateVariables(msg, p));
 					}
 				} else if (!Objects.requireNonNull(disabled.getString("DisabledCommands." + cmd + ".Message")).replace(" ", "").equalsIgnoreCase("none")) {
-					for (String msg : mi.getOldMessages("DisabledCommands", cmd + ".Message", disabled)) {
+					for (Component msg : mi.getOldMessages("DisabledCommands", cmd + ".Message", disabled)) {
 						mi.sendMessage(p, Variables.translateVariables(msg, p));
 					}
 				}
@@ -166,11 +167,11 @@ public class BungeeBlock implements Listener {
 	private void colonedCmdsMessage(ProxiedPlayer p, Configuration config, MethodInterface mi) {
 		if ((config.getString("ColonedCommands.Message") == null) || (Objects.requireNonNull(config.getString(
 				"ColonedCommands.Message")).equalsIgnoreCase("default"))) {
-			for (String msg : mi.getOldMessages("Default", "Message", config)) {
+			for (Component msg : mi.getOldMessages("Default", "Message", config)) {
 				mi.sendMessage(p, Variables.translateVariables(msg, p));
 			}
 		} else {
-			for (String msg : mi.getOldMessages("ColonedCommands", "Message", config)) {
+			for (Component msg : mi.getOldMessages("ColonedCommands", "Message", config)) {
 				mi.sendMessage(p, Variables.translateVariables(msg, p));
 			}
 		}

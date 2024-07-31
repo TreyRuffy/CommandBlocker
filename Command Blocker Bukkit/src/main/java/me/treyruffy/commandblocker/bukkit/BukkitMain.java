@@ -96,7 +96,7 @@ public class BukkitMain extends JavaPlugin {
 		if (!packageName.contains("_R")) {
 			return "";
 		}
-		return Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
+		return packageName.split("\\.")[3];
 	}
 
 	public static void fixCommands() {

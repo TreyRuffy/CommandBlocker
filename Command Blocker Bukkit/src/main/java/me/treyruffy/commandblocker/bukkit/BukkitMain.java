@@ -92,6 +92,10 @@ public class BukkitMain extends JavaPlugin {
 	}
 
 	public static String getBukkitVersion() {
+		String packageName = Bukkit.getServer().getClass().getPackage().getName();
+		if (!packageName.contains("_R")) {
+			return "";
+		}
 		return Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
 	}
 

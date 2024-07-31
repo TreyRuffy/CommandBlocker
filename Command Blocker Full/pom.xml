@@ -5,7 +5,7 @@
     <parent>
         <artifactId>CommandBlocker</artifactId>
         <groupId>me.treyruffy.commandblocker</groupId>
-        <version>2.1.2</version>
+        <version>2.1.3</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -80,13 +80,13 @@
         <dependency>
             <groupId>me.treyruffy.commandblocker</groupId>
             <artifactId>CommandBlockerBukkit</artifactId>
-            <version>2.1.2</version>
+            <version>2.1.3</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>me.treyruffy.commandblocker</groupId>
             <artifactId>CommandBlockerBungeeCord</artifactId>
-            <version>2.1.2</version>
+            <version>2.1.3</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
